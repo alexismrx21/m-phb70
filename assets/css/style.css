@@ -982,32 +982,6 @@ address { font-style: normal; }
 .intro__front .f2 { stroke: rgba(250, 206, 140, .26); }
 .intro__front .f3 { stroke: rgba(255, 244, 226, .72); }
 
-/* ---------- Passer l'introduction ---------- */
-
-.intro__skip {
-  position: absolute;
-  right: clamp(1rem, 4vw, 2.5rem);
-  bottom: calc(clamp(1rem, 4vw, 2.5rem) + env(safe-area-inset-bottom, 0px));
-  z-index: 2;
-  padding: .6rem 1.05rem;
-  border: 1px solid rgba(242, 239, 233, .2);
-  border-radius: 2px;
-  background: rgba(11, 11, 13, .3);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  color: rgba(242, 239, 233, .68);
-  font-family: var(--font-sans);
-  font-size: .7rem;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  cursor: pointer;
-  opacity: var(--fond);
-  transition: color .3s var(--ease), border-color .3s var(--ease),
-              opacity .3s var(--ease);
-}
-.intro__skip:hover { color: var(--text); border-color: var(--line-strong); }
-.intro__skip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
 /* ---------- Sortie : le voile s'ouvre, le site monte ---------- */
 
 .intro--sortie {
@@ -1017,7 +991,6 @@ address { font-style: normal; }
 }
 .intro--sortie .intro__fond  { transform: scale(1.08); }
 .intro--sortie .intro__stage { transform: scale(1.03); }
-.intro--sortie .intro__skip  { opacity: 0; }
 
 /* Mouvement réduit : le logo est posé d'emblée, sans parcours lumineux. */
 .intro--immediat { --fond: 1; --final: 1; }

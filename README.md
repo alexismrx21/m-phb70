@@ -139,9 +139,9 @@ Les couleurs de la lueur, du front et de la nappe chaude sont dans
 - Onglet mis en arrière-plan pendant l'introduction → elle se termine aussitôt,
   pour éviter de retrouver un voile figé (`requestAnimationFrame` y est suspendu,
   et les navigateurs mobiles gèlent vite les onglets).
-- Un clic ou une touche passent l'introduction ; la tabulation amène au bouton
-  « Passer l'introduction », seul point d'arrêt du clavier tant que le voile est
-  là. À la sortie, le focus va sur `#main`.
+- Un clic ou n'importe quelle touche passent l'introduction — tabulation comprise,
+  pour que le clavier ne se perde pas derrière le voile. À la sortie, le focus va
+  sur `#main`.
 - Deux garde-fous indépendants (un `setTimeout` dans le script, un second dans
   `index.html`) rétablissent le contenu même si l'animation ne démarre jamais.
 

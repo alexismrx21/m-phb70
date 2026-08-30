@@ -115,15 +115,14 @@
   function passer() { terminer(true); }
 
   function surTouche(e) {
-    // Le voile couvre la page : la tabulation ne doit pas se perdre derrière
-    // lui. Le seul point d'arrêt du clavier est le bouton qui l'escamote.
-    if (e.key === 'Tab') {
-      var bouton = hote.querySelector('.intro__skip');
-      if (bouton) { e.preventDefault(); bouton.focus(); }
-      return;
-    }
+    // Les touches mortes ne comptent pas : un simple appui sur Majuscule ne
+    // doit pas escamoter l'introduction.
     if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' ||
         e.key === 'Meta') return;
+    // La tabulation aussi rend la main — sans elle, le clavier se perdrait
+    // derrière le voile. On la retient : le focus est replacé sur le contenu
+    // principal à la fin de la sortie.
+    if (e.key === 'Tab') e.preventDefault();
     passer();
   }
 
@@ -171,15 +170,6 @@
     return d;
   }
 
-  function boutonPasser() {
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'intro__skip';
-    b.textContent = 'Passer l’introduction';
-    b.addEventListener('click', function (e) { e.stopPropagation(); passer(); });
-    return b;
-  }
-
   function precharger(sources) {
     return Promise.all(sources.map(function (src) {
       return new Promise(function (ok) {
@@ -205,7 +195,6 @@
     hote.appendChild(pFond);
     pStage.appendChild(pLogo);
     hote.appendChild(pStage);
-    hote.appendChild(boutonPasser());
     hote.addEventListener('click', passer);
     document.addEventListener('keydown', surTouche);
 
@@ -365,7 +354,6 @@
     stage.appendChild(svg);
     hote.appendChild(imageFond());
     hote.appendChild(stage);
-    hote.appendChild(boutonPasser());
 
     // Les chemins doivent être dans le document pour être mesurables.
 
