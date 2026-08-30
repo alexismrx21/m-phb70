@@ -966,8 +966,9 @@ address { font-style: normal; }
   pointer-events: none;
 }
 
-/* Lueur laissée derrière le front : deux traits translucides empilés plutôt
-   qu'un filtre de flou, pour rester fluide sur mobile. */
+/* Lueur chaude posée sur la portion déjà découverte — deux traits translucides
+   empilés plutôt qu'un filtre de flou, pour rester fluide sur mobile. Elle
+   accompagne le laiton, elle ne le précède pas : rien ne court devant. */
 .intro__lueur {
   opacity: calc(var(--fond) * var(--lueur));
   fill: none;
@@ -976,18 +977,6 @@ address { font-style: normal; }
 }
 .intro__lueur .l1 { stroke: rgba(198, 140, 58, .055); }
 .intro__lueur .l2 { stroke: rgba(228, 186, 110, .09); }
-
-/* Front électrique, en tête de propagation. Les teintes sont relevées sur le
-   rendu final : laiton profond, laiton clair, puis un cœur presque blanc. */
-.intro__front {
-  opacity: calc(var(--fond) * var(--lueur));
-  fill: none;
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-.intro__front .f1 { stroke: rgba(255, 196,  96, .17); }
-.intro__front .f2 { stroke: rgba(255, 228, 158, .30); }
-.intro__front .f3 { stroke: rgba(255, 252, 240, .55); }
 
 /* ---------- Sortie : le monogramme rejoint sa place dans le header ----------
 

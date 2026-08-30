@@ -39,7 +39,6 @@
 
   var TOLERANCE = 6;       // rayon de fusion de deux extrémités en un nœud
   var LARGEUR_MASQUE = 34; // épaisseur du masque (trait du logo mesuré : 22)
-  var LONGUEUR_FRONT = 54; // longueur de la zone lumineuse en tête de courant
 
   // Minutage, en millisecondes. Ce sont des DURÉES, pas des instants : les
   // étapes qui suivent la propagation sont calées à l'exécution sur sa fin
@@ -47,9 +46,9 @@
   // suite de la chronologie sans qu'aucune autre valeur soit à corriger.
   var T_FOND    = 400;   // le bois seul, avant la première étincelle
   var T_PROPAG  = 2800;  // fenêtre laissée à chaque groupe pour se parcourir
-  var T_FINAL   = 900;   // fondu du rendu final, une fois le courant au bout
-  var T_TRACES  = 600;   // extinction des tracés, sous le rendu final
-  var T_PAUSE   = 600;   // temps de pose sur le logo terminé
+  var T_FINAL   = 300;   // fondu du rendu final, une fois le tracé au bout
+  var T_TRACES  = 300;   // extinction de la lueur, sous le rendu final
+  var T_PAUSE   = 200;   // temps de pose sur le logo terminé
   var T_SORTIE  = 850;   // repli : ouverture du voile sur place
   var T_VOL     = 1150;  // le monogramme rejoint sa case dans le header
 
@@ -387,8 +386,6 @@
     // reflètent en direct les pointillés, sans recopier d'attributs.
     var reseau = el('g', { id: 'phb-reseau', fill: 'none',
                            'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
-    var fronts = el('g', { id: 'phb-fronts', fill: 'none',
-                           'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
 
     // Copies servant uniquement à mesurer la géométrie.
     var mesures = el('g', { id: 'phb-mesures' });
@@ -399,7 +396,6 @@
     });
     defs.appendChild(mesures);
     defs.appendChild(reseau);
-    defs.appendChild(fronts);
     svg.appendChild(defs);
 
     var stage = scene();
@@ -415,10 +411,10 @@
     var lots = groupes(graphe);
     if (!lots.length) { terminer('immediat'); return; }
 
-    /* Un Dijkstra par groupe, puis point de rencontre des fronts dans chaque
-       segment. Les boucles (la panse du P, les deux panses du B, le 0) sont
-       allumées par leurs deux extrémités : les deux fronts se rejoignent au
-       milieu du temps de parcours, sans raccord visible. */
+    /* Un Dijkstra par groupe, puis point de rencontre des deux avancées dans
+       chaque segment. Les boucles (la panse du P, les deux panses du B, le 0)
+       sont ouvertes par leurs deux extrémités : elles se rejoignent au milieu
+       du temps de parcours, sans raccord visible. */
 
     var brins = [];
 
@@ -437,7 +433,7 @@
         if (!isFinite(dA)) dA = dB + e.L;
         if (!isFinite(dB)) dB = dA + e.L;
 
-        // Position, mesurée depuis A, où les deux fronts se rejoignent.
+        // Position, mesurée depuis A, où les deux avancées se rejoignent.
         var rencontre = Math.max(0, Math.min(e.L, (e.L + dB - dA) / 2));
 
         if (rencontre > 0.5) {
@@ -453,14 +449,9 @@
 
     function creerBrin(e, cote, depart, course, lot) {
       var masque = el('path', { d: e.d, 'stroke-dasharray': e.L });
-      var front = el('path', {
-        d: e.d,
-        'stroke-dasharray': LONGUEUR_FRONT + ' ' + (e.L + LONGUEUR_FRONT)
-      });
       reseau.appendChild(masque);
-      fronts.appendChild(front);
       return { L: e.L, cote: cote, depart: depart, course: course,
-               lot: lot, masque: masque, front: front };
+               lot: lot, masque: masque };
     }
 
     // Vitesse unique, en unités SVG par seconde : celle qui fait tenir le
@@ -472,7 +463,7 @@
     });
     if (!(vitesse > 0)) { terminer('immediat'); return; }
 
-    // Instant où le dernier front atteint le bout de sa course. Le rendu final
+    // Instant où la dernière avancée atteint le bout de sa course. Le rendu final
     // ne commence pas à se poser avant : sans cela, le voile du masque
     // dévoilerait le « 70 » avant que le courant ne l'ait parcouru.
     var finPropagation = 0;
@@ -503,24 +494,13 @@
     logo.setAttribute('class', 'intro__logo');
     svg.appendChild(logo);
 
-    // Lueur chaude laissée derrière le front : deux traits translucides
+    // Lueur chaude laissée derrière l'avancée : deux traits translucides
     // empilés, moins coûteux qu'un filtre de flou et fluide sur mobile.
     var lueur = el('g');
     lueur.setAttribute('class', 'intro__lueur');
     lueur.appendChild(usage('#phb-reseau', { 'stroke-width': 40, class: 'l1' }));
     lueur.appendChild(usage('#phb-reseau', { 'stroke-width': 22, class: 'l2' }));
     svg.appendChild(lueur);
-
-    // Front électrique, plus intense, en tête de propagation.
-    var tete = el('g');
-    tete.setAttribute('class', 'intro__front');
-    // Le trait du logo mesure 19 unités : le front doit le balayer sur toute sa
-    // largeur, sinon il se lit comme une rayure au milieu du métal et non comme
-    // une lumière qui court dessus.
-    tete.appendChild(usage('#phb-fronts', { 'stroke-width': 48, class: 'f1' }));
-    tete.appendChild(usage('#phb-fronts', { 'stroke-width': 28, class: 'f2' }));
-    tete.appendChild(usage('#phb-fronts', { 'stroke-width': 15, class: 'f3' }));
-    svg.appendChild(tete);
 
     hote.classList.add('intro--prete');
     document.addEventListener('keydown', surTouche);
@@ -534,24 +514,14 @@
 
     /* ------------------------------------------------------------------- */
 
+    // Le masque s'ouvre le long du chemin : c'est lui, et lui seul, qui
+    // découvre le laiton. Rien de lumineux ne court devant — le logo se
+    // dessine sans qu'on voie ce qui le dessine.
     function poser(brin, avance) {
       var L = brin.L;
       var vu = Math.max(0, Math.min(brin.course, avance));
-
-      if (brin.cote === 'a') {
-        brin.masque.setAttribute('stroke-dashoffset', L - vu);
-        brin.front.setAttribute('stroke-dashoffset', LONGUEUR_FRONT - vu);
-      } else {
-        brin.masque.setAttribute('stroke-dashoffset', -(L - vu));
-        brin.front.setAttribute('stroke-dashoffset', vu - L);
-      }
-
-      // Le front ne brille que tant qu'il avance. Arrivé au bout de sa
-      // course il s'éteint en fondu, le temps que les branches suivantes
-      // s'allument : aucune extinction sèche à une intersection.
-      var reste = (avance - brin.course) / (LONGUEUR_FRONT * 0.9);
-      var eclat = avance <= 0 ? 0 : (reste <= 0 ? 1 : Math.max(0, 1 - reste));
-      brin.front.setAttribute('opacity', eclat.toFixed(3));
+      brin.masque.setAttribute('stroke-dashoffset',
+                               brin.cote === 'a' ? L - vu : -(L - vu));
     }
 
     brins.forEach(function (b) { poser(b, 0); });

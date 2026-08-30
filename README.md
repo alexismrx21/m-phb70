@@ -62,10 +62,15 @@ sips -Z 1200 -s format jpeg -s formatOptions 72 source.jpg --out assets/img/full
 ## Introduction plein écran (page d'accueil)
 
 Au chargement de `index.html`, une surcouche occupe toute la fenêtre : une planche
-de noyer apparaît, un courant lumineux parcourt les tracés du monogramme et le
-dessine, le « 70 » vient le signer, le rendu final se pose — puis le bois se
+de noyer apparaît, le laiton se découvre progressivement le long des tracés du
+monogramme, le « 70 » vient le signer, le rendu final se pose — puis le bois se
 dissout pendant que le monogramme glisse et rétrécit jusqu'à sa case dans le
-header, en haut à gauche. Durée totale ≈ 5,9 s.
+header, en haut à gauche. Durée totale ≈ 4,9 s.
+
+**Rien de lumineux ne court devant le tracé.** Le masque s'ouvre le long du
+chemin et c'est lui, et lui seul, qui découvre le métal : le logo se dessine sans
+qu'on voie ce qui le dessine. Ne subsistent qu'une lueur chaude très discrète sur
+la portion déjà découverte, et la nappe de lumière posée sur le bois.
 
 **Le monogramme est le logo du site.** `assets/img/logo.png` (300 × 253, 30 Ko)
 est le même dessin que celui de l'introduction, réduit : c'est lui qu'on retrouve
@@ -104,8 +109,9 @@ donc au même instant, et la vitesse (`longueur ÷ temps`) reste constante quell
 que soit la longueur du segment.
 
 Le réseau contient quatre boucles : la panse du P, les deux panses du B et le 0.
-Leurs segments sont allumés par leurs **deux** extrémités ; le script calcule le
-point de rencontre des deux fronts et les fait se rejoindre sans raccord visible.
+Leurs segments sont ouverts par leurs **deux** extrémités ; le script calcule le
+point de rencontre des deux avancées et les fait se rejoindre sans raccord
+visible.
 
 **Quatre groupes non connectés** — le P (`segment-01` à `03`), le HB (`04` à `11`),
 le 7 (`12`) et le 0 (`13`) — s'allument à 0, 130, 2300 et 2330 ms. Le P et le HB se
@@ -116,16 +122,16 @@ part le courant, sans toucher au script.
 
 `RETARDS` est le seul réglage à toucher pour redistribuer ces départs. Les étapes
 qui suivent la propagation sont calées à l'exécution sur sa fin réelle
-(`finPropagation`) : le rendu final ne commence jamais à se poser avant que le
-dernier front soit arrivé au bout — sans quoi le voile du masque dévoilerait le
-« 70 » avant que le courant ne l'ait parcouru.
+(`finPropagation`) : le rendu final ne commence jamais à se poser avant que la
+dernière avancée soit arrivée au bout — sans quoi le voile du masque dévoilerait
+le « 70 » avant que le tracé ne l'ait parcouru.
 
 **Le passage au rendu final** ne fait intervenir aucun fondu entre deux calques :
 il n'y a qu'une seule image de logo, révélée par un masque. Ce masque contient les
-tracés (le courant) **et** un voile blanc couvrant tout le cadre, dont l'opacité
-monte de 3,2 à 4,1 s — ce sont alors la lueur et les ombres du rendu final qui
+tracés **et** un voile blanc couvrant tout le cadre, dont l'opacité monte de 3,2
+à 3,5 s — ce sont alors les bords doux et les ombres du rendu final qui
 apparaissent autour des traits déjà révélés. Aucun décalage possible, ni de taille
-ni de position.
+ni de position. Le logo reste ensuite posé 0,2 s avant de partir vers le header.
 
 **Réglages utiles** — en haut de `assets/js/intro.js` :
 
@@ -134,10 +140,9 @@ ni de position.
 | `T_FOND`, `T_PROPAG`, `T_FINAL`, `T_TRACES`, `T_PAUSE` | durée de chaque étape, en millisecondes |
 | `T_VOL`, `T_SORTIE` | durée du vol vers le header, et du fondu de repli |
 | `RETARDS` | décalage d'allumage de chaque groupe |
-| `LARGEUR_MASQUE` | épaisseur du masque (34 ; le trait du logo mesure 22) |
-| `LONGUEUR_FRONT` | longueur de la zone lumineuse en tête de propagation |
+| `LARGEUR_MASQUE` | épaisseur du masque (34 ; le trait du logo mesure 19) |
 
-Les couleurs de la lueur, du front et de la nappe chaude sont dans
+Les couleurs de la lueur et de la nappe chaude sont dans
 `assets/css/style.css`, section « Introduction plein écran ».
 
 **Le vol jusqu'au header.** Une fois le logo posé, la surcouche ne s'efface pas :
