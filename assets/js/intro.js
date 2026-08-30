@@ -41,22 +41,24 @@
   var LARGEUR_MASQUE = 34; // épaisseur du masque (trait du logo mesuré : 22)
   var LONGUEUR_FRONT = 54; // longueur de la zone lumineuse en tête de courant
 
-  // Minutage, en millisecondes, depuis la première image.
-  var T_FOND    = 400;   // 0,0 → 0,4 s : le bois seul
-  var T_PROPAG  = 2400;  // 0,4 → 2,8 s : le courant parcourt le réseau
-  var D_FINAL   = 1800;  // 2,2 → 3,2 s : le rendu final se pose
-  var T_FINAL   = 1000;
-  var D_TRACES  = 2200;  // 2,6 → 3,2 s : les tracés s'effacent sous le rendu
-  var T_TRACES  = 600;
-  var T_PAUSE   = 700;   // 3,2 → 3,5 s : temps de pose sur le logo terminé
-  var T_SORTIE  = 850;   // 3,5 → 4,4 s : le voile s'ouvre sur le site
+  // Minutage, en millisecondes. Ce sont des DURÉES, pas des instants : les
+  // étapes qui suivent la propagation sont calées à l'exécution sur sa fin
+  // réelle (voir `finPropagation`). Retoucher RETARDS décale donc toute la
+  // suite de la chronologie sans qu'aucune autre valeur soit à corriger.
+  var T_FOND    = 400;   // le bois seul, avant la première étincelle
+  var T_PROPAG  = 2800;  // fenêtre laissée à chaque groupe pour se parcourir
+  var T_FINAL   = 900;   // fondu du rendu final, une fois le courant au bout
+  var T_TRACES  = 600;   // extinction des tracés, sous le rendu final
+  var T_PAUSE   = 600;   // temps de pose sur le logo terminé
+  var T_SORTIE  = 850;   // ouverture du voile sur le site
 
   // Décalage d'allumage des groupes non connectés, dans l'ordre du SVG. Le
   // monogramme en compte quatre : le P, le HB, le 7, puis le 0 — le 7 et le 0
   // ne se touchent pas, 30 ms d'écart suffisent à les lire comme un seul « 70 ».
-  // Ces départs se répondent, ils ne s'attendent pas : le courant ne laisse
-  // jamais un coin de l'écran éteint plus d'un tiers de seconde.
-  var RETARDS = [0, 130, 300, 330];
+  // Le « 70 » part volontairement bien après le monogramme : il s'allume au
+  // moment où le B s'achève, et signe la composition plutôt que d'apparaître
+  // en même temps qu'elle.
+  var RETARDS = [0, 130, 2300, 2330];
   var RETARD_SUP = 120;  // pour un groupe ajouté plus tard au tracé
 
   var racine = document.documentElement;
@@ -430,6 +432,17 @@
     });
     if (!(vitesse > 0)) { terminer(false); return; }
 
+    // Instant où le dernier front atteint le bout de sa course. Le rendu final
+    // ne commence pas à se poser avant : sans cela, le voile du masque
+    // dévoilerait le « 70 » avant que le courant ne l'ait parcouru.
+    var finPropagation = 0;
+    lots.forEach(function (lot) {
+      finPropagation = Math.max(finPropagation,
+                                T_FOND + lot.retard + (lot.portee / vitesse) * 1000);
+    });
+    var debutFinal  = finPropagation;
+    var debutTraces = debutFinal + T_FINAL - T_TRACES;  // les deux finissent ensemble
+
     // Masque : les tracés révèlent le courant, le voile révèle ensuite tout
     // le reste du rendu final — sa lueur et ses ombres.
     var masque = el('mask', { id: 'phb-masque', maskUnits: 'userSpaceOnUse',
@@ -474,7 +487,7 @@
     // Filet de sécurité indépendant de la boucle : setTimeout continue de
     // s'exécuter là où requestAnimationFrame s'arrête.
     differer(function () { terminer(true); },
-             T_FOND + T_PROPAG + T_PAUSE + T_FINAL + 1500);
+             finPropagation + T_FINAL + T_PAUSE + 1500);
 
     /* ------------------------------------------------------------------- */
 
@@ -520,11 +533,11 @@
       });
 
       // 3. le rendu final se pose, puis les tracés s'effacent dessous
-      var f = borne((e - D_FINAL) / T_FINAL);
-      var tr = borne((e - D_TRACES) / T_TRACES);
+      var f = borne((e - debutFinal) / T_FINAL);
+      var tr = borne((e - debutTraces) / T_TRACES);
       hote.style.setProperty('--final', f.toFixed(3));
       hote.style.setProperty('--lueur', (1 - tr).toFixed(3));
-      hote.style.setProperty('--halo', (Math.max(borne(e / (T_FOND + T_PROPAG)) * .7, f)).toFixed(3));
+      hote.style.setProperty('--halo', (Math.max(borne(e / finPropagation) * .7, f)).toFixed(3));
 
       // 4. temps de pose, puis le voile s'ouvre sur le site
       if (fini && f >= 1 && tr >= 1) {

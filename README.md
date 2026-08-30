@@ -63,8 +63,9 @@ sips -Z 1200 -s format jpeg -s formatOptions 72 source.jpg --out assets/img/full
 
 Au chargement de `index.html`, une surcouche occupe toute la fenêtre : une planche
 de noyer apparaît, un courant cuivré parcourt les tracés du monogramme et le
-dessine, le rendu final se pose, puis le voile s'ouvre sur le site avec un léger
-zoom du bois et une montée du contenu. Durée totale ≈ 4,4 s.
+dessine, le « 70 » vient le signer, le rendu final se pose, puis le voile s'ouvre
+sur le site avec un léger zoom du bois et une montée du contenu.
+Durée totale ≈ 5,5 s.
 
 **Fichiers concernés**
 
@@ -99,14 +100,22 @@ Leurs segments sont allumés par leurs **deux** extrémités ; le script calcule
 point de rencontre des deux fronts et les fait se rejoindre sans raccord visible.
 
 **Quatre groupes non connectés** — le P (`segment-01` à `03`), le HB (`04` à `11`),
-le 7 (`12`) et le 0 (`13`) — s'allument à 0, 130, 300 et 330 ms. Le premier segment
-d'un groupe désigne son point d'allumage : réordonner le SVG suffit à changer
-l'endroit d'où part le courant, sans toucher au script.
+le 7 (`12`) et le 0 (`13`) — s'allument à 0, 130, 2300 et 2330 ms. Le P et le HB se
+répondent d'emblée ; le « 70 » attend délibérément que la panse basse du B s'achève
+pour s'allumer à son tour et signer la composition. Le premier segment d'un groupe
+désigne son point d'allumage : réordonner le SVG suffit à changer l'endroit d'où
+part le courant, sans toucher au script.
+
+`RETARDS` est le seul réglage à toucher pour redistribuer ces départs. Les étapes
+qui suivent la propagation sont calées à l'exécution sur sa fin réelle
+(`finPropagation`) : le rendu final ne commence jamais à se poser avant que le
+dernier front soit arrivé au bout — sans quoi le voile du masque dévoilerait le
+« 70 » avant que le courant ne l'ait parcouru.
 
 **Le passage au rendu final** ne fait intervenir aucun fondu entre deux calques :
 il n'y a qu'une seule image de logo, révélée par un masque. Ce masque contient les
 tracés (le courant) **et** un voile blanc couvrant tout le cadre, dont l'opacité
-monte de 2,2 à 3,2 s — ce sont alors la lueur et les ombres du rendu final qui
+monte de 3,2 à 4,1 s — ce sont alors la lueur et les ombres du rendu final qui
 apparaissent autour des traits déjà révélés. Aucun décalage possible, ni de taille
 ni de position.
 
@@ -114,7 +123,7 @@ ni de position.
 
 | Constante | Rôle |
 |---|---|
-| `T_FOND`, `T_PROPAG`, `D_FINAL`, `T_FINAL`, `T_PAUSE`, `T_SORTIE` | minutage des étapes, en millisecondes |
+| `T_FOND`, `T_PROPAG`, `T_FINAL`, `T_TRACES`, `T_PAUSE`, `T_SORTIE` | durée de chaque étape, en millisecondes |
 | `RETARDS` | décalage d'allumage de chaque groupe |
 | `LARGEUR_MASQUE` | épaisseur du masque (34 ; le trait du logo mesure 22) |
 | `LONGUEUR_FRONT` | longueur de la zone lumineuse en tête de propagation |
