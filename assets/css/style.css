@@ -953,6 +953,11 @@ address { font-style: normal; }
    qui reprend ses couleurs au survol.
    ========================================================================= */
 
+/* Le bas de la section est resserré : le filet de séparation et l'espace de la
+   section suivante fournissent déjà la respiration, inutile d'empiler en plus
+   le `--section` complet. */
+.secteurs { padding-bottom: clamp(3rem, 6vw, 4.5rem); }
+
 .secteurs__tete {
   text-align: center;
   max-width: 44rem;
@@ -1139,7 +1144,7 @@ address { font-style: normal; }
   position: relative;
   /* Pas de fond propre : l'accueil est d'un seul noir d'un bout à l'autre.
      C'est le filet doré et l'espace qui marquent le changement de section. */
-  padding-block: clamp(4rem, 9vw, 7rem) clamp(5rem, 11vw, 9rem);
+  padding-block: clamp(2.5rem, 5vw, 3.5rem) clamp(5rem, 11vw, 9rem);
 }
 
 /* Séparateur avec la section précédente : un filet qui traverse la page en
@@ -1152,7 +1157,7 @@ address { font-style: normal; }
   display: block;
   width: min(100% - 2 * var(--gutter), 52rem);
   height: 1px;
-  margin: 0 auto clamp(4rem, 9vw, 7rem);
+  margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
   background: linear-gradient(90deg,
     transparent,
     rgba(198, 161, 91, .35) 18%,
@@ -1342,6 +1347,11 @@ address { font-style: normal; }
 /* ---------- Mode épinglé ---------- */
 
 .methode--epingle { height: var(--methode-course); padding-bottom: 0; }
+
+/* En mode épinglé, la scène apporte déjà sa propre réserve haute (la garde sous
+   l'en-tête, plus le centrage vertical) : le filet n'a pas besoin d'y ajouter sa
+   marge, sinon le vide entre les deux sections double. */
+.methode--epingle .methode__separateur { margin-bottom: 0; }
 
 .methode--epingle .methode__scene {
   position: sticky;
