@@ -945,6 +945,181 @@ address { font-style: normal; }
   .hero__jauge:first-child::after { transform: scaleX(1); }
 }
 
+/* =========================================================================
+   Nos secteurs d'expertise — trois cartes portrait, photo en noir et blanc
+   qui reprend ses couleurs au survol.
+   ========================================================================= */
+
+.secteurs__tete {
+  text-align: center;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+/* Cormorant en capitales très espacées : le titre reste dans la typographie du
+   site tout en prenant le traitement « or et majuscules » de la section. */
+.secteurs__titre {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.secteurs__soustitre {
+  color: var(--text-muted);
+  font-size: clamp(.95rem, 1.4vw, 1.05rem);
+  margin: 1.15rem 0 0;
+}
+
+.secteurs__filet {
+  display: block;
+  width: 64px;
+  height: 1px;
+  background: var(--accent);
+  opacity: .65;
+  margin: clamp(1.75rem, 3vw, 2.5rem) auto 0;
+}
+
+.secteurs__grille {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 2.8vw, 2.75rem);
+  margin-top: clamp(2.75rem, 5.5vw, 4.25rem);
+}
+
+/* ---------- La carte ---------- */
+
+.secteur {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid rgba(198, 161, 91, .26);
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color .6s var(--ease), box-shadow .6s var(--ease);
+}
+
+.secteur img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(.82);
+  transform: scale(1);
+  transition: filter .6s var(--ease), transform .6s var(--ease);
+}
+
+/* Dégradé de lisibilité : noir en bas, transparent en haut. */
+.secteur::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top,
+    rgba(11, 11, 13, .95) 0%,
+    rgba(11, 11, 13, .74) 30%,
+    rgba(11, 11, 13, .26) 62%,
+    rgba(11, 11, 13, .10) 100%);
+  pointer-events: none;
+}
+
+.secteur__corps {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(1.4rem, 2.2vw, 2rem);
+}
+
+.secteur__titre {
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.secteur__filet {
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+  opacity: .7;
+  margin: 1rem 0;
+  transition: width .6s var(--ease);
+}
+
+.secteur__texte {
+  color: var(--text);
+  font-size: .92rem;
+  line-height: 1.6;
+  opacity: .85;
+}
+
+/* La place du « Découvrir » est réservée en permanence : il apparaît en fondu,
+   sans jamais déplacer le texte au-dessus. */
+.secteur__lien {
+  margin-top: 1.3rem;
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+
+/* Survol — réservé aux pointeurs. Au doigt, il n'y a pas d'état intermédiaire :
+   la photo est en couleur d'emblée (voir plus bas). */
+@media (hover: hover) {
+  .secteur:hover img,
+  .secteur:focus-visible img {
+    filter: grayscale(0) brightness(1);
+    transform: scale(1.05);
+  }
+  .secteur:hover,
+  .secteur:focus-visible {
+    border-color: rgba(198, 161, 91, .7);
+    box-shadow: 0 20px 55px -24px rgba(198, 161, 91, .45);
+  }
+  .secteur:hover .secteur__lien,
+  .secteur:focus-visible .secteur__lien { opacity: 1; transform: none; }
+  .secteur:hover .secteur__filet,
+  .secteur:focus-visible .secteur__filet { width: 54px; }
+}
+
+.secteur:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* Tactile : le survol n'a pas de sens, tout est donné d'emblée. */
+@media (hover: none) {
+  .secteur img { filter: none; }
+  .secteur__lien { opacity: 1; transform: none; }
+}
+
+@media (max-width: 820px) {
+  .secteurs__grille { grid-template-columns: 1fr; }
+  /* En colonne unique, une carte pleine largeur deviendrait démesurément
+     haute : on la borne et on la centre. */
+  .secteur { max-width: 26rem; margin-inline: auto; width: 100%; }
+}
+
+/* Mouvement réduit : le passage en couleur reste (c'est une information, pas
+   un mouvement), le zoom disparaît. */
+@media (prefers-reduced-motion: reduce) {
+  .secteur:hover img,
+  .secteur:focus-visible img { transform: none; }
+}
+
 /* ---------- Impression ---------- */
 
 @media print {

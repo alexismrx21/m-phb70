@@ -14,7 +14,7 @@ Puis ouvrir <http://localhost:8000>. C'est tout : il n'y a rien à installer ni 
 ## Structure
 
 ```
-index.html              Accueil : hero en diaporama, méthode, chiffres, réalisations, réseau
+index.html              Accueil : hero en diaporama, secteurs, méthode, chiffres, réseau
 savoir-faire.html       Philippe Boccara, les équipes, le pôle Luxembourg
 realisations.html       Galerie filtrable (hôtellerie / restauration) + lightbox
 sur-mesure.html         Pièces d'exception, ateliers, résidences
@@ -27,6 +27,7 @@ assets/js/intro.js      L'introduction plein écran de l'accueil
 assets/fonts/           Cormorant Garamond + Inter, auto-hébergées (208 Ko)
 assets/img/intro/       Les visuels de l'introduction — planche, logo détouré, tracés
 assets/img/hero/        Les quatre photos du diaporama d'accueil (810 Ko)
+assets/img/secteurs/    Les trois cartes « secteurs d'expertise » (305 Ko)
 assets/img/full/        Images grand format (héros, lightbox) — 1200 à 1920 px
 assets/img/thumb/       Vignettes de galerie — 760 px
 assets/img/raw/         Originaux téléchargés depuis l'ancien site (non versionnés)
@@ -228,25 +229,52 @@ globale de `prefers-reduced-motion` réduirait sinon l'animation à néant et
 laisserait le hero sans image du tout : c'est pourquoi la section porte un
 `animation: none !important` explicite.
 
+## Nos secteurs d'expertise
+
+Trois cartes portrait (3:4) juste sous le hero. Photo en noir et blanc par
+défaut, qui reprend ses couleurs au survol avec un léger zoom, un filet doré qui
+s'intensifie et un « Découvrir » qui apparaît en fondu — le tout sur 600 ms.
+
+**Changer une photo** — remplacer le fichier dans `assets/img/secteurs/`. Les
+originaux étaient en paysage : ils ont été recadrés en portrait 3:4 avec un
+cadrage choisi image par image (un recadrage centré automatique coupait le lit de
+la chambre). Si vous repartez d'un paysage, pensez à ce recadrage.
+
+**Au doigt, il n'y a pas de survol** : sous `@media (hover: none)` la photo est en
+couleur d'emblée et le « Découvrir » est déjà visible. C'est la seule façon de ne
+pas laisser les cartes en noir et blanc sur mobile.
+
+**La place du « Découvrir » est réservée en permanence**, à opacité nulle : il
+apparaît en fondu sans jamais déplacer le texte au-dessus.
+
+> **Attention — doublon à trancher.** La section « Ce que nous livrons », plus bas
+> sur la même page, présente déjà trois cartes Hôtellerie / Restauration / Pièces
+> d'exception. Elle fait maintenant largement double emploi avec les secteurs
+> d'expertise. Il faudra soit la supprimer, soit la retourner vers autre chose
+> (des projets nommés plutôt que des catégories, par exemple).
+
 ## À compléter avant la mise en ligne
 
 Ces points sont signalés dans le code par des commentaires `TODO` :
 
-1. **Formulaire de contact** — créer un compte gratuit sur [formspree.io](https://formspree.io),
+1. **Sous-pages sectorielles** — les trois cartes « secteurs d'expertise » pointent
+   pour l'instant vers `realisations.html` et `sur-mesure.html`. Quand les pages
+   dédiées existeront, il suffira de remplacer les `href` dans `index.html`.
+2. **Formulaire de contact** — créer un compte gratuit sur [formspree.io](https://formspree.io),
    récupérer l'identifiant du formulaire et remplacer `TODO_FORMSPREE_ID` dans `contact.html`.
    Tant que ce n'est pas fait, le formulaire affiche un message invitant à appeler : aucune
    demande n'est perdue en silence.
-2. **Mentions légales** — compléter dans `mentions-legales.html` les champs marqués
+3. **Mentions légales** — compléter dans `mentions-legales.html` les champs marqués
    *à compléter* (forme juridique, SIREN, TVA, directeur de publication, hébergeur).
-3. **Adresse e-mail de contact** — le site actuel n'en publiait aucune. Si vous en avez une,
+4. **Adresse e-mail de contact** — le site actuel n'en publiait aucune. Si vous en avez une,
    l'ajouter dans le pied de page, sur la page contact et dans les mentions légales.
-4. **Chiffres de l'accueil** — les trois chiffres clés (`+20`, `4`, `100 %`) sont volontairement
+5. **Chiffres de l'accueil** — les trois chiffres clés (`+20`, `4`, `100 %`) sont volontairement
    conservateurs et vérifiables. Les remplacer par les vrais volumes (nombre de chambres
    livrées, de projets, de couverts) leur donnerait beaucoup plus de poids.
-5. **Fiches projet** — la galerie de `realisations.html` est un pis-aller. Une fiche par projet
+6. **Fiches projet** — la galerie de `realisations.html` est un pis-aller. Une fiche par projet
    (établissement, nombre de clés, périmètre livré, atelier, délai tenu) convaincra bien
    davantage un acheteur hôtelier que trente-six photos anonymes.
-6. **Photographies** — deux images de l'ancien site étaient des photos de stock Unsplash ;
+7. **Photographies** — deux images de l'ancien site étaient des photos de stock Unsplash ;
    elles ont été écartées. Les visuels actuels proviennent tous de phb70.com.
 
 ## Mise en ligne
