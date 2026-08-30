@@ -1142,14 +1142,68 @@ address { font-style: normal; }
   padding-block: clamp(4rem, 9vw, 7rem) clamp(5rem, 11vw, 9rem);
 }
 
-/* Séparateur avec la section précédente. */
+/* Séparateur avec la section précédente : un filet qui traverse la page en
+   s'effaçant à ses deux extrémités, interrompu au centre par un losange de
+   laiton. Le losange porte un halo de la couleur du fond (`box-shadow` opaque)
+   qui creuse le filet autour de lui — c'est ce vide qui fait la respiration,
+   pas un trait plus épais. */
 .methode__separateur {
+  position: relative;
   display: block;
-  width: 56px;
+  width: min(100% - 2 * var(--gutter), 52rem);
   height: 1px;
-  background: var(--accent);
-  opacity: .5;
   margin: 0 auto clamp(4rem, 9vw, 7rem);
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(198, 161, 91, .35) 18%,
+    rgba(198, 161, 91, .6) 50%,
+    rgba(198, 161, 91, .35) 82%,
+    transparent);
+}
+
+/* Le losange. */
+.methode__separateur::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  transform: translate(-50%, -50%) rotate(45deg);
+  /* 1er ombrage : le vide autour du losange. 2e : le halo doré. */
+  box-shadow: 0 0 0 6px var(--bg), 0 0 22px 3px rgba(198, 161, 91, .4);
+}
+
+/* Le contour, laissé ouvert : ses deux pointes horizontales viennent juste
+   toucher les tronçons du filet, de part et d'autre du vide. */
+.methode__separateur::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(198, 161, 91, .5);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Le filet se déploie depuis le centre à l'entrée dans le champ. On anime
+   `background-size` et non une transformation : un `scaleX` sur le bloc
+   écraserait aussi le losange, qui est peint par ses pseudo-éléments. */
+.methode__separateur.reveal {
+  transform: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18% 100%;
+  transition: opacity 1.1s var(--ease), background-size 1.1s var(--ease);
+}
+.methode__separateur.reveal.is-visible { background-size: 100% 100%; }
+.no-js .methode__separateur.reveal { background-size: 100% 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .methode__separateur.reveal,
+  .methode__separateur.reveal.is-visible { background-size: 100% 100%; }
 }
 
 /* ---------- Titre ---------- */
