@@ -337,20 +337,100 @@ ul { margin: 0; padding: 0; list-style: none; }
   width: 100%; height: 100%;
   object-fit: cover;
   /* Les photos d'hôtellerie sont volontairement très lumineuses ; on les
-     ramène dans la gamme sombre du site avant même d'appliquer le voile. */
-  filter: brightness(.60) saturate(.88);
+     ramène dans la gamme sombre du site avant même d'appliquer le voile.
+     Assez pour asseoir le texte, pas au point d'effacer le travail montré :
+     le diaporama mêle des vues claires et des vues très sombres. */
+  filter: brightness(.74) saturate(.92);
 }
+
+/* ---------- Diaporama de tête ----------
+
+   Enchaînement en pur CSS : aucun minuteur JavaScript, donc rien à nettoyer et
+   ça fonctionne même sans JS. Chaque photo joue la même animation, décalée
+   d'une durée de vue. `--i` est porté par la balise dans index.html.
+
+   Pour changer le nombre de photos, il faut ajuster `--diapo-n` ET les
+   pourcentages des deux @keyframes ci-dessous : à quatre vues, chacune occupe
+   25 % du cycle. C'est la seule contrainte de ce montage.                    */
+
+.hero {
+  --diapo-n:     4;      /* nombre de photos */
+  --diapo-duree: 6s;     /* temps de vue de chacune */
+  --diapo-fondu: 1.2s;   /* durée du fondu enchaîné (= 5 % du cycle) */
+  --diapo-cycle: calc(var(--diapo-n) * var(--diapo-duree));
+}
+
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: heroDiapo var(--diapo-cycle) linear infinite;
+  /* Le décalage négatif place la première vue déjà ouverte à l'instant zéro :
+     le hero n'est jamais vide, même une fraction de seconde. */
+  animation-delay: calc(var(--i) * var(--diapo-duree) - var(--diapo-fondu));
+}
+
+@keyframes heroDiapo {
+  0%        { opacity: 0; transform: scale(1); }
+  5%        { opacity: 1; }
+  25%       { opacity: 1; }
+  30%       { opacity: 0; transform: scale(1.06); }
+  100%      { opacity: 0; transform: scale(1.06); }
+}
+
+/* Jauges : quatre filets de laiton qui se remplissent au rythme des vues. Elles
+   disent qu'il y a plusieurs photos sans rien ajouter de bruyant. */
+.hero__jauges {
+  display: flex;
+  gap: .6rem;
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+.hero__jauge {
+  position: relative;
+  width: 34px;
+  height: 1px;
+  background: var(--line-strong);
+  overflow: hidden;
+}
+.hero__jauge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: heroJauge var(--diapo-cycle) linear infinite;
+  animation-delay: calc(var(--i) * var(--diapo-duree) - var(--diapo-fondu));
+}
+
+@keyframes heroJauge {
+  0%        { transform: scaleX(0); }
+  25%, 30%  { transform: scaleX(1); }
+  31%, 100% { transform: scaleX(0); }
+}
+
+/* Pendant l'introduction, le diaporama attend : sans cela il aurait déjà
+   consommé cinq secondes de son cycle avant d'être visible. */
+.intro-en-cours .hero__slide,
+.intro-en-cours .hero__jauge::after { animation-play-state: paused; }
 /* Deux couches : un voile général + un dégradé bas pour asseoir le texte */
 .hero__media::after {
   content: '';
   position: absolute;
   inset: 0;
   background:
+    /* Colonne sombre à gauche : c'est elle qui porte le texte, elle laisse
+       donc la photo respirer sur la droite. */
+    linear-gradient(to right,
+      rgba(11,11,13,.80) 0%,
+      rgba(11,11,13,.55) 38%,
+      rgba(11,11,13,.12) 68%,
+      rgba(11,11,13,.30) 100%),
     linear-gradient(to top,
-      rgba(11,11,13,.96) 0%,
-      rgba(11,11,13,.80) 28%,
-      rgba(11,11,13,.58) 58%,
-      rgba(11,11,13,.66) 100%);
+      rgba(11,11,13,.88) 0%,
+      rgba(11,11,13,.55) 30%,
+      rgba(11,11,13,.32) 62%,
+      rgba(11,11,13,.55) 100%);
 }
 .hero__inner { position: relative; z-index: 1; width: 100%; }
 
@@ -358,7 +438,8 @@ ul { margin: 0; padding: 0; list-style: none; }
    lisible même sur une zone claire. Assez diffus pour rester invisible. */
 .hero__inner,
 .pagehead__inner { text-shadow: 0 1px 24px rgba(11, 11, 13, .8); }
-.hero__title { max-width: 16ch; }
+/* 20ch : le titre tient sur deux lignes équilibrées plutôt que trois. */
+.hero__title { max-width: 20ch; }
 .hero__text { max-width: 46ch; margin-top: 2rem; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.75rem; }
 
@@ -834,7 +915,14 @@ address { font-style: normal; }
 
 @media (max-width: 560px) {
   .gallery { grid-template-columns: 1fr; }
-  .hero__actions .btn { width: 100%; justify-content: center; }
+  /* Padding resserré : « Découvrir nos réalisations » tient alors sur une
+     seule ligne, jusqu'aux écrans de 320 px. */
+  .hero__actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding-inline: 1rem;
+    letter-spacing: .14em;
+  }
 }
 
 /* ---------- Mouvement réduit ---------- */
@@ -847,6 +935,14 @@ address { font-style: normal; }
     transition-duration: .01ms !important;
   }
   .reveal { opacity: 1; transform: none; }
+
+  /* Diaporama : aucune rotation, la première photo reste posée. La règle
+     globale ci-dessus réduirait sinon l'animation à néant et laisserait le
+     hero sans image du tout. */
+  .hero__slide { animation: none !important; opacity: 0; }
+  .hero__slide:first-child { opacity: 1; }
+  .hero__jauge::after { animation: none !important; transform: scaleX(0); }
+  .hero__jauge:first-child::after { transform: scaleX(1); }
 }
 
 /* ---------- Impression ---------- */

@@ -23,6 +23,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-400-latin.woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="preload" as="image" href="assets/img/intro/fond.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/hero/hero-1.jpg">
 <link rel="preload" as="image" href="assets/img/intro/logo.png">
 <script>document.documentElement.classList.remove('no-js');
 (function () {
@@ -90,16 +91,39 @@
 <main id="main" tabindex="-1">
 
 <section class="hero">
-  <div class="hero__media">
-    <img src="assets/img/full/hero-accueil.jpg" alt="Salle de restaurant sous décor classé, entièrement meublée sur-mesure" width="1920" height="1219" decoding="async" fetchpriority="high">
+  <!-- Diaporama de tête. Décoratif : le sens est porté par le texte, les images
+       sont donc en alt vide et le bloc masqué aux lecteurs d'écran.
+
+       POUR CHANGER LES PHOTOS : remplacer les quatre fichiers de
+       assets/img/hero/. Rien d'autre à toucher — l'enchaînement est piloté par
+       `--diapo-n` en CSS. Pour en mettre un nombre différent, ajouter ou retirer
+       une balise, renuméroter `--i` et corriger `--diapo-n` dans style.css.
+
+       1. grande salle classée          4. comptoir, velours ocre
+       2. chambre, marqueterie & ambre  3. restaurant contemporain -->
+  <div class="hero__media" aria-hidden="true">
+    <img class="hero__slide" style="--i:0" src="assets/img/hero/hero-1.jpg" alt=""
+         width="1600" height="1016" decoding="async" fetchpriority="high">
+    <img class="hero__slide" style="--i:1" src="assets/img/hero/hero-2.jpg" alt=""
+         width="1024" height="683" decoding="async" fetchpriority="low" loading="lazy">
+    <img class="hero__slide" style="--i:2" src="assets/img/hero/hero-3.jpg" alt=""
+         width="1600" height="1067" decoding="async" fetchpriority="low" loading="lazy">
+    <img class="hero__slide" style="--i:3" src="assets/img/hero/hero-4.jpg" alt=""
+         width="941" height="656" decoding="async" fetchpriority="low" loading="lazy">
   </div>
   <div class="container hero__inner">
     <span class="eyebrow">PHB70 — Mobilier sur-mesure</span>
-    <h1 class="hero__title">Du dessin à la chambre livrée.</h1>
-    <p class="lead hero__text">Nous reprenons le projet de l'architecte d'intérieur et le menons jusqu'à la pièce fabriquée, contrôlée et installée. Bureau d'étude intégré, ateliers partenaires, douane et logistique comprises.</p>
+    <h1 class="hero__title">Mobilier sur‑mesure pour lieux d'exception.</h1>
+    <p class="lead hero__text">PHB70 accompagne hôtels, restaurants et résidences de prestige, de la conception à la fabrication.</p>
     <div class="hero__actions">
-      <a class="btn btn--solid" href="contact.html">Parlons de votre projet <span class="arw" aria-hidden="true">&rarr;</span></a>
-      <a class="btn" href="realisations.html">Voir nos réalisations <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn--solid" href="realisations.html">Découvrir nos réalisations <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="btn" href="contact.html">Nous contacter <span class="arw" aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="hero__jauges" aria-hidden="true">
+      <span class="hero__jauge" style="--i:0"></span>
+      <span class="hero__jauge" style="--i:1"></span>
+      <span class="hero__jauge" style="--i:2"></span>
+      <span class="hero__jauge" style="--i:3"></span>
     </div>
   </div>
 </section>

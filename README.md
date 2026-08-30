@@ -14,7 +14,7 @@ Puis ouvrir <http://localhost:8000>. C'est tout : il n'y a rien à installer ni 
 ## Structure
 
 ```
-index.html              Accueil : hero, méthode en 4 étapes, chiffres, réalisations, réseau
+index.html              Accueil : hero en diaporama, méthode, chiffres, réalisations, réseau
 savoir-faire.html       Philippe Boccara, les équipes, le pôle Luxembourg
 realisations.html       Galerie filtrable (hôtellerie / restauration) + lightbox
 sur-mesure.html         Pièces d'exception, ateliers, résidences
@@ -26,6 +26,7 @@ assets/js/main.js       Nav mobile, révélation au scroll, filtres, lightbox, f
 assets/js/intro.js      L'introduction plein écran de l'accueil
 assets/fonts/           Cormorant Garamond + Inter, auto-hébergées (208 Ko)
 assets/img/intro/       Les visuels de l'introduction — planche, logo détouré, tracés
+assets/img/hero/        Les quatre photos du diaporama d'accueil (810 Ko)
 assets/img/full/        Images grand format (héros, lightbox) — 1200 à 1920 px
 assets/img/thumb/       Vignettes de galerie — 760 px
 assets/img/raw/         Originaux téléchargés depuis l'ancien site (non versionnés)
@@ -194,6 +195,39 @@ fois :
 Contrôle à refaire après tout changement de visuel : le masque doit couvrir
 100 % des pixels pleins du logo (`LARGEUR_MASQUE`, en haut de `intro.js`).
 
+## Le hero de l'accueil
+
+Quatre photos s'enchaînent en fondu derrière le titre, six secondes chacune, avec
+un léger zoom. Quatre filets de laiton sous les boutons se remplissent au rythme
+des vues.
+
+**Changer les photos** — remplacer les quatre fichiers de `assets/img/hero/`.
+Rien d'autre à toucher. Les formats d'origine sont libres : `object-fit: cover`
+recadre, et le voile s'occupe du reste.
+
+**Changer leur nombre** — c'est la seule contrainte de ce montage : il faut
+ajuster `--diapo-n` dans `assets/css/style.css` **et** les pourcentages des deux
+`@keyframes` (`heroDiapo` et `heroJauge`). À quatre vues, chacune occupe 25 % du
+cycle ; à cinq, ce serait 20 %. Puis ajouter ou retirer une balise `.hero__slide`
+et une `.hero__jauge` dans `index.html`, en renumérotant `--i`.
+
+**Pourquoi en CSS et pas en JavaScript** — aucun minuteur à nettoyer, aucun
+écouteur à retirer, et le diaporama tourne même sans JS. Le seul lien avec le
+script est la classe `intro-en-cours`, qui met l'animation en pause tant que
+l'introduction couvre l'écran : sans elle, le diaporama aurait déjà consommé
+cinq secondes de son cycle avant d'être visible.
+
+**Traitement des images** — `filter: brightness(.74) saturate(.92)` puis deux
+dégradés : une colonne sombre à gauche qui porte le texte, un dégradé vertical
+qui assied le bas. Le diaporama mêle des vues très claires (la salle classée) et
+très sombres (la chambre en marqueterie) ; ce réglage est le compromis qui laisse
+les deux lisibles. En le durcissant, les vues sombres virent au noir.
+
+**Mouvement réduit** — aucune rotation, la première photo reste posée. La règle
+globale de `prefers-reduced-motion` réduirait sinon l'animation à néant et
+laisserait le hero sans image du tout : c'est pourquoi la section porte un
+`animation: none !important` explicite.
+
 ## À compléter avant la mise en ligne
 
 Ces points sont signalés dans le code par des commentaires `TODO` :
@@ -234,9 +268,11 @@ important, ces URL sont indexées par Google.
   d'origine, et `prefers-reduced-motion` désactive toutes les animations.
 - **Sans JavaScript**, le site reste entièrement lisible et navigable : le menu mobile
   redevient une liste statique et les blocs animés s'affichent normalement.
-- **Poids** : première visite de l'accueil ≈ 1,21 Mo, dont 530 Ko pour les visuels de
-  l'introduction et 534 Ko pour la photo du hero. Les autres pages ne portent que le
-  logo réduit (30 Ko). Les images de galerie et les visuels
+- **Poids** : chemin critique de l'accueil ≈ 930 Ko, dont 530 Ko pour les visuels de
+  l'introduction et 216 Ko pour la première photo du hero. Les trois autres photos du
+  diaporama (590 Ko) sont chargées en `fetchpriority="low"` : elles n'apparaissent
+  qu'après six secondes, elles ont tout le temps d'arriver. Les autres pages ne portent
+  que le logo réduit (30 Ko). Les images de galerie et les visuels
   plus bas dans la page sont chargés à la demande. Les trois fichiers de l'introduction
   sont préchargés dès l'en-tête, et le site se charge derrière le voile : la transition
   finale n'attend donc aucun octet.
