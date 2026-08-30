@@ -789,6 +789,9 @@ address { font-style: normal; }
   border-top: 1px solid var(--line);
   padding-block: clamp(3.5rem, 7vw, 5rem) 2rem;
 }
+/* Accueil : le fond est le même du hero au pied de page. Les cinq autres pages
+   gardent un pied de page légèrement détaché du contenu. */
+.accueil .footer { background: var(--bg); }
 .footer__top {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2.6fr);
@@ -1134,10 +1137,8 @@ address { font-style: normal; }
   --methode-course: 340vh;   /* hauteur à parcourir en mode épinglé */
 
   position: relative;
-  /* Le noir se réchauffe très légèrement au centre : la page tourne, elle ne
-     change pas d'univers. Aucune bordure, aucune rupture franche. */
-  background: linear-gradient(to bottom,
-    var(--bg) 0%, #100D0A 42%, #100D0A 58%, var(--bg) 100%);
+  /* Pas de fond propre : l'accueil est d'un seul noir d'un bout à l'autre.
+     C'est le filet doré et l'espace qui marquent le changement de section. */
   padding-block: clamp(4rem, 9vw, 7rem) clamp(5rem, 11vw, 9rem);
 }
 

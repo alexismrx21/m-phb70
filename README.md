@@ -14,7 +14,7 @@ Puis ouvrir <http://localhost:8000>. C'est tout : il n'y a rien à installer ni 
 ## Structure
 
 ```
-index.html              Accueil : hero, secteurs, méthode épinglée, chiffres, réseau
+index.html              Accueil : hero, secteurs, méthode épinglée, réseau, contact
 savoir-faire.html       Philippe Boccara, les équipes, le pôle Luxembourg
 realisations.html       Galerie filtrable (hôtellerie / restauration) + lightbox
 sur-mesure.html         Pièces d'exception, ateliers, résidences
@@ -247,12 +247,6 @@ pas laisser les cartes en noir et blanc sur mobile.
 **La place du « Découvrir » est réservée en permanence**, à opacité nulle : il
 apparaît en fondu sans jamais déplacer le texte au-dessus.
 
-> **Attention — doublon à trancher.** La section « Ce que nous livrons », plus bas
-> sur la même page, présente déjà trois cartes Hôtellerie / Restauration / Pièces
-> d'exception. Elle fait maintenant largement double emploi avec les secteurs
-> d'expertise. Il faudra soit la supprimer, soit la retourner vers autre chose
-> (des projets nommés plutôt que des catégories, par exemple).
-
 ## Notre méthode
 
 Quatre étapes parcourues au scroll, juste sous les secteurs. Un même balisage
@@ -291,6 +285,27 @@ document et donc tous lisibles, quelle que soit l'étape affichée.
 > sont les seuls qui ne se paient pas », etc.). La nouvelle maquette ne prévoit
 > qu'une phrase par étape : ces paragraphes ont été retirés. Ils restent dans
 > l'historique git et mériteraient une page « Notre méthode » dédiée.
+
+## Le fond de l'accueil
+
+L'accueil est d'un seul noir, `--bg` (`#0B0B0D`), du hero au pied de page. Rien
+n'y peint un autre fond : ce sont les filets (`--line`) et l'espace qui séparent
+les sections, jamais un aplat plus clair.
+
+Deux conséquences à connaître avant d'y toucher :
+
+- `index.html` porte `<body class="accueil">`. C'est le seul crochet qui aligne
+  le pied de page sur le fond du contenu (`.accueil .footer`). Les cinq autres
+  pages gardent un pied de page légèrement détaché.
+- La classe `section--surface` sert toujours sur `savoir-faire.html`,
+  `contact.html` et `sur-mesure.html` : elle a seulement été retirée de
+  l'accueil. Ne pas supprimer la règle.
+
+**CSS devenu inutilisé.** La suppression des sections « Notre mission », des
+chiffres et de « Ce que nous livrons » laisse sans emploi les blocs `.stats`,
+`.stat`, `.cards`, `.card*` et `.section--tight` dans `style.css`. Ils sont
+conservés tels quels : ce sont des composants réutilisables, et l'accueil est la
+seule page qui s'en servait. À supprimer si l'on est sûr de ne pas y revenir.
 
 ## À compléter avant la mise en ligne
 
