@@ -507,16 +507,19 @@
     // empilés, moins coûteux qu'un filtre de flou et fluide sur mobile.
     var lueur = el('g');
     lueur.setAttribute('class', 'intro__lueur');
-    lueur.appendChild(usage('#phb-reseau', { 'stroke-width': 34, class: 'l1' }));
-    lueur.appendChild(usage('#phb-reseau', { 'stroke-width': 17, class: 'l2' }));
+    lueur.appendChild(usage('#phb-reseau', { 'stroke-width': 40, class: 'l1' }));
+    lueur.appendChild(usage('#phb-reseau', { 'stroke-width': 22, class: 'l2' }));
     svg.appendChild(lueur);
 
     // Front électrique, plus intense, en tête de propagation.
     var tete = el('g');
     tete.setAttribute('class', 'intro__front');
-    tete.appendChild(usage('#phb-fronts', { 'stroke-width': 30,  class: 'f1' }));
-    tete.appendChild(usage('#phb-fronts', { 'stroke-width': 14,  class: 'f2' }));
-    tete.appendChild(usage('#phb-fronts', { 'stroke-width': 4.5, class: 'f3' }));
+    // Le trait du logo mesure 19 unités : le front doit le balayer sur toute sa
+    // largeur, sinon il se lit comme une rayure au milieu du métal et non comme
+    // une lumière qui court dessus.
+    tete.appendChild(usage('#phb-fronts', { 'stroke-width': 48, class: 'f1' }));
+    tete.appendChild(usage('#phb-fronts', { 'stroke-width': 28, class: 'f2' }));
+    tete.appendChild(usage('#phb-fronts', { 'stroke-width': 15, class: 'f3' }));
     svg.appendChild(tete);
 
     hote.classList.add('intro--prete');

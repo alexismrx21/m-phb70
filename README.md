@@ -62,12 +62,12 @@ sips -Z 1200 -s format jpeg -s formatOptions 72 source.jpg --out assets/img/full
 ## Introduction plein écran (page d'accueil)
 
 Au chargement de `index.html`, une surcouche occupe toute la fenêtre : une planche
-de noyer apparaît, un courant cuivré parcourt les tracés du monogramme et le
+de noyer apparaît, un courant lumineux parcourt les tracés du monogramme et le
 dessine, le « 70 » vient le signer, le rendu final se pose — puis le bois se
 dissout pendant que le monogramme glisse et rétrécit jusqu'à sa case dans le
 header, en haut à gauche. Durée totale ≈ 5,9 s.
 
-**Le monogramme est le logo du site.** `assets/img/logo.png` (300 × 253, 38 Ko)
+**Le monogramme est le logo du site.** `assets/img/logo.png` (300 × 253, 30 Ko)
 est le même dessin que celui de l'introduction, réduit : c'est lui qu'on retrouve
 dans l'en-tête et le pied de page des six pages. C'est aussi ce qui rend
 l'atterrissage invisible — ce qui vole et ce qui se pose sont la même image.
@@ -77,10 +77,10 @@ respirer un logo presque carré là où l'ancien tracé était très horizontal.
 **Fichiers concernés**
 
 ```
-assets/img/intro/fond.jpg         la planche seule (265 Ko)
-assets/img/intro/logo.png         le logo détouré, fond transparent (235 Ko)
+assets/img/intro/fond.jpg         la planche seule (350 Ko)
+assets/img/intro/logo.png         le logo détouré, fond transparent (188 Ko)
 assets/img/intro/monogramme.svg   13 tracés « segment-01 … segment-13 » (4,5 Ko)
-assets/img/logo.png               le même logo réduit, pour le header et le pied
+assets/img/logo.png               le même logo réduit (300 × 253, 30 Ko)
 assets/js/intro.js                le graphe, la chronologie et l'animation
 ```
 
@@ -170,11 +170,24 @@ tout instant. Ne pas y remettre de `transform`.
 - Deux garde-fous indépendants (un `setTimeout` dans le script, un second dans
   `index.html`) rétablissent le contenu même si l'animation ne démarre jamais.
 
-**Reprendre les visuels.** Les fichiers d'origine font 1672 × 941 (`fond.png`,
-`logo-détouré.png`, `logo.png` et `tracé.svg`). Pour en régénérer les versions
-utilisées ici, il faut découper la zone `424, 77, 884 × 745` du logo détouré et
-donner le même cadrage au `viewBox` du SVG — c'est ce couple qui garantit
-l'alignement.
+**Reprendre les visuels.** Les fichiers d'origine font 1672 × 941. Pour en
+régénérer les versions utilisées ici, il faut découper la zone
+`424, 77, 884 × 745` du logo détouré et donner le même cadrage au `viewBox` du
+SVG — c'est ce couple qui garantit l'alignement.
+
+Deux pièges rencontrés lors du remplacement des visuels, à éviter la prochaine
+fois :
+
+- **le logo détouré doit vraiment porter un canal alpha.** Un export où le damier
+  de transparence a été aplati en pixels n'est pas un détourage. Il reste
+  récupérable — l'or est saturé, le damier neutre et clair, la saturation donne
+  donc un masque exact — mais c'est une reconstruction, pas la source.
+- **le détouré et le composite doivent partager le cadrage.** Lors du dernier
+  remplacement le logo mesurait 756 px de large dans le détouré et 569 px dans le
+  composite : seul le détouré était au cadrage attendu par `monogramme.svg`.
+
+Contrôle à refaire après tout changement de visuel : le masque doit couvrir
+100 % des pixels pleins du logo (`LARGEUR_MASQUE`, en haut de `intro.js`).
 
 ## À compléter avant la mise en ligne
 
@@ -216,9 +229,9 @@ important, ces URL sont indexées par Google.
   d'origine, et `prefers-reduced-motion` désactive toutes les animations.
 - **Sans JavaScript**, le site reste entièrement lisible et navigable : le menu mobile
   redevient une liste statique et les blocs animés s'affichent normalement.
-- **Poids** : première visite de l'accueil ≈ 1,19 Mo, dont 500 Ko pour les visuels de
+- **Poids** : première visite de l'accueil ≈ 1,21 Mo, dont 530 Ko pour les visuels de
   l'introduction et 534 Ko pour la photo du hero. Les autres pages ne portent que le
-  logo réduit (38 Ko). Les images de galerie et les visuels
+  logo réduit (30 Ko). Les images de galerie et les visuels
   plus bas dans la page sont chargés à la demande. Les trois fichiers de l'introduction
   sont préchargés dès l'en-tête, et le site se charge derrière le voile : la transition
   finale n'attend donc aucun octet.

@@ -896,7 +896,7 @@ address { font-style: normal; }
   touch-action: none;
 
   /* Brun très sombre : la planche émerge de la nuit, sans flash gris. */
-  background: #120C08;
+  background: #150D06;
   cursor: pointer;
 }
 
@@ -960,7 +960,7 @@ address { font-style: normal; }
   position: absolute;
   inset: -32%;
   background: radial-gradient(closest-side ellipse,
-              rgba(224, 148, 74, .30), rgba(186, 106, 48, .11) 46%, transparent 72%);
+              rgba(232, 178, 86, .20), rgba(198, 140, 58, .075) 46%, transparent 70%);
   opacity: calc(var(--fond) * var(--halo));
   mix-blend-mode: screen;
   pointer-events: none;
@@ -974,20 +974,20 @@ address { font-style: normal; }
   mix-blend-mode: screen;
   pointer-events: none;
 }
-.intro__lueur .l1 { stroke: rgba(190, 108, 52, .045); }
-.intro__lueur .l2 { stroke: rgba(216, 158, 98, .075); }
+.intro__lueur .l1 { stroke: rgba(198, 140, 58, .055); }
+.intro__lueur .l2 { stroke: rgba(228, 186, 110, .09); }
 
 /* Front électrique, en tête de propagation. Les teintes sont relevées sur le
-   rendu final : cuivre profond, cuivre clair, puis un cœur presque blanc. */
+   rendu final : laiton profond, laiton clair, puis un cœur presque blanc. */
 .intro__front {
   opacity: calc(var(--fond) * var(--lueur));
   fill: none;
   mix-blend-mode: screen;
   pointer-events: none;
 }
-.intro__front .f1 { stroke: rgba(214, 132,  66, .14); }
-.intro__front .f2 { stroke: rgba(250, 206, 140, .26); }
-.intro__front .f3 { stroke: rgba(255, 244, 226, .72); }
+.intro__front .f1 { stroke: rgba(255, 196,  96, .17); }
+.intro__front .f2 { stroke: rgba(255, 228, 158, .30); }
+.intro__front .f3 { stroke: rgba(255, 252, 240, .55); }
 
 /* ---------- Sortie : le monogramme rejoint sa place dans le header ----------
 
