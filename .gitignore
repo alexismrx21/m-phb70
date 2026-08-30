@@ -1,0 +1,6 @@
+.DS_Store
+
+# Originaux téléchargés depuis l'ancien site WordPress.
+# Non versionnés (23 Mo) : les versions optimisées de assets/img/full et
+# assets/img/thumb suffisent au site. Voir README.md pour les régénérer.
+assets/img/raw/

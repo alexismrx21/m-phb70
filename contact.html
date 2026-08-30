@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="fr" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Paris, New York, Luxembourg, Portugal | PHB70</title>
+<meta name="description" content="Contactez PHB70 pour un projet de mobilier sur-mesure en hôtellerie, restauration ou résidence privée. Bureaux à Paris, New York, Luxembourg et Paços de Ferreira.">
+<link rel="canonical" href="https://www.phb70.com/contact.html">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PHB70">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Contact — Paris, New York, Luxembourg, Portugal | PHB70">
+<meta property="og:description" content="Contactez PHB70 pour un projet de mobilier sur-mesure en hôtellerie, restauration ou résidence privée. Bureaux à Paris, New York, Luxembourg et Paços de Ferreira.">
+<meta property="og:url" content="https://www.phb70.com/contact.html">
+<meta property="og:image" content="https://www.phb70.com/assets/img/full/restauration-salle-classee.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0B0B0D">
+
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-400-latin.woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.classList.remove('no-js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Aller au contenu</a>
+<header class="header" data-header>
+  <div class="header__inner">
+    <a class="brand" href="index.html" aria-label="PHB70, retour à l'accueil">
+      <img src="assets/img/logo.png" alt="PHB70" width="108" height="38">
+    </a>
+    <button class="burger" type="button" data-burger aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+      <span class="visually-hidden">Ouvrir le menu</span>
+    </button>
+    <nav class="nav" id="site-nav" data-nav aria-label="Navigation principale">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="index.html">Accueil</a></li>
+        <li><a class="nav__link" href="savoir-faire.html">Savoir-faire</a></li>
+        <li><a class="nav__link" href="realisations.html">Réalisations</a></li>
+        <li><a class="nav__link" href="sur-mesure.html">Sur-mesure</a></li>
+        <li><a class="btn nav__cta" href="contact.html" aria-current="page">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<section class="pagehead">
+  <div class="pagehead__media">
+    <img src="assets/img/full/restauration-salle-classee.jpg" alt="Salle de restaurant sous décor classé, meublée sur-mesure" width="1600" height="1016" decoding="async" fetchpriority="high">
+  </div>
+  <div class="container pagehead__inner">
+    <span class="eyebrow">Contact</span>
+    <h1>Parlons de votre projet.</h1>
+    <p class="lead">Plus tôt nous intervenons, plus notre marge de manœuvre est grande sur le coût et le délai. Même au stade de l'esquisse, nous savons dire ce qui est fabricable.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="split">
+      <div class="split__body reveal">
+        <span class="eyebrow">Écrivez-nous</span>
+        <h2>Décrivez votre projet.</h2>
+        <hr class="rule">
+
+        <!-- TODO TECHNIQUE : créer un compte gratuit sur formspree.io, puis remplacer
+             TODO_FORMSPREE_ID ci-dessous par l'identifiant du formulaire.
+             Tant que ce n'est pas fait, le formulaire affiche un message invitant
+             à écrire directement — il ne perd aucune demande en silence. -->
+        <form class="form" data-form action="https://formspree.io/f/TODO_FORMSPREE_ID" method="post">
+          <div class="form__row">
+            <div class="field">
+              <label for="f-nom">Nom et prénom</label>
+              <input id="f-nom" name="nom" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="f-societe">Société</label>
+              <input id="f-societe" name="societe" type="text" autocomplete="organization">
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="f-email">E-mail</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="f-tel">Téléphone</label>
+              <input id="f-tel" name="telephone" type="tel" autocomplete="tel">
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-type">Type de projet</label>
+            <select id="f-type" name="type_de_projet">
+              <option>Hôtellerie</option>
+              <option>Restauration</option>
+              <option>Résidence privée / immobilier de standing</option>
+              <option>Pièce unique</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-message">Votre projet</label>
+            <textarea id="f-message" name="message" required placeholder="Nombre de clés ou de couverts, calendrier d'ouverture, périmètre envisagé, niveau de finition visé…"></textarea>
+          </div>
+
+          <!-- Piège à robots : invisible pour les humains, rempli par les scripts. -->
+          <div class="visually-hidden" aria-hidden="true">
+            <label for="f-site">Ne pas remplir ce champ</label>
+            <input id="f-site" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <button class="btn btn--solid" type="submit">Envoyer <span class="arw" aria-hidden="true">&rarr;</span></button>
+          <p class="form__status" data-form-status role="status" hidden></p>
+          <p class="form__note">Vos coordonnées servent uniquement à répondre à cette demande. Elles ne sont ni revendues ni utilisées à des fins de prospection.</p>
+        </form>
+      </div>
+
+      <div class="split__media reveal">
+        <img src="assets/img/full/hotellerie-junior-suite-09.jpg" alt="Banquette de salon sur-mesure et table basse en noyer à plateau cannelé" width="1024" height="683" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--surface">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Nos bureaux</span>
+      <h2>Quatre implantations, une seule chaîne.</h2>
+      <p class="lead">Appelez directement le bureau concerné par votre projet, ou écrivez-nous&nbsp;: nous orientons la demande en interne.</p>
+    </div>
+    <div class="offices reveal">
+    <div class="office">
+      <h3 class="office__city">Paris</h3>
+      <span class="office__role">Direction &amp; commercial</span>
+      <address>
+        <a href="tel:+33682840308">+33 6 82 84 03 08</a><br>
+        53 bis rue de Passy<br>75016 Paris<br>France
+      </address>
+    </div>
+    <div class="office">
+      <h3 class="office__city">New York</h3>
+      <span class="office__role">Développement Amériques</span>
+      <address>
+        <a href="tel:+19173014228">+1 917 301 42 28</a><br>
+        40 East 94th Street<br>New York, NY 10128<br>États-Unis
+      </address>
+    </div>
+    <div class="office">
+      <h3 class="office__city">Luxembourg</h3>
+      <span class="office__role">Devis, douane &amp; logistique</span>
+      <address>
+        <a href="tel:+3522021182203">+352 20 21 18 22 03</a><br>
+        4 place de Paris<br>L-2314 Luxembourg<br>Luxembourg
+      </address>
+    </div>
+    <div class="office">
+      <h3 class="office__city">Portugal</h3>
+      <span class="office__role">Production &amp; contrôle qualité</span>
+      <address>
+        <a href="tel:+351910302959">+351 910 302 959</a><br>
+        14 avenida 20 de Maio<br>4590-182 Paços de Ferreira<br>Portugal
+      </address>
+    </div>
+  </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="assets/img/logo.png" alt="PHB70" width="120" height="42" loading="lazy">
+        <p>Mobilier sur-mesure pour l'hôtellerie et la restauration. Du dessin d'architecte à la pièce livrée.</p>
+        <nav class="footer__nav" aria-label="Navigation de pied de page">
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="savoir-faire.html">Savoir-faire</a></li>
+            <li><a href="realisations.html">Réalisations</a></li>
+            <li><a href="sur-mesure.html">Sur-mesure</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer__cols">
+        <div>
+          <p class="footer__title">Paris</p>
+          <address>
+            <a href="tel:+33682840308">+33 6 82 84 03 08</a><br>
+            53 bis rue de Passy<br>75016 Paris<br>France
+          </address>
+        </div>
+        <div>
+          <p class="footer__title">New York</p>
+          <address>
+            <a href="tel:+19173014228">+1 917 301 42 28</a><br>
+            40 East 94th Street<br>New York, NY 10128<br>États-Unis
+          </address>
+        </div>
+        <div>
+          <p class="footer__title">Luxembourg</p>
+          <address>
+            <a href="tel:+3522021182203">+352 20 21 18 22 03</a><br>
+            4 place de Paris<br>L-2314 Luxembourg<br>Luxembourg
+          </address>
+        </div>
+        <div>
+          <p class="footer__title">Portugal</p>
+          <address>
+            <a href="tel:+351910302959">+351 910 302 959</a><br>
+            14 avenida 20 de Maio<br>4590-182 Paços de Ferreira<br>Portugal
+          </address>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; <span data-year>2026</span> PHB70. Tous droits réservés.</p>
+      <p><a href="mentions-legales.html">Mentions légales</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>

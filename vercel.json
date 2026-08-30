@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/notre-mission{/}?", "destination": "/savoir-faire", "permanent": true },
+    { "source": "/notre-expertise{/}?", "destination": "/realisations", "permanent": true },
+    { "source": "/un-monde-sur-mesure{/}?", "destination": "/sur-mesure", "permanent": true },
+    { "source": "/contactez-nous{/}?", "destination": "/contact", "permanent": true }
+  ]
+}
