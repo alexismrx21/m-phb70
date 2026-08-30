@@ -22,17 +22,17 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-400-latin.woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="preload" as="image" href="assets/img/hero/planche.jpg">
-<link rel="preload" as="image" href="assets/img/hero/planche-logo.jpg">
+<link rel="preload" as="image" href="assets/img/intro/fond.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/intro/logo.png">
 <script>document.documentElement.classList.remove('no-js');
 (function () {
   try {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var r = document.documentElement;
+    var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     r.classList.add('intro-en-cours');
     // Filet de sécurité : si l'animation ne démarre jamais (script absent,
     // fichier introuvable), le contenu réapparaît quand même.
-    setTimeout(function () { r.classList.remove('intro-en-cours'); }, 6000);
+    setTimeout(function () { r.classList.remove('intro-en-cours'); }, reduit ? 1500 : 6000);
   } catch (e) {}
 })();</script>
 <script type="application/ld+json">
@@ -87,7 +87,7 @@
     </nav>
   </div>
 </header>
-<main id="main">
+<main id="main" tabindex="-1">
 
 <section class="hero">
   <div class="hero__media">
@@ -317,6 +317,6 @@
 </footer>
 
 <script src="assets/js/main.js" defer></script>
-<script src="assets/js/hero-monogramme.js" defer></script>
+<script src="assets/js/intro.js" defer></script>
 </body>
 </html>
