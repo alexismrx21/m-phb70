@@ -14,7 +14,7 @@ Puis ouvrir <http://localhost:8000>. C'est tout : il n'y a rien à installer ni 
 ## Structure
 
 ```
-index.html              Accueil : hero en diaporama, secteurs, méthode, chiffres, réseau
+index.html              Accueil : hero, secteurs, méthode épinglée, chiffres, réseau
 savoir-faire.html       Philippe Boccara, les équipes, le pôle Luxembourg
 realisations.html       Galerie filtrable (hôtellerie / restauration) + lightbox
 sur-mesure.html         Pièces d'exception, ateliers, résidences
@@ -252,6 +252,45 @@ apparaît en fondu sans jamais déplacer le texte au-dessus.
 > d'exception. Elle fait maintenant largement double emploi avec les secteurs
 > d'expertise. Il faudra soit la supprimer, soit la retourner vers autre chose
 > (des projets nommés plutôt que des catégories, par exemple).
+
+## Notre méthode
+
+Quatre étapes parcourues au scroll, juste sous les secteurs. Un même balisage
+sert deux rendus :
+
+- **Épinglé** (au-delà de 900 px, hors mouvement réduit) — la section fait
+  `--methode-course` de haut (340 vh), la scène se colle en haut de fenêtre, et
+  la progression du scroll pilote l'étape affichée. Un curseur doré parcourt la
+  frise sous les quatre icônes.
+- **Empilé** (mobile, mouvement réduit, ou sans JavaScript) — les quatre étapes
+  se suivent verticalement, chacune avec son icône, son numéro, son titre et sa
+  phrase. Ce n'est pas un pis-aller : c'est un état complet et lisible.
+
+C'est pour cela que la classe `methode--epingle` est posée **par le script** et
+non écrite dans le HTML : si rien ne s'exécute, on retombe sur l'état empilé.
+
+**Réglages** — `--methode-course` en tête de la section dans `style.css` fixe la
+hauteur à parcourir : la baisser rend l'enchaînement plus nerveux, la monter le
+rend plus contemplatif.
+
+**Le fondu entre deux étapes est décalé** : le contenu sortant s'efface en
+0,28 s sans délai, l'entrant apparaît en 0,46 s après 0,2 s d'attente. Sans ce
+décalage les deux textes se superposent à mi-course et se brouillent — c'est le
+seul réglage qui rend le relais lisible.
+
+**Les icônes** sont des `<symbol>` SVG au trait définis une seule fois en fin de
+`index.html`, posés deux fois chacun (sélecteur et contenu) via `<use>`. Elles
+héritent de `currentColor`, donc l'or de l'étape active suffit à les allumer.
+
+**Le sélecteur est masqué aux lecteurs d'écran** (`aria-hidden`) : il redit
+exactement ce que portent les quatre contenus, qui eux restent tous dans le
+document et donc tous lisibles, quelle que soit l'étape affichée.
+
+> **Contenu retiré.** L'ancienne section « Quatre étapes, un seul responsable »
+> portait un paragraphe argumenté par étape (« Les arbitrages faits à ce stade
+> sont les seuls qui ne se paient pas », etc.). La nouvelle maquette ne prévoit
+> qu'une phrase par étape : ces paragraphes ont été retirés. Ils restent dans
+> l'historique git et mériteraient une page « Notre méthode » dédiée.
 
 ## À compléter avant la mise en ligne
 

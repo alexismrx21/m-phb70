@@ -1120,6 +1120,213 @@ address { font-style: normal; }
   .secteur:focus-visible img { transform: none; }
 }
 
+/* =========================================================================
+   Notre méthode — quatre étapes parcourues au scroll.
+
+   Deux modes pour un seul balisage. Par défaut les étapes s'empilent : c'est
+   ce que voient le mobile, le mouvement réduit et les visiteurs sans
+   JavaScript, et c'est un état complet, pas un pis-aller. Le script ajoute
+   `methode--epingle` au-delà de 900 px : la scène se fige alors et le scroll
+   fait défiler les étapes une à une.
+   ========================================================================= */
+
+.methode {
+  --methode-course: 340vh;   /* hauteur à parcourir en mode épinglé */
+
+  position: relative;
+  /* Le noir se réchauffe très légèrement au centre : la page tourne, elle ne
+     change pas d'univers. Aucune bordure, aucune rupture franche. */
+  background: linear-gradient(to bottom,
+    var(--bg) 0%, #100D0A 42%, #100D0A 58%, var(--bg) 100%);
+  padding-block: clamp(4rem, 9vw, 7rem) clamp(5rem, 11vw, 9rem);
+}
+
+/* Séparateur avec la section précédente. */
+.methode__separateur {
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: var(--accent);
+  opacity: .5;
+  margin: 0 auto clamp(4rem, 9vw, 7rem);
+}
+
+/* ---------- Titre ---------- */
+
+.methode__tete { text-align: center; max-width: 44rem; margin-inline: auto; }
+
+.methode__titre {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+.methode__soustitre {
+  color: var(--text-muted);
+  font-size: clamp(.95rem, 1.4vw, 1.05rem);
+  margin: 1.15rem 0 0;
+}
+.methode__filet {
+  display: block;
+  width: 64px;
+  height: 1px;
+  background: var(--accent);
+  opacity: .65;
+  margin: clamp(1.75rem, 3vw, 2.5rem) auto 0;
+}
+
+/* ---------- Sélecteur et frise ---------- */
+/* Masqué en mode empilé : chaque contenu porte déjà son numéro et son icône. */
+
+.methode__rail { display: none; }
+
+.methode__etapes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+}
+
+.methode__etape {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .7rem;
+  color: var(--text-muted);
+  opacity: .45;
+  transform: scale(.94);
+  transition: opacity .5s var(--ease), color .5s var(--ease), transform .5s var(--ease);
+}
+.methode__etape.is-active { color: var(--accent); opacity: 1; transform: scale(1); }
+
+.methode__num {
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+}
+.methode__icone { width: 34px; height: 34px; display: block; }
+.methode__label {
+  font-size: .66rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* La frise : un filet doré sous les quatre étapes, et un point qui le parcourt
+   au rythme du scroll. Le point va du centre de la première étape (12,5 %) au
+   centre de la quatrième (87,5 %). */
+.methode__piste {
+  position: relative;
+  display: block;
+  height: 1px;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  background: rgba(198, 161, 91, .22);
+}
+.methode__curseur {
+  position: absolute;
+  top: 50%;
+  left: calc(12.5% + var(--progression, 0) * 75%);
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(198, 161, 91, .14);
+}
+
+/* ---------- Contenus ---------- */
+
+.methode__contenus {
+  display: grid;
+  gap: clamp(3rem, 7vw, 5rem);
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+}
+
+.methode__contenu {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: .9rem;
+}
+
+.methode__grande {
+  width: clamp(48px, 7vw, 68px);
+  height: clamp(48px, 7vw, 68px);
+  color: var(--accent);
+}
+.methode__contenuNum {
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+  color: var(--accent);
+  opacity: .7;
+}
+.methode__contenuTitre {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.1;
+  color: var(--accent);
+  margin: 0;
+}
+.methode__contenuTexte {
+  color: var(--text);
+  opacity: .86;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  max-width: 34ch;
+  margin: 0;
+}
+
+/* ---------- Mode épinglé ---------- */
+
+.methode--epingle { height: var(--methode-course); padding-bottom: 0; }
+
+.methode--epingle .methode__scene {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  /* L'en-tête est fixe : la scène ne doit pas passer dessous. */
+  padding-block: calc(var(--header-h) + 2rem) clamp(2rem, 5vh, 4rem);
+}
+
+.methode--epingle .methode__rail { display: block; margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+/* Une seule étape à la fois : les contenus se superposent et se relaient en
+   fondu. La hauteur est réservée pour que rien ne bouge d'un contenu à l'autre. */
+.methode--epingle .methode__contenus {
+  position: relative;
+  display: block;
+  min-height: clamp(15rem, 30vh, 19rem);
+}
+/* Le sortant s'efface vite et sans délai, l'entrant attend qu'il ait disparu.
+   Sans ce décalage les deux textes se superposent à mi-fondu et se brouillent —
+   c'est le seul réglage qui rend le relais lisible. */
+.methode--epingle .methode__contenu {
+  position: absolute;
+  inset: 0;
+  align-content: center;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .28s var(--ease), transform .28s var(--ease);
+  pointer-events: none;
+}
+.methode--epingle .methode__contenu.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity .46s var(--ease) .2s, transform .46s var(--ease) .2s;
+}
+
 /* ---------- Impression ---------- */
 
 @media print {

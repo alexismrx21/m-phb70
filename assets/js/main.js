@@ -266,4 +266,73 @@
         });
     });
   }
+
+  /* ---------------------------------------------------------------------
+     Notre méthode : la progression du scroll pilote l'étape affichée.
+
+     L'état empilé est celui du HTML et du CSS ; ce script ne fait qu'ajouter
+     un mode. Si rien de tout cela ne s'exécute — pas de JS, écran étroit,
+     mouvement réduit — les quatre étapes restent lisibles les unes sous les
+     autres. C'est pour cela que `methode--epingle` est posée ici et non dans
+     le balisage.
+     --------------------------------------------------------------------- */
+  var methode = document.querySelector('[data-methode]');
+
+  if (methode) {
+    var etapes = Array.prototype.slice.call(methode.querySelectorAll('[data-etape]'));
+    var contenus = Array.prototype.slice.call(methode.querySelectorAll('[data-contenu]'));
+    var assezLarge = window.matchMedia('(min-width: 900px)');
+
+    var epingle = false;
+    var enAttente = false;
+    var actif = -1;
+
+    var poser = function () {
+      enAttente = false;
+      // Course = ce qui reste à parcourir une fois la scène collée en haut.
+      var course = methode.offsetHeight - window.innerHeight;
+      var p = course > 0 ? -methode.getBoundingClientRect().top / course : 0;
+      p = p < 0 ? 0 : (p > 1 ? 1 : p);
+      methode.style.setProperty('--progression', p.toFixed(4));
+
+      var i = Math.floor(p * contenus.length);
+      if (i > contenus.length - 1) i = contenus.length - 1;
+      if (i === actif) return;
+      actif = i;
+      etapes.forEach(function (e, n) { e.classList.toggle('is-active', n === i); });
+      contenus.forEach(function (c, n) { c.classList.toggle('is-active', n === i); });
+    };
+
+    // Le calcul lit la mise en page : on le regroupe sur l'image suivante
+    // plutôt que de le refaire à chaque événement de défilement.
+    var surScroll = function () {
+      if (enAttente) return;
+      enAttente = true;
+      window.requestAnimationFrame(poser);
+    };
+
+    var basculer = function () {
+      var veut = assezLarge.matches && !reduceMotion;
+      if (veut === epingle) return;
+      epingle = veut;
+      methode.classList.toggle('methode--epingle', epingle);
+
+      if (epingle) {
+        window.addEventListener('scroll', surScroll, { passive: true });
+        window.addEventListener('resize', surScroll);
+        poser();
+      } else {
+        window.removeEventListener('scroll', surScroll);
+        window.removeEventListener('resize', surScroll);
+        methode.style.removeProperty('--progression');
+        etapes.forEach(function (e) { e.classList.remove('is-active'); });
+        contenus.forEach(function (c) { c.classList.remove('is-active'); });
+        actif = -1;
+      }
+    };
+
+    basculer();
+    if (assezLarge.addEventListener) assezLarge.addEventListener('change', basculer);
+    else if (assezLarge.addListener) assezLarge.addListener(basculer);
+  }
 })();

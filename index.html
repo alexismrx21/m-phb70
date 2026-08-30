@@ -180,6 +180,84 @@
   </div>
 </section>
 
+<!-- Notre méthode.
+     Le balisage est le même dans les deux modes. Par défaut les quatre étapes
+     s'empilent — c'est ce que voient le mobile, le mouvement réduit et les
+     visiteurs sans JavaScript. Le script ajoute `methode--epingle` quand
+     l'effet a du sens : la scène se fige alors le temps que le scroll parcoure
+     les quatre étapes. La hauteur à parcourir est réglée par `--methode-course`
+     dans style.css. -->
+<section class="methode" data-methode>
+  <span class="methode__separateur" aria-hidden="true"></span>
+
+  <div class="methode__scene">
+    <div class="container">
+
+      <div class="methode__tete">
+        <h2 class="methode__titre">Notre méthode</h2>
+        <p class="methode__soustitre">De l'idée à la réalisation</p>
+        <span class="methode__filet" aria-hidden="true"></span>
+      </div>
+
+      <!-- Sélecteur : il redit ce que portent les contenus ci-dessous, il est
+           donc masqué aux lecteurs d'écran plutôt que lu deux fois. -->
+      <div class="methode__rail" aria-hidden="true">
+        <ol class="methode__etapes">
+          <li class="methode__etape" data-etape="0">
+            <span class="methode__num">01</span>
+            <svg class="methode__icone" viewBox="0 0 24 24"><use href="#ico-faisabilite"/></svg>
+            <span class="methode__label">Faisabilité</span>
+          </li>
+          <li class="methode__etape" data-etape="1">
+            <span class="methode__num">02</span>
+            <svg class="methode__icone" viewBox="0 0 24 24"><use href="#ico-conception"/></svg>
+            <span class="methode__label">Conception technique</span>
+          </li>
+          <li class="methode__etape" data-etape="2">
+            <span class="methode__num">03</span>
+            <svg class="methode__icone" viewBox="0 0 24 24"><use href="#ico-prototype"/></svg>
+            <span class="methode__label">Prototype</span>
+          </li>
+          <li class="methode__etape" data-etape="3">
+            <span class="methode__num">04</span>
+            <svg class="methode__icone" viewBox="0 0 24 24"><use href="#ico-production"/></svg>
+            <span class="methode__label">Production</span>
+          </li>
+        </ol>
+        <span class="methode__piste"><span class="methode__curseur"></span></span>
+      </div>
+
+      <div class="methode__contenus">
+        <article class="methode__contenu" data-contenu="0">
+          <svg class="methode__grande" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-faisabilite"/></svg>
+          <span class="methode__contenuNum" aria-hidden="true">01</span>
+          <h3 class="methode__contenuTitre">Faisabilité</h3>
+          <p class="methode__contenuTexte">On étudie votre projet et validons ensemble ce qui est réalisable</p>
+        </article>
+        <article class="methode__contenu" data-contenu="1">
+          <svg class="methode__grande" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-conception"/></svg>
+          <span class="methode__contenuNum" aria-hidden="true">02</span>
+          <h3 class="methode__contenuTitre">Conception technique</h3>
+          <p class="methode__contenuTexte">Élaboration des plans et spécifications précises</p>
+        </article>
+        <article class="methode__contenu" data-contenu="2">
+          <svg class="methode__grande" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-prototype"/></svg>
+          <span class="methode__contenuNum" aria-hidden="true">03</span>
+          <h3 class="methode__contenuTitre">Prototype</h3>
+          <p class="methode__contenuTexte">Réalisation d’une pièce test avant la production</p>
+        </article>
+        <article class="methode__contenu" data-contenu="3">
+          <svg class="methode__grande" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-production"/></svg>
+          <span class="methode__contenuNum" aria-hidden="true">04</span>
+          <h3 class="methode__contenuTitre">Production</h3>
+          <p class="methode__contenuTexte">Fabrication et livraison de votre projet</p>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="container">
     <div class="split">
@@ -194,38 +272,6 @@
       <div class="split__media reveal">
         <img src="assets/img/full/hotellerie-chambre-signature.jpg" alt="Chambre d'hôtel : panneau mural en marqueterie de loupe et suspensions en verre ambré" width="1024" height="683" loading="lazy" decoding="async">
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section--surface">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow">Notre méthode</span>
-      <h2>Quatre étapes, un seul responsable.</h2>
-      <p class="lead">Chaque étape ferme une question avant qu'elle ne devienne un surcoût.</p>
-    </div>
-    <div class="steps">
-    <div class="step reveal">
-      <span class="step__num" aria-hidden="true">01</span>
-      <h3 class="step__title">Conseil &amp; analyse de faisabilité</h3>
-      <div class="step__body"><p>On challenge le dessin tant qu'il ne coûte encore rien. Disponibilité des matériaux, contraintes d'atelier, contraintes d'usage hôtelier, budget cible : tout est passé en revue avant l'engagement. <strong>Les arbitrages faits à ce stade sont les seuls qui ne se paient pas.</strong></p></div>
-    </div>
-    <div class="step reveal">
-      <span class="step__num" aria-hidden="true">02</span>
-      <h3 class="step__title">Élaboration du descriptif technique</h3>
-      <div class="step__body"><p>Notre bureau d'étude traduit l'intention en plans d'exécution : cotes, sections, quincaillerie, finitions, nomenclature. Le dossier qui part en atelier ne laisse aucune place à l'interprétation — <strong>c'est ce qui rend un prix ferme et un délai tenable.</strong></p></div>
-    </div>
-    <div class="step reveal">
-      <span class="step__num" aria-hidden="true">03</span>
-      <h3 class="step__title">Création du prototype</h3>
-      <div class="step__body"><p>Rien ne part en série sans validation physique. Le prototype fige les matières, les teintes, les assemblages et le confort réel. <strong>C'est le dernier moment pour changer d'avis sans conséquence sur le planning.</strong></p></div>
-    </div>
-    <div class="step reveal">
-      <span class="step__num" aria-hidden="true">04</span>
-      <h3 class="step__title">Mise en production</h3>
-      <div class="step__body"><p>Fabrication en circuit court, suivi sur site par nos équipes bilingues, contrôle qualité avant expédition, formalités douanières et logistique jusqu'à la chambre. <strong>Vous suivez un projet, pas une chaîne de sous-traitants.</strong></p></div>
-    </div>
     </div>
   </div>
 </section>
@@ -391,6 +437,35 @@
     </div>
   </div>
 </footer>
+
+<!-- Icônes au trait de la section « Notre méthode ». Définies une fois, posées
+     deux fois chacune (sélecteur et contenu) via <use>. -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <g id="ico-faisabilite" fill="none" stroke="currentColor" stroke-width="1.25"
+       stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="10.4" cy="10.4" r="6.7"/>
+      <path d="M15.5 15.5 20.9 20.9"/>
+    </g>
+    <g id="ico-conception" fill="none" stroke="currentColor" stroke-width="1.25"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4.2 3.4V20.4H21.2Z"/>
+      <path d="M7.6 8.6v8.4h8.4"/>
+    </g>
+    <g id="ico-prototype" fill="none" stroke="currentColor" stroke-width="1.25"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2.7 20.7 7.6 12 12.5 3.3 7.6Z"/>
+      <path d="M3.3 7.6v8.9L12 21.4v-8.9"/>
+      <path d="M20.7 7.6v8.9L12 21.4"/>
+    </g>
+    <g id="ico-production" fill="none" stroke="currentColor" stroke-width="1.25"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.2 6.3h17.6v13.5H3.2Z"/>
+      <path d="M3.2 10.5h17.6"/>
+      <path d="M8.7 10.5v9.3M15.3 10.5v9.3"/>
+    </g>
+  </defs>
+</svg>
 
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/intro.js" defer></script>
