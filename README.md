@@ -63,9 +63,16 @@ sips -Z 1200 -s format jpeg -s formatOptions 72 source.jpg --out assets/img/full
 
 Au chargement de `index.html`, une surcouche occupe toute la fenêtre : une planche
 de noyer apparaît, un courant cuivré parcourt les tracés du monogramme et le
-dessine, le « 70 » vient le signer, le rendu final se pose, puis le voile s'ouvre
-sur le site avec un léger zoom du bois et une montée du contenu.
-Durée totale ≈ 5,5 s.
+dessine, le « 70 » vient le signer, le rendu final se pose — puis le bois se
+dissout pendant que le monogramme glisse et rétrécit jusqu'à sa case dans le
+header, en haut à gauche. Durée totale ≈ 5,9 s.
+
+**Le monogramme est le logo du site.** `assets/img/logo.png` (300 × 253, 38 Ko)
+est le même dessin que celui de l'introduction, réduit : c'est lui qu'on retrouve
+dans l'en-tête et le pied de page des six pages. C'est aussi ce qui rend
+l'atterrissage invisible — ce qui vole et ce qui se pose sont la même image.
+Le header est passé de 76 à 92 px de haut (64 → 76 px sous 900 px) pour laisser
+respirer un logo presque carré là où l'ancien tracé était très horizontal.
 
 **Fichiers concernés**
 
@@ -73,6 +80,7 @@ Durée totale ≈ 5,5 s.
 assets/img/intro/fond.jpg         la planche seule (265 Ko)
 assets/img/intro/logo.png         le logo détouré, fond transparent (235 Ko)
 assets/img/intro/monogramme.svg   13 tracés « segment-01 … segment-13 » (4,5 Ko)
+assets/img/logo.png               le même logo réduit, pour le header et le pied
 assets/js/intro.js                le graphe, la chronologie et l'animation
 ```
 
@@ -123,7 +131,8 @@ ni de position.
 
 | Constante | Rôle |
 |---|---|
-| `T_FOND`, `T_PROPAG`, `T_FINAL`, `T_TRACES`, `T_PAUSE`, `T_SORTIE` | durée de chaque étape, en millisecondes |
+| `T_FOND`, `T_PROPAG`, `T_FINAL`, `T_TRACES`, `T_PAUSE` | durée de chaque étape, en millisecondes |
+| `T_VOL`, `T_SORTIE` | durée du vol vers le header, et du fondu de repli |
 | `RETARDS` | décalage d'allumage de chaque groupe |
 | `LARGEUR_MASQUE` | épaisseur du masque (34 ; le trait du logo mesure 22) |
 | `LONGUEUR_FRONT` | longueur de la zone lumineuse en tête de propagation |
@@ -131,10 +140,26 @@ ni de position.
 Les couleurs de la lueur, du front et de la nappe chaude sont dans
 `assets/css/style.css`, section « Introduction plein écran ».
 
+**Le vol jusqu'au header.** Une fois le logo posé, la surcouche ne s'efface pas :
+elle emmène le monogramme à sa place définitive. Le script mesure deux
+rectangles — celui de la scène plein écran et celui de `.brand img` — et en
+déduit le `translate` + `scale` à appliquer (technique FLIP). Rien n'est supposé
+de la mise en page : le vol atterrit au pixel près à toute taille d'écran
+(contrôle effectué : écart maximal 0,06 px). Pendant ce temps le bois se fond, le
+site monte en dessous, et le logo du header reste masqué par la classe
+`intro-vol` jusqu'à l'atterrissage — sinon on en verrait deux.
+
+C'est la raison pour laquelle le header ne se décale plus pendant l'introduction
+et ne fait que s'effacer : sa case logo doit rester mesurable au pixel près à
+tout instant. Ne pas y remettre de `transform`.
+
 **Comportements de repli**
 
-- `prefers-reduced-motion: reduce` → pas de courant, pas de zoom : le logo final
+- `prefers-reduced-motion: reduce` → pas de courant, pas de vol : le logo final
   est posé d'emblée, un fondu de 0,25 s, et la main est rendue au bout de 0,7 s.
+- Header introuvable (page sans `.brand img`) → le voile s'efface sur place, sans
+  vol. Idem si l'on saute l'introduction : le monogramme est complété d'un coup
+  puis s'efface, plutôt que de partir en vol à moitié dessiné.
 - JavaScript absent → le conteneur reste vide, `.intro:empty` le neutralise.
 - Onglet mis en arrière-plan pendant l'introduction → elle se termine aussitôt,
   pour éviter de retrouver un voile figé (`requestAnimationFrame` y est suspendu,
@@ -191,8 +216,9 @@ important, ces URL sont indexées par Google.
   d'origine, et `prefers-reduced-motion` désactive toutes les animations.
 - **Sans JavaScript**, le site reste entièrement lisible et navigable : le menu mobile
   redevient une liste statique et les blocs animés s'affichent normalement.
-- **Poids** : première visite de l'accueil ≈ 1,16 Mo, dont 500 Ko pour les visuels de
-  l'introduction et 534 Ko pour la photo du hero. Les images de galerie et les visuels
+- **Poids** : première visite de l'accueil ≈ 1,19 Mo, dont 500 Ko pour les visuels de
+  l'introduction et 534 Ko pour la photo du hero. Les autres pages ne portent que le
+  logo réduit (38 Ko). Les images de galerie et les visuels
   plus bas dans la page sont chargés à la demande. Les trois fichiers de l'introduction
   sont préchargés dès l'en-tête, et le site se charge derrière le voile : la transition
   finale n'attend donc aucun octet.

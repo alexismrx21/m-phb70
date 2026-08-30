@@ -58,7 +58,7 @@
   --maxw:    1280px;
   --maxw-text: 68ch;
   --section: clamp(5rem, 11vw, 9rem);
-  --header-h: 76px;
+  --header-h: 92px;
 
   /* Mouvement */
   --ease: cubic-bezier(.16, 1, .3, 1);
@@ -261,7 +261,11 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 .brand { display: block; line-height: 0; }
-.brand img { width: 108px; height: auto; }
+
+/* Le monogramme est presque carré (300 × 253) là où l'ancien tracé était très
+   horizontal : on le cale sur sa hauteur, la largeur suit. Il porte 8 % de marge
+   transparente sur chaque bord — l'encre visible fait donc 83 % de la boîte. */
+.brand img { height: 68px; width: auto; max-width: none; }
 
 .nav__list { display: flex; align-items: center; gap: clamp(1.5rem, 2.6vw, 2.75rem); }
 
@@ -711,7 +715,7 @@ address { font-style: normal; }
   padding-bottom: clamp(3rem, 5vw, 4rem);
   border-bottom: 1px solid var(--line);
 }
-.footer__brand img { width: 120px; margin-bottom: 1.5rem; }
+.footer__brand img { height: 92px; width: auto; margin-bottom: 1.5rem; }
 .footer__brand p { color: var(--text-muted); font-size: .95rem; max-width: 34ch; }
 .footer__nav { margin-top: 2.25rem; }
 .footer__nav li { margin-bottom: .65rem; }
@@ -774,7 +778,10 @@ address { font-style: normal; }
 /* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
-  :root { --header-h: 64px; }
+  :root { --header-h: 76px; }
+
+  .brand img { height: 56px; }
+  .footer__brand img { height: 78px; }
 
   .burger { display: block; }
 
@@ -982,8 +989,35 @@ address { font-style: normal; }
 .intro__front .f2 { stroke: rgba(250, 206, 140, .26); }
 .intro__front .f3 { stroke: rgba(255, 244, 226, .72); }
 
-/* ---------- Sortie : le voile s'ouvre, le site monte ---------- */
+/* ---------- Sortie : le monogramme rejoint sa place dans le header ----------
 
+   Le bois s'efface pendant que la scène glisse et rétrécit jusqu'à la case du
+   logo, en haut à gauche. Le déplacement et l'échelle sont calculés à
+   l'exécution par intro.js à partir des deux rectangles mesurés (technique
+   FLIP) : ils ne peuvent donc pas se désynchroniser de la mise en page réelle,
+   quelle que soit la taille de l'écran.                                     */
+
+.intro--vol {
+  background: transparent;
+  pointer-events: none;   /* le site reprend la main dès le début du vol */
+}
+.intro--vol .intro__fond {
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity .7s var(--ease), transform 1.15s var(--ease);
+}
+.intro--vol .intro__halo {
+  opacity: 0;
+  transition: opacity .5s linear;
+}
+.intro--vol .intro__stage { transition: transform 1.15s var(--ease); }
+
+/* Tant que le monogramme est en vol, celui du header reste invisible : sinon on
+   en verrait deux. Il reprend la main à l'atterrissage, au même pixel près. */
+.intro-vol .brand img { opacity: 0; }
+
+/* Repli sans vol — mouvement réduit, ou header introuvable : le voile
+   s'efface simplement, comme avant. */
 .intro--sortie {
   opacity: 0;
   pointer-events: none;
@@ -1002,7 +1036,11 @@ address { font-style: normal; }
 .intro-en-cours { overflow: hidden; scrollbar-gutter: stable; }
 .intro-en-cours body { overflow: hidden; }
 
-.intro-en-cours .header,
+/* Le header ne se décale pas pendant l'introduction : sa case logo doit rester
+   mesurable au pixel près à tout instant, c'est la cible du vol. Il ne fait
+   donc que s'effacer. */
+.intro-en-cours .header { opacity: 0; }
+
 .intro-en-cours .hero__inner {
   opacity: 0;
   transform: translateY(16px);
@@ -1028,4 +1066,5 @@ address { font-style: normal; }
 
   .intro-en-cours .header,
   .intro-en-cours .hero__inner { opacity: 1; transform: none; }
+  .intro-vol .brand img { opacity: 1; }
 }

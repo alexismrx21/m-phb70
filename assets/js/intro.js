@@ -50,7 +50,8 @@
   var T_FINAL   = 900;   // fondu du rendu final, une fois le courant au bout
   var T_TRACES  = 600;   // extinction des tracés, sous le rendu final
   var T_PAUSE   = 600;   // temps de pose sur le logo terminé
-  var T_SORTIE  = 850;   // ouverture du voile sur le site
+  var T_SORTIE  = 850;   // repli : ouverture du voile sur place
+  var T_VOL     = 1150;  // le monogramme rejoint sa case dans le header
 
   // Décalage d'allumage des groupes non connectés, dans l'ordre du SVG. Le
   // monogramme en compte quatre : le P, le HB, le 7, puis le 0 — le 7 et le 0
@@ -90,17 +91,61 @@
     minuteries.length = 0;
   }
 
-  // `fondu` à false : on rend la main immédiatement, sans transition.
-  function terminer(fondu) {
+  // Rectangle de la case logo du header. Le header ne se décale pas pendant
+  // l'introduction — il ne fait que s'effacer — donc sa géométrie est déjà la
+  // bonne et se mesure à tout instant, sans avoir à neutraliser un transform.
+  function caseDuLogo() {
+    var img = document.querySelector('.brand img');
+    if (!img) return null;
+    var r = img.getBoundingClientRect();
+    return (r.width > 1 && r.height > 1) ? r : null;
+  }
+
+  function retirer() {
+    hote.remove();
+    racine.classList.remove('intro-vol');   // le logo du header reprend la main
+    rendreLeFocus();
+  }
+
+  // mode : 'vol' — le monogramme glisse et rétrécit jusqu'au header ;
+  //        'fondu' — le voile s'efface sur place (repli) ;
+  //        'immediat' — on rend la main sans aucune transition.
+  function terminer(mode) {
     if (termine) return;
     termine = true;
     detacher();
+
+    // Retiré avant toute mesure : la page retrouve sa largeur définitive, donc
+    // la case du logo est mesurée là où elle sera vraiment.
     racine.classList.remove('intro-en-cours');
 
-    if (fondu === false) { hote.remove(); rendreLeFocus(); return; }
+    if (mode === 'immediat') { retirer(); return; }
 
-    hote.classList.add('intro--sortie');
-    window.setTimeout(function () { hote.remove(); rendreLeFocus(); }, T_SORTIE + 80);
+    var scene = hote.querySelector('.intro__stage');
+    var cible = mode === 'vol' && !reduit.matches ? caseDuLogo() : null;
+    var depart = scene && cible ? scene.getBoundingClientRect() : null;
+
+    if (!depart || !(depart.width > 1)) {
+      // Pas de case à rejoindre : le voile s'efface simplement.
+      hote.classList.add('intro--sortie');
+      window.setTimeout(retirer, T_SORTIE + 80);
+      return;
+    }
+
+    // FLIP : du rectangle plein écran vers celui du header. Les deux sont
+    // mesurés, rien n'est supposé de la mise en page.
+    var k  = cible.width / depart.width;
+    var dx = (cible.left + cible.width  / 2) - (depart.left + depart.width  / 2);
+    var dy = (cible.top  + cible.height / 2) - (depart.top  + depart.height / 2);
+
+    racine.classList.add('intro-vol');   // masque le logo du header le temps du vol
+    hote.classList.add('intro--vol');
+    // Forcer un reflow pour que la transition parte bien de l'état actuel.
+    void scene.offsetWidth;
+    scene.style.transform = 'translate(' + dx.toFixed(2) + 'px, ' + dy.toFixed(2) +
+                            'px) scale(' + k.toFixed(5) + ')';
+
+    window.setTimeout(retirer, T_VOL + 60);
   }
 
   // Le contenu reprend la main : le clavier doit repartir du contenu principal
@@ -112,7 +157,14 @@
     catch (e) { principal.focus(); }
   }
 
-  function passer() { terminer(true); }
+  function passer() {
+    // Sauter ne doit pas laisser voir un monogramme à moitié dessiné : on le
+    // complète d'un coup, puis le voile s'efface sur place.
+    hote.style.setProperty('--fond', '1');
+    hote.style.setProperty('--final', '1');
+    hote.style.setProperty('--lueur', '0');
+    terminer('fondu');
+  }
 
   function surTouche(e) {
     // Les touches mortes ne comptent pas : un simple appui sur Majuscule ne
@@ -128,7 +180,7 @@
 
   // requestAnimationFrame est suspendu dans un onglet caché : sans cela, un
   // visiteur qui change d'onglet retrouverait le voile figé à son retour.
-  function surVisibilite() { if (document.hidden) terminer(false); }
+  function surVisibilite() { if (document.hidden) terminer('immediat'); }
 
   /* ---------------------------------------------------------------------
      Fabrique de nœuds.
@@ -199,13 +251,13 @@
     document.addEventListener('keydown', surTouche);
 
     hote.classList.add('intro--prete', 'intro--immediat');
-    differer(function () { terminer(true); }, 700);
+    differer(function () { terminer('fondu'); }, 700);
     return;
   }
 
   // Onglet ouvert en arrière-plan (nouvel onglet, préchargement) : inutile de
   // monter la scène pour la figer, la page s'affiche telle quelle.
-  if (document.hidden) { terminer(false); return; }
+  if (document.hidden) { terminer('immediat'); return; }
 
   /* ---------------------------------------------------------------------
      Chargement des tracés puis des images.
@@ -225,7 +277,7 @@
       return precharger([FOND, LOGO]).then(function () { return modeles; });
     })
     .then(demarrer)
-    .catch(function () { terminer(false); });  // en cas d'échec, pas d'intro
+    .catch(function () { terminer('immediat'); });  // en cas d'échec, pas d'intro
 
   /* ---------------------------------------------------------------------
      Graphe : nœuds, arêtes, groupes connectés, distances.
@@ -358,10 +410,10 @@
     // Les chemins doivent être dans le document pour être mesurables.
 
     var graphe = construireGraphe(chemins);
-    if (!graphe.aretes.length) { terminer(false); return; }
+    if (!graphe.aretes.length) { terminer('immediat'); return; }
 
     var lots = groupes(graphe);
-    if (!lots.length) { terminer(false); return; }
+    if (!lots.length) { terminer('immediat'); return; }
 
     /* Un Dijkstra par groupe, puis point de rencontre des fronts dans chaque
        segment. Les boucles (la panse du P, les deux panses du B, le 0) sont
@@ -418,7 +470,7 @@
       var dispo = Math.max(200, T_PROPAG - lot.retard) / 1000;
       vitesse = Math.max(vitesse, lot.portee / dispo);
     });
-    if (!(vitesse > 0)) { terminer(false); return; }
+    if (!(vitesse > 0)) { terminer('immediat'); return; }
 
     // Instant où le dernier front atteint le bout de sa course. Le rendu final
     // ne commence pas à se poser avant : sans cela, le voile du masque
@@ -474,7 +526,7 @@
 
     // Filet de sécurité indépendant de la boucle : setTimeout continue de
     // s'exécuter là où requestAnimationFrame s'arrête.
-    differer(function () { terminer(true); },
+    differer(function () { terminer('fondu'); },
              finPropagation + T_FINAL + T_PAUSE + 1500);
 
     /* ------------------------------------------------------------------- */
@@ -529,7 +581,7 @@
 
       // 4. temps de pose, puis le voile s'ouvre sur le site
       if (fini && f >= 1 && tr >= 1) {
-        differer(function () { terminer(true); }, T_PAUSE);
+        differer(function () { terminer('vol'); }, T_PAUSE);
         boucle = null;
         return;
       }
