@@ -663,6 +663,13 @@ ul { margin: 0; padding: 0; list-style: none; }
 .split__media img { width: 100%; }
 .split__body p { color: var(--text-muted); }
 
+/* ---------- L'agence (accueil) ---------- */
+/* La section « Notre méthode » qui précède perd sa marge basse en mode épinglé :
+   c'est donc ce padding seul qui tient l'espace au-dessus du filet. */
+
+.agence { padding-top: clamp(3.5rem, 7vw, 5.5rem); }
+.agence .separateur { margin-bottom: clamp(3.5rem, 7vw, 5.5rem); }
+
 /* ---------- Réseau international ---------- */
 
 .offices {
