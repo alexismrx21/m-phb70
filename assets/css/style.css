@@ -692,6 +692,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   color: var(--accent);
   margin-bottom: 1.5rem;
 }
+/* Sans le rôle doré (accueil), la ville se retrouve collée à l'adresse : le
+   sélecteur adjacent ne s'applique que dans ce cas et rend l'écart perdu. La
+   marge du titre étant adjacente, les deux fusionnent — c'est bien 1.75rem qui
+   sépare au final, pas leur somme. */
+.office__city + address { margin-top: 1.75rem; }
+
 .office address {
   font-style: normal;
   color: var(--text-muted);
