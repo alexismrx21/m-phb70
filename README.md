@@ -84,7 +84,8 @@ respirer un logo presque carré là où l'ancien tracé était très horizontal.
 **Fichiers concernés**
 
 ```
-assets/img/intro/fond.jpg         la planche seule (350 Ko)
+assets/img/texture/beton.jpg      le mur de béton, partagé avec les sections
+                                  texturées de l'accueil (188 Ko)
 assets/img/intro/logo.png         le logo détouré, fond transparent (188 Ko)
 assets/img/intro/monogramme.svg   13 tracés « segment-01 … segment-13 » (4,5 Ko)
 assets/img/logo.png               le même logo réduit (300 × 253, 30 Ko)

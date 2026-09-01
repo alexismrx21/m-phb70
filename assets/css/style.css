@@ -244,7 +244,7 @@ ul {
   z-index: -1;
   background:
     linear-gradient(rgba(11, 11, 13, 0.55), rgba(11, 11, 13, 0.55)),
-    url(../img/texture/agence.jpg) center / cover no-repeat;
+    url(../img/texture/beton.jpg) center / cover no-repeat;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
@@ -2192,8 +2192,10 @@ address {
 }
 
 /* =========================================================================
-   Introduction plein écran — la planche de bois, le courant cuivré qui
-   dessine le monogramme, puis l'ouverture sur le site.
+   Introduction plein écran — le mur de béton, le courant cuivré qui dessine le
+   monogramme, puis l'ouverture sur le site. Le fond est le même fichier que
+   celui des sections texturées : chargé en priorité pour l'intro, il est déjà
+   en cache quand on arrive sur « Nos secteurs d'expertise ».
 
    Le balisage est injecté par assets/js/intro.js : tant que le conteneur est
    vide (JavaScript absent ou en échec), `:empty` le neutralise et la page
@@ -2201,9 +2203,9 @@ address {
    ========================================================================= */
 
 .intro {
-  --fond: 0; /* apparition de la planche */
+  --fond: 0; /* apparition du mur */
   --lueur: 1; /* intensité de la lueur laissée par le courant */
-  --halo: 0; /* nappe de lumière chaude posée sur le bois */
+  --halo: 0; /* nappe de lumière chaude posée sur le mur */
   --final: 0; /* rendu final : lueur et ombres du logo */
 
   position: fixed;
@@ -2213,7 +2215,7 @@ address {
   height: 100dvh; /* suit la barre d'adresse des mobiles */
   /* Filet : jamais plus étroit ni plus court que la fenêtre elle-même. `vw` et
      `dvh` ne valent pas toujours la fenêtre — barre de défilement classique
-     comptée en trop sous Windows, fenêtre plus grande que l'écran — et le bois
+     comptée en trop sous Windows, fenêtre plus grande que l'écran — et le mur
      laisserait alors une bande vide sur un bord. `overflow: hidden` absorbe le
      débord inverse. */
   min-width: 100%;
@@ -2229,8 +2231,8 @@ address {
   overscroll-behavior: contain;
   touch-action: none;
 
-  /* Brun très sombre : la planche émerge de la nuit, sans flash gris. */
-  background: #150d06;
+  /* Le noir du site : le mur en émerge, sans flash d'une autre teinte. */
+  background: var(--bg);
   cursor: pointer;
 }
 
@@ -2240,7 +2242,7 @@ address {
 
 /* ---------- Les trois calques ---------- */
 
-/* La planche couvre toute la fenêtre, quel que soit le rapport d'écran. */
+/* Le mur couvre toute la fenêtre, quel que soit le rapport d'écran. */
 .intro__fond {
   position: absolute;
   inset: 0;
@@ -2295,7 +2297,7 @@ address {
 
 /* ---------- Lumière ---------- */
 
-/* Nappe chaude posée sur le bois, comme sur le rendu de référence. */
+/* Nappe chaude posée sur le mur, comme sur le rendu de référence. */
 .intro__halo {
   position: absolute;
   inset: -32%;
@@ -2328,7 +2330,7 @@ address {
 
 /* ---------- Sortie : le monogramme rejoint sa place dans le header ----------
 
-   Le bois s'efface pendant que la scène glisse et rétrécit jusqu'à la case du
+   Le mur s'efface pendant que la scène glisse et rétrécit jusqu'à la case du
    logo, en haut à gauche. Le déplacement et l'échelle sont calculés à
    l'exécution par intro.js à partir des deux rectangles mesurés (technique
    FLIP) : ils ne peuvent donc pas se désynchroniser de la mise en page réelle,

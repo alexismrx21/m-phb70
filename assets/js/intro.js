@@ -1,7 +1,7 @@
 /* PHB70 — Introduction plein écran.
  *
- * Une surcouche occupe toute la fenêtre au chargement : la planche de bois
- * apparaît seule, puis un courant cuivré parcourt les tracés du monogramme et
+ * Une surcouche occupe toute la fenêtre au chargement : le mur de béton
+ * apparaît seul, puis un courant cuivré parcourt les tracés du monogramme et
  * le révèle, et enfin le rendu final se pose avant que le voile s'efface.
  *
  * Trois principes de construction :
@@ -31,7 +31,9 @@
   var SVG_NS = 'http://www.w3.org/2000/svg';
 
   var TRACES = 'assets/img/intro/monogramme.svg';
-  var FOND   = 'assets/img/intro/fond.jpg';
+  /* Même fichier que le fond des sections texturées : une seule image à charger
+     pour les deux usages, et le préchargement de l'intro sert aussi la page. */
+  var FOND   = 'assets/img/texture/beton.jpg';
   var LOGO   = 'assets/img/intro/logo.png';
 
   // Cadrage commun aux tracés et au logo (voir monogramme.svg).
@@ -44,7 +46,7 @@
   // étapes qui suivent la propagation sont calées à l'exécution sur sa fin
   // réelle (voir `finPropagation`). Retoucher RETARDS décale donc toute la
   // suite de la chronologie sans qu'aucune autre valeur soit à corriger.
-  var T_FOND    = 400;   // le bois seul, avant la première étincelle
+  var T_FOND    = 400;   // le mur seul, avant la première étincelle
   var T_PROPAG  = 2800;  // fenêtre laissée à chaque groupe pour se parcourir
   var T_FINAL   = 300;   // fondu du rendu final, une fois le tracé au bout
   var T_TRACES  = 300;   // extinction de la lueur, sous le rendu final
@@ -201,7 +203,7 @@
   // Le fond couvre toute la fenêtre ; les dimensions intrinsèques évitent
   // toute réservation de place erronée pendant le chargement.
   function imageFond() {
-    var img = new Image(1672, 941);
+    var img = new Image(1920, 1280);
     img.className = 'intro__fond';
     img.src = FOND;
     img.alt = '';
@@ -533,7 +535,7 @@
       if (t0 === null) t0 = t;
       var e = t - t0;
 
-      // 1. le bois apparaît seul
+      // 1. le mur apparaît seul
       hote.style.setProperty('--fond', Math.min(1, e / T_FOND).toFixed(3));
 
       // 2. le courant parcourt le réseau
