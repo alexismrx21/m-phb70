@@ -2205,7 +2205,6 @@ address {
 .intro {
   --fond: 0; /* apparition du mur */
   --lueur: 1; /* intensité de la lueur laissée par le courant */
-  --halo: 0; /* nappe de lumière chaude posée sur le mur */
   --final: 0; /* rendu final : lueur et ombres du logo */
 
   position: fixed;
@@ -2297,21 +2296,6 @@ address {
 
 /* ---------- Lumière ---------- */
 
-/* Nappe chaude posée sur le mur, comme sur le rendu de référence. */
-.intro__halo {
-  position: absolute;
-  inset: -32%;
-  background: radial-gradient(
-    closest-side ellipse,
-    rgba(232, 178, 86, 0.2),
-    rgba(198, 140, 58, 0.075) 46%,
-    transparent 70%
-  );
-  opacity: calc(var(--fond) * var(--halo));
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
 /* Lueur chaude posée sur la portion déjà découverte — deux traits translucides
    empilés plutôt qu'un filtre de flou, pour rester fluide sur mobile. Elle
    accompagne le laiton, elle ne le précède pas : rien ne court devant. */
@@ -2346,10 +2330,6 @@ address {
   transition:
     opacity 0.7s var(--ease),
     transform 1.15s var(--ease);
-}
-.intro--vol .intro__halo {
-  opacity: 0;
-  transition: opacity 0.5s linear;
 }
 .intro--vol .intro__stage {
   transition: transform 1.15s var(--ease);

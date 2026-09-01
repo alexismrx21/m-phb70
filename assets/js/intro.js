@@ -47,7 +47,7 @@
   // réelle (voir `finPropagation`). Retoucher RETARDS décale donc toute la
   // suite de la chronologie sans qu'aucune autre valeur soit à corriger.
   var T_FOND    = 400;   // le mur seul, avant la première étincelle
-  var T_PROPAG  = 2800;  // fenêtre laissée à chaque groupe pour se parcourir
+  var T_PROPAG  = 1950;  // fenêtre laissée à chaque groupe pour se parcourir
   var T_FINAL   = 300;   // fondu du rendu final, une fois le tracé au bout
   var T_TRACES  = 300;   // extinction de la lueur, sous le rendu final
   var T_PAUSE   = 200;   // temps de pose sur le logo terminé
@@ -60,7 +60,12 @@
   // Le « 70 » part volontairement bien après le monogramme : il s'allume au
   // moment où le B s'achève, et signe la composition plutôt que d'apparaître
   // en même temps qu'elle.
-  var RETARDS = [0, 130, 2300, 2330];
+  //
+  // Ces retards et T_PROPAG vont ensemble : la vitesse du courant se déduit de
+  // la fenêtre qui reste à chaque groupe (T_PROPAG moins son retard). Les
+  // réduire du même facteur accélère tout le tracé sans rien changer à son
+  // rythme interne — ce qu'on a fait ici en passant de 2800 ms à 1950.
+  var RETARDS = [0, 90, 1600, 1630];
   var RETARD_SUP = 120;  // pour un groupe ajouté plus tard au tracé
 
   var racine = document.documentElement;
@@ -217,9 +222,6 @@
     var d = document.createElement('div');
     d.className = 'intro__stage';
     d.setAttribute('aria-hidden', 'true');
-    var halo = document.createElement('span');
-    halo.className = 'intro__halo';
-    d.appendChild(halo);
     return d;
   }
 
@@ -552,7 +554,6 @@
       var tr = borne((e - debutTraces) / T_TRACES);
       hote.style.setProperty('--final', f.toFixed(3));
       hote.style.setProperty('--lueur', (1 - tr).toFixed(3));
-      hote.style.setProperty('--halo', (Math.max(borne(e / finPropagation) * .7, f)).toFixed(3));
 
       // 4. temps de pose, puis le voile s'ouvre sur le site
       if (fini && f >= 1 && tr >= 1) {
