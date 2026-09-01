@@ -238,8 +238,7 @@ ul {
 .fond-mur::before {
   content: "";
   position: absolute;
-  inset:
-    calc(var(--mur-debut) - var(--mur-fondu) / 2 + var(--mur-decalage)) 0
+  inset: calc(var(--mur-debut) - var(--mur-fondu) / 2 + var(--mur-decalage)) 0
     calc(var(--mur-fin) - var(--mur-fondu) / 2 - var(--mur-decalage)) 0;
   z-index: -1;
   background:
@@ -830,7 +829,7 @@ ul {
       rgba(11, 11, 13, 0.14) 62%,
       /* Le haut reste voilé : l'en-tête n'a pas de fond tant qu'on n'a pas
          défilé, sa navigation se lit sur cette bande. */
-        rgba(11, 11, 13, 0.48) 100%
+      rgba(11, 11, 13, 0.48) 100%
     );
 }
 .hero__inner {
@@ -1578,7 +1577,7 @@ address {
 }
 /* Les liens de navigation et les coordonnées se lisent pareil : même taille,
    même gris, même passage au blanc au survol. */
-.footer__cols address a,
+.footer__cols address,
 .footer__cols a {
   color: var(--text-muted);
   text-decoration: none;
