@@ -27,13 +27,48 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="preload" as="image" href="assets/img/texture/beton.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="assets/img/hero/hero-1.jpg">
-  <link rel="preload" as="image" href="assets/img/intro/logo.png">
   <script>document.documentElement.classList.remove('no-js');
+    // Rechargement : on repart du haut. Le navigateur restaure sinon la position
+    // précédente, ce qui n'a pas de sens ici — l'intro se jouerait par-dessus
+    // une page déjà défilée. Un retour arrière garde en revanche sa
+    // restauration : c'est le seul cas où retrouver sa place sert.
+    (function () {
+      try {
+        if (!('scrollRestoration' in history)) return;
+        var nav = performance.getEntriesByType('navigation')[0];
+        if (nav && nav.type === 'back_forward') {
+          // Le réglage vit sur l'entrée d'historique : sans ce retour explicite
+          // à `auto`, le « manual » posé au chargement précédent priverait le
+          // retour arrière de sa restauration.
+          history.scrollRestoration = 'auto';
+          return;
+        }
+        history.scrollRestoration = 'manual';
+        window.scrollTo(0, 0);
+      } catch (e) { }
+    })();
     (function () {
       try {
         var r = document.documentElement;
+        // Intro déjà vue dans cette session : ni voile, ni préchargement de son
+        // logo. Cette clé est la même que dans assets/js/intro.js — les deux
+        // doivent rester d'accord.
+        var vue = false;
+        try { vue = window.sessionStorage.getItem('phb70:intro-vue') === '1'; } catch (e) { }
+        if (vue) return;
+
         var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         r.classList.add('intro-en-cours');
+
+        // Le logo de l'intro pèse 188 Ko et ne sert qu'à elle : on ne le
+        // demande que lorsqu'elle va jouer, d'où ce préchargement posé ici
+        // plutôt qu'en dur dans le <head>.
+        var l = document.createElement('link');
+        l.rel = 'preload';
+        l.as = 'image';
+        l.href = 'assets/img/intro/logo.png';
+        document.head.appendChild(l);
+
         // Filet de sécurité : si l'animation ne démarre jamais (script absent,
         // fichier introuvable), le contenu réapparaît quand même.
         setTimeout(function () { r.classList.remove('intro-en-cours'); }, reduit ? 1500 : 6000);
@@ -416,17 +451,18 @@
       <div class="footer__top">
         <div class="footer__brand">
           <img src="assets/img/logo.png" alt="PHB70" width="300" height="253" loading="lazy">
-          <p>Mobilier sur-mesure pour l'hôtellerie et la restauration. Du dessin d'architecte à la pièce livrée.</p>
-          <nav class="footer__nav" aria-label="Navigation de pied de page">
-            <ul>
-              <li><a href="index.html">Accueil</a></li>
-              <li><a href="savoir-faire.html">Savoir-faire</a></li>
-              <li><a href="realisations.html">Réalisations</a></li>
-              <li><a href="sur-mesure.html">Sur-mesure</a></li>
-              <li><a href="contact.html">Contact</a></li>
-            </ul>
-          </nav>
         </div>
+
+        <nav class="footer__nav" aria-label="Navigation de pied de page">
+          <p class="footer__title">Navigation</p>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="savoir-faire.html">Savoir-faire</a></li>
+            <li><a href="realisations.html">Réalisations</a></li>
+            <li><a href="sur-mesure.html">Sur-mesure</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
         <div class="footer__cols">
           <div>
             <p class="footer__title">Paris</p>

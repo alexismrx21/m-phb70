@@ -1523,25 +1523,25 @@ address {
 .accueil .footer {
   background: var(--bg);
 }
+/* Trois zones sur une seule ligne : le logo, les pages, les quatre bureaux. La
+   colonne du logo se dimensionne sur son contenu, celle des bureaux prend ce
+   qui reste — c'est elle qui porte le plus de texte. */
 .footer__top {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2.6fr);
-  gap: clamp(2.5rem, 6vw, 5rem);
+  /* La colonne des pages est volontairement étroite — le plus long libellé fait
+     une centaine de pixels — pour que les quatre bureaux tiennent sur une seule
+     ligne plutôt que de déborder sur une seconde. */
+  grid-template-columns: auto minmax(0, 0.5fr) minmax(0, 2.6fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
   padding-bottom: clamp(3rem, 5vw, 4rem);
   border-bottom: 1px solid var(--line);
 }
 .footer__brand img {
   height: 92px;
   width: auto;
-  margin-bottom: 1.5rem;
-}
-.footer__brand p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  max-width: 34ch;
-}
-.footer__nav {
-  margin-top: 2.25rem;
+  /* Le logo est un dessin cadré large : ce léger décalage aligne son tracé sur
+     la ligne des intitulés dorés des colonnes voisines. */
+  margin-top: -0.5rem;
 }
 .footer__nav li {
   margin-bottom: 0.65rem;
@@ -1559,7 +1559,10 @@ address {
 .footer__cols {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
-  gap: clamp(1.5rem, 2.5vw, 2.5rem);
+  /* Resserré : 148 px par colonne est le minimum pour que « L-2314 Luxembourg »
+     tienne sur une ligne, c'est donc sur l'écart qu'on gagne la place des
+     quatre colonnes. */
+  gap: clamp(1rem, 1.8vw, 1.75rem);
 }
 .footer__title {
   font-family: var(--font-sans);
@@ -1573,6 +1576,8 @@ address {
 .footer__cols li {
   margin-bottom: 0.65rem;
 }
+/* Les liens de navigation et les coordonnées se lisent pareil : même taille,
+   même gris, même passage au blanc au survol. */
 .footer__cols address a,
 .footer__cols a {
   color: var(--text-muted);
@@ -1582,6 +1587,19 @@ address {
 }
 .footer__cols a:hover {
   color: var(--text);
+}
+
+/* En dessous de 1080 px, les quatre bureaux ne tiennent plus sur une ligne à
+   côté du logo et des pages : ils passent alors sous eux, pleine largeur, et
+   retrouvent leurs quatre colonnes. Le logo et les pages, eux, restent côte à
+   côte — en colonne unique, le pied de page devenait interminable. */
+@media (max-width: 1080px) {
+  .footer__top {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .footer__cols {
+    grid-column: 1 / -1;
+  }
 }
 
 .footer__bottom {
@@ -1714,10 +1732,6 @@ address {
   }
   .step__body {
     grid-column: 2;
-  }
-
-  .footer__top {
-    grid-template-columns: 1fr;
   }
 
   .split--reverse .split__media {

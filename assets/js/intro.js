@@ -1,6 +1,6 @@
 /* PHB70 — Introduction plein écran.
  *
- * Une surcouche occupe toute la fenêtre au chargement : le mur de béton
+ * Une surcouche occupe toute la fenêtre à l'entrée sur le site : le mur de béton
  * apparaît seul, puis un courant cuivré parcourt les tracés du monogramme et
  * le révèle, et enfin le rendu final se pose avant que le voile s'efface.
  *
@@ -67,6 +67,19 @@
   // rythme interne — ce qu'on a fait ici en passant de 2800 ms à 1950.
   var RETARDS = [0, 90, 1600, 1630];
   var RETARD_SUP = 120;  // pour un groupe ajouté plus tard au tracé
+
+  // Clé de session : l'introduction ne se joue qu'à l'entrée sur le site. Les
+  // visites suivantes de l'accueil — retour depuis une autre page, rechargement
+  // — la sautent. `sessionStorage` et non `localStorage` : revenir demain, c'est
+  // rentrer à nouveau sur le site, et l'animation a de nouveau lieu d'être.
+  var CLE_VUE = 'phb70:intro-vue';
+
+  function dejaVue() {
+    try { return window.sessionStorage.getItem(CLE_VUE) === '1'; } catch (e) { return false; }
+  }
+  function noterVue() {
+    try { window.sessionStorage.setItem(CLE_VUE, '1'); } catch (e) { }
+  }
 
   var racine = document.documentElement;
   var hote = document.querySelector('[data-intro]');
@@ -240,6 +253,9 @@
      --------------------------------------------------------------------- */
 
   if (reduit.matches) {
+    if (dejaVue()) { terminer('immediat'); return; }
+    noterVue();
+
     var pFond = imageFond();
     var pStage = scene();
     var pLogo = new Image(VUE.w, VUE.h);
@@ -261,6 +277,12 @@
   // Onglet ouvert en arrière-plan (nouvel onglet, préchargement) : inutile de
   // monter la scène pour la figer, la page s'affiche telle quelle.
   if (document.hidden) { terminer('immediat'); return; }
+
+  // Déjà vue dans cette session : la page s'affiche directement. Le drapeau est
+  // posé maintenant, avant même que l'animation démarre — un rechargement en
+  // plein milieu ne la relance donc pas.
+  if (dejaVue()) { terminer('immediat'); return; }
+  noterVue();
 
   /* ---------------------------------------------------------------------
      Chargement des tracés puis des images.
