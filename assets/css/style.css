@@ -68,6 +68,11 @@
     sans-serif;
 
   /* Rythme */
+  /* Réserve au-dessus d'un filet qui ouvre une section, et réserve avant le
+     titre d'une section qui n'en a pas. Le fond texturé s'aligne dessus : ces
+     valeurs sont ce qui fait tomber ses bords exactement sur les filets. */
+  --avant-filet: clamp(2.5rem, 5vw, 3.5rem);
+  --ouverture: clamp(3.5rem, 7vw, 5.5rem);
   --gutter: clamp(1.25rem, 5vw, 4rem);
   --maxw: 1280px;
   --maxw-text: 68ch;
@@ -196,6 +201,96 @@ ul {
   white-space: nowrap;
 }
 
+/* ---------- Le mur de béton ---------- */
+/* Fond texturé, à poser sur une section : `class="section agence fond-mur"`.
+
+   Ses bords sont calés sur les filets dorés, pas sur les bords de la section —
+   les deux ne coïncident pas. Un filet qui ouvre une section est posé après la
+   réserve `--avant-filet` de cette section ; le fond déborde donc du bloc pour
+   aller le rejoindre, d'où les décalages négatifs.
+
+   La transition est *centrée* sur le filet : le fond déborde d'une demi-longueur
+   de fondu au-delà de la ligne, si bien qu'il commence à s'éteindre juste avant
+   et a fini juste après. C'est la ligne dorée qui marque le milieu du passage.
+
+   Quatre réglages, tous redéfinissables par section :
+   `--mur-debut`    où commence le fond, depuis le haut de la section ;
+   `--mur-fin`      où il finit, depuis le bas (négatif = déborde plus bas) ;
+   `--mur-fondu`    longueur de la transition ;
+   `--mur-decalage` déplace les deux transitions, positif vers le bas.
+
+   Peint par un pseudo-élément et non par `background` : seul un élément séparé
+   peut déborder ainsi de sa section. Le voile ramène la texture dans la gamme
+   du site — elle doit s'entendre, pas se voir. */
+
+.fond-mur {
+  --mur-debut: 0px;
+  --mur-fin: calc(-1 * var(--avant-filet));
+  --mur-fondu: 2.5rem;
+  --mur-decalage: 0rem;
+
+  position: relative;
+  /* Le contexte d'empilement garde le `z-index: -1` du fond à l'intérieur de la
+     section : il passe derrière son contenu, jamais derrière la page. */
+  isolation: isolate;
+}
+
+.fond-mur::before {
+  content: "";
+  position: absolute;
+  inset:
+    calc(var(--mur-debut) - var(--mur-fondu) / 2 + var(--mur-decalage)) 0
+    calc(var(--mur-fin) - var(--mur-fondu) / 2 - var(--mur-decalage)) 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(11, 11, 13, 0.55), rgba(11, 11, 13, 0.55)),
+    url(../img/texture/agence.jpg) center / cover no-repeat;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--mur-fondu),
+    #000 calc(100% - var(--mur-fondu)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--mur-fondu),
+    #000 calc(100% - var(--mur-fondu)),
+    transparent 100%
+  );
+}
+
+/* « Nos secteurs d'expertise » n'a pas de filet au-dessus : c'est la photo du
+   hero. Le fond part net de son bord haut, sans fondu — un fondu déborderait
+   sur la photo. */
+.secteurs.fond-mur::before {
+  top: 0;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--mur-fondu)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--mur-fondu)),
+    transparent 100%
+  );
+}
+
+/* Ces deux-là portent leur propre filet en tête : le fond démarre dessus. */
+.agence.fond-mur {
+  --mur-debut: var(--ouverture);
+}
+.cta-final.fond-mur {
+  --mur-debut: var(--avant-filet);
+  /* En bas, pas de filet mais le pied de page, opaque : tout ce qui déborderait
+     dessous serait recouvert et le fondu se couperait à mi-course. Cette
+     demi-longueur remonte le bord d'autant, si bien que la transition se joue
+     entièrement au-dessus et s'achève pile sur le filet du pied de page. */
+  --mur-fin: calc(var(--mur-fondu) / 2);
+}
+
 /* ---------- Utilitaires de mise en page ---------- */
 
 .container {
@@ -203,6 +298,44 @@ ul {
   max-width: var(--maxw);
   margin-inline: auto;
   padding-inline: var(--gutter);
+}
+
+/* ---------- Titraille de section ---------- */
+/* Le titre centré, son sous-titre et le court filet doré : le trio qui ouvre
+   « Nos secteurs d'expertise », « Notre méthode » et « Notre agence ».
+   Cormorant en capitales très espacées — le titre reste dans la typographie du
+   site tout en prenant le traitement « or et majuscules » des sections. */
+
+.titraille {
+  text-align: center;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.titraille__titre {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.titraille__soustitre {
+  color: var(--text-muted);
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  margin: 1.15rem 0 0;
+}
+
+.titraille__filet {
+  display: block;
+  width: 64px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.65;
+  margin: clamp(1.75rem, 3vw, 2.5rem) auto 0;
 }
 
 /* ---------- Séparateur de sections ---------- */
@@ -424,6 +557,11 @@ ul {
 .link:hover .arw {
   transform: translateX(4px);
 }
+/* Variante or : le libellé prend l'accent, comme le « Découvrir » des cartes
+   secteurs. Le survol est déjà géré par `.link` — il passe à l'or clair. */
+.link--or {
+  color: var(--accent);
+}
 
 /* ---------- En-tête ---------- */
 
@@ -571,8 +709,8 @@ ul {
   /* Les photos d'hôtellerie sont volontairement très lumineuses ; on les
      ramène dans la gamme sombre du site avant même d'appliquer le voile.
      Assez pour asseoir le texte, pas au point d'effacer le travail montré :
-     le diaporama mêle des vues claires et des vues très sombres. */
-  filter: brightness(0.74) saturate(0.92);
+     c'est la photo qui vend le savoir-faire, elle doit rester lisible. */
+  filter: brightness(0.88) saturate(0.95);
 }
 
 /* ---------- Diaporama de tête ----------
@@ -587,7 +725,7 @@ ul {
 
 .hero {
   --diapo-n: 4; /* nombre de photos */
-  --diapo-duree: 4s; /* temps de vue de chacune */
+  --diapo-duree: 3s; /* temps de vue de chacune */
   --diapo-fondu: 1.2s; /* durée du fondu enchaîné (= 5 % du cycle) */
   --diapo-cycle: calc(var(--diapo-n) * var(--diapo-duree));
 }
@@ -675,20 +813,24 @@ ul {
   inset: 0;
   background:
     /* Colonne sombre à gauche : c'est elle qui porte le texte, elle laisse
-       donc la photo respirer sur la droite. */
+       donc la photo respirer sur la droite. Le voile est concentré là où il
+       sert — sous le texte et sous l'en-tête — et s'efface presque au centre
+       droit, la zone où l'on veut voir l'intérieur photographié. */
     linear-gradient(
       to right,
-      rgba(11, 11, 13, 0.8) 0%,
-      rgba(11, 11, 13, 0.55) 38%,
-      rgba(11, 11, 13, 0.12) 68%,
-      rgba(11, 11, 13, 0.3) 100%
+      rgba(11, 11, 13, 0.72) 0%,
+      rgba(11, 11, 13, 0.46) 38%,
+      rgba(11, 11, 13, 0.05) 68%,
+      rgba(11, 11, 13, 0.18) 100%
     ),
     linear-gradient(
       to top,
-      rgba(11, 11, 13, 0.88) 0%,
-      rgba(11, 11, 13, 0.55) 30%,
-      rgba(11, 11, 13, 0.32) 62%,
-      rgba(11, 11, 13, 0.55) 100%
+      rgba(11, 11, 13, 0.82) 0%,
+      rgba(11, 11, 13, 0.44) 30%,
+      rgba(11, 11, 13, 0.14) 62%,
+      /* Le haut reste voilé : l'en-tête n'a pas de fond tant qu'on n'a pas
+         défilé, sa navigation se lit sur cette bande. */
+        rgba(11, 11, 13, 0.48) 100%
     );
 }
 .hero__inner {
@@ -914,10 +1056,24 @@ ul {
    c'est donc ce padding seul qui tient l'espace au-dessus du filet. */
 
 .agence {
-  padding-top: clamp(3.5rem, 7vw, 5.5rem);
+  padding-top: var(--ouverture);
+  /* Même valeur que le bas de « Nos secteurs d'expertise » : c'est ce qui donne
+     au filet du CTA final le même écart au contenu qu'ailleurs. */
+  padding-bottom: clamp(3rem, 6vw, 4.5rem);
 }
 .agence .separateur {
   margin-bottom: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+/* Le lien vers le savoir-faire, centré sous le tableau des bureaux. */
+.agence__lien {
+  margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
+  text-align: center;
+}
+
+/* Même écart titraille → contenu que dans « Nos secteurs d'expertise ». */
+.agence .offices {
+  margin-top: clamp(2.75rem, 5.5vw, 4.25rem);
 }
 
 /* ---------- Réseau international ---------- */
@@ -941,6 +1097,7 @@ ul {
   font-size: 1.75rem;
   line-height: 1;
   margin-bottom: 0.75rem;
+  color: var(--accent);
 }
 .office__role {
   display: block;
@@ -1214,6 +1371,100 @@ address {
   margin-top: 2.5rem;
 }
 
+/* ---------- Partenaires & références (accueil) ---------- */
+/* Un bandeau de noms qui défile en boucle. Deux exemplaires de la même liste se
+   suivent dans la piste ; l'animation la décale d'exactement la moitié de sa
+   largeur, donc au moment où elle se réinitialise le second exemplaire est
+   pile là où était le premier — la boucle ne se voit pas. */
+
+.partenaires {
+  /* Ouvre sur un filet, se ferme sur la même réserve que les autres sections. */
+  padding-block: var(--avant-filet) clamp(3rem, 6vw, 4.5rem);
+}
+
+.partenaires .separateur {
+  margin-bottom: var(--ouverture);
+}
+
+.bandeau {
+  margin-top: clamp(2.75rem, 5.5vw, 4.25rem);
+  overflow: hidden;
+  /* Les noms n'arrivent pas et ne sortent pas par une coupe nette : ils
+     émergent du noir et y retournent. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 14%,
+    #000 86%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 14%,
+    #000 86%,
+    transparent 100%
+  );
+}
+
+.bandeau__piste {
+  display: flex;
+  width: max-content;
+  animation: bandeauDefile 48s linear infinite;
+}
+
+.bandeau__lot {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bandeau__nom {
+  position: relative;
+  flex: none;
+  padding-inline: clamp(1.5rem, 3.5vw, 3.25rem);
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  color: var(--text-muted);
+  opacity: 0.62;
+  white-space: nowrap;
+}
+
+/* Le losange du séparateur de section, en petit, entre deux noms. Plein or, sans
+   halo : c'est le seul point de couleur du bandeau. Posé sur le bord droit et
+   recentré par `translate`, il tombe pile au milieu de l'espace entre deux
+   noms — les deux paddings étant égaux, la limite des blocs est le centre du
+   vide. */
+.bandeau__nom::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  transform: translate(50%, -50%) rotate(45deg);
+}
+
+@keyframes bandeauDefile {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Mouvement réduit : le bandeau s'arrête. La liste reste lisible, simplement
+   figée sur son premier exemplaire. */
+@media (prefers-reduced-motion: reduce) {
+  .bandeau__piste {
+    animation: none;
+  }
+}
+
 /* ---------- CTA final (accueil) ---------- */
 /* Dernier point de conversion avant le pied de page. Volontairement nu : un
    filet, une phrase, un bouton. Les coordonnées et les liens restent le rôle du
@@ -1221,16 +1472,18 @@ address {
 
 .cta-final {
   text-align: center;
-  padding-block: clamp(4.5rem, 10vw, 8rem) clamp(5rem, 11vw, 9rem);
+  /* Haut : la même réserve que « Notre méthode » au-dessus de son filet. */
+  padding-block: var(--avant-filet) clamp(5rem, 11vw, 9rem);
 }
 
 .cta-final .separateur {
-  --separateur-largeur: 30rem;
   margin-bottom: clamp(3.5rem, 7vw, 5.5rem);
 }
 
+/* Assez large pour que « Un projet sur-mesure en tête ? » tienne sur une seule
+   ligne : la coupure est donnée par le <br> après le point d'interrogation. */
 .cta-final__inner {
-  max-width: 46rem;
+  max-width: 54rem;
 }
 
 .cta-final__titre {
@@ -1532,41 +1785,11 @@ address {
    section suivante fournissent déjà la respiration, inutile d'empiler en plus
    le `--section` complet. */
 .secteurs {
+  /* Le hero se termine sur une photo pleine largeur : la section n'a pas besoin
+     du `--section` complet pour s'en détacher. Même réserve que l'ouverture de
+     « Notre agence ». */
+  padding-top: var(--ouverture);
   padding-bottom: clamp(3rem, 6vw, 4.5rem);
-}
-
-.secteurs__tete {
-  text-align: center;
-  max-width: 44rem;
-  margin-inline: auto;
-}
-
-/* Cormorant en capitales très espacées : le titre reste dans la typographie du
-   site tout en prenant le traitement « or et majuscules » de la section. */
-.secteurs__titre {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
-  line-height: 1.2;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0;
-}
-
-.secteurs__soustitre {
-  color: var(--text-muted);
-  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
-  margin: 1.15rem 0 0;
-}
-
-.secteurs__filet {
-  display: block;
-  width: 64px;
-  height: 1px;
-  background: var(--accent);
-  opacity: 0.65;
-  margin: clamp(1.75rem, 3vw, 2.5rem) auto 0;
 }
 
 .secteurs__grille {
@@ -1598,7 +1821,7 @@ address {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1) brightness(0.82);
+  filter: brightness(0.82);
   transform: scale(1);
   transition:
     filter 0.6s var(--ease),
@@ -1632,9 +1855,9 @@ address {
 }
 
 .secteur__titre {
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--accent);
 }
@@ -1677,7 +1900,6 @@ address {
 @media (hover: hover) {
   .secteur:hover img,
   .secteur:focus-visible img {
-    filter: grayscale(0) brightness(1);
     transform: scale(1.05);
   }
   .secteur:hover,
@@ -1745,12 +1967,15 @@ address {
    ========================================================================= */
 
 .methode {
-  --methode-course: 340vh; /* hauteur à parcourir en mode épinglé */
+  --methode-n: 5; /* nombre d'étapes — la grille et la frise s'y accordent */
+  /* Hauteur à parcourir en mode épinglé : environ 85 vh par étape, de quoi lire
+     chacune sans être bousculé. */
+  --methode-course: calc(var(--methode-n) * 85vh);
 
   position: relative;
   /* Pas de fond propre : l'accueil est d'un seul noir d'un bout à l'autre.
      C'est le filet doré et l'espace qui marquent le changement de section. */
-  padding-block: clamp(2.5rem, 5vw, 3.5rem) clamp(5rem, 11vw, 9rem);
+  padding-block: var(--avant-filet) clamp(5rem, 11vw, 9rem);
 }
 
 /* Le filet qui ouvre la section, et son écart au titre. */
@@ -1759,36 +1984,6 @@ address {
 }
 
 /* ---------- Titre ---------- */
-
-.methode__tete {
-  text-align: center;
-  max-width: 44rem;
-  margin-inline: auto;
-}
-
-.methode__titre {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
-  line-height: 1.2;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0;
-}
-.methode__soustitre {
-  color: var(--text-muted);
-  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
-  margin: 1.15rem 0 0;
-}
-.methode__filet {
-  display: block;
-  width: 64px;
-  height: 1px;
-  background: var(--accent);
-  opacity: 0.65;
-  margin: clamp(1.75rem, 3vw, 2.5rem) auto 0;
-}
 
 /* ---------- Sélecteur et frise ---------- */
 /* Masqué en mode empilé : chaque contenu porte déjà son numéro et son icône. */
@@ -1802,7 +1997,7 @@ address {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(var(--methode-n), 1fr);
   gap: clamp(1rem, 2.5vw, 2.5rem);
 }
 
@@ -1843,9 +2038,10 @@ address {
   text-align: center;
 }
 
-/* La frise : un filet doré sous les quatre étapes, et un point qui le parcourt
-   au rythme du scroll. Le point va du centre de la première étape (12,5 %) au
-   centre de la quatrième (87,5 %). */
+/* La frise : un filet doré sous les étapes, et un point qui le parcourt au
+   rythme du scroll. Il va du centre de la première au centre de la dernière —
+   soit une demi-colonne de marge de chaque côté, d'où le calcul en fonction du
+   nombre d'étapes plutôt qu'en pourcentages écrits en dur. */
 .methode__piste {
   position: relative;
   display: block;
@@ -1856,7 +2052,10 @@ address {
 .methode__curseur {
   position: absolute;
   top: 50%;
-  left: calc(12.5% + var(--progression, 0) * 75%);
+  left: calc(
+    50% / var(--methode-n) + var(--progression, 0) *
+      (100% - 100% / var(--methode-n))
+  );
   width: 7px;
   height: 7px;
   margin: -3.5px 0 0 -3.5px;
@@ -1904,8 +2103,11 @@ address {
   color: var(--text);
   opacity: 0.86;
   font-size: clamp(1rem, 1.5vw, 1.15rem);
-  max-width: 34ch;
+  /* Trois lignes pleines plutôt que sept étroites : à ces longueurs, 34ch
+     donnait une colonne en escalier. */
+  max-width: 52ch;
   margin: 0;
+  text-wrap: pretty;
 }
 
 /* ---------- Mode épinglé ---------- */
@@ -1929,8 +2131,11 @@ address {
   min-height: 100svh;
   display: grid;
   align-content: center;
-  /* L'en-tête est fixe : la scène ne doit pas passer dessous. */
-  padding-block: calc(var(--header-h) + 2rem) clamp(2rem, 5vh, 4rem);
+  /* Le contenu reste centré, mais la réserve basse est plus large que la haute :
+     c'est ce déséquilibre voulu qui le remonte et resserre le vide entre le
+     filet de section et le titre. La marge haute garde la scène sous l'en-tête
+     fixe (92 px), qui ne défile pas. */
+  padding-block: calc(var(--header-h) + 0.5rem) clamp(3rem, 12vh, 9rem);
 }
 
 .methode--epingle .methode__rail {
@@ -1943,7 +2148,9 @@ address {
 .methode--epingle .methode__contenus {
   position: relative;
   display: block;
-  min-height: clamp(15rem, 30vh, 19rem);
+  /* Réserve la hauteur du plus long des cinq contenus : rien ne bouge d'une
+     étape à l'autre. Le terme en vh la retient sur les écrans courts. */
+  min-height: clamp(15rem, 32vh, 21rem);
 }
 /* Le sortant s'efface vite et sans délai, l'entrant attend qu'il ait disparu.
    Sans ce décalage les deux textes se superposent à mi-fondu et se brouillent —
