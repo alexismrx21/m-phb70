@@ -119,7 +119,7 @@
       <nav class="nav" id="site-nav" data-nav aria-label="Navigation principale">
         <ul class="nav__list">
           <li><a class="nav__link" href="index.html" aria-current="page">Accueil</a></li>
-          <li><a class="nav__link" href="savoir-faire.html">Savoir-faire</a></li>
+          <li><a class="nav__link" href="savoir-faire.html">L'agence</a></li>
           <li><a class="nav__link" href="realisations.html">Réalisations</a></li>
           <li><a class="nav__link" href="sur-mesure.html">Sur-mesure</a></li>
           <li><a class="btn nav__cta" href="contact.html">Contact</a></li>
@@ -173,7 +173,7 @@
      TODO LIEN : les trois cartes pointent pour l'instant vers les pages
      existantes. Quand les sous-pages dédiées seront écrites, remplacer
      simplement les href — rien d'autre à toucher. -->
-    <section class="section secteurs fond-mur">
+    <section class="section secteurs fond-mur fond-mur--sous-photo">
       <div class="container">
         <div class="titraille reveal">
           <h2 class="titraille__titre">Nos secteurs d'expertise</h2>
@@ -218,125 +218,97 @@
             </span>
           </a>
         </div>
+
+        <p class="lien-suite reveal">
+          <a class="link link--or" href="realisations.html">Voir toutes nos réalisations <span class="arw"
+              aria-hidden="true">&rarr;</span></a>
+        </p>
       </div>
     </section>
 
-    <!-- Notre méthode.
-     Le balisage est le même dans les deux modes. Par défaut les quatre étapes
-     s'empilent — c'est ce que voient le mobile, le mouvement réduit et les
-     visiteurs sans JavaScript. Le script ajoute `methode--epingle` quand
-     l'effet a du sens : la scène se fige alors le temps que le scroll parcoure
-     les quatre étapes. La hauteur à parcourir est réglée par `--methode-course`
-     dans style.css. -->
-    <section class="methode" data-methode>
+    <!-- Notre méthode — les cinq étapes d'un projet, dans le composant `.steps`
+         de la page L'agence. Aucun JavaScript : la liste est lisible, se
+         parcourt en diagonale et laisse au visiteur le contrôle de son scroll.
+         POUR AJOUTER UNE ÉTAPE : dupliquer une rangée et renuméroter. -->
+    <section class="section methode">
       <span class="separateur methode__separateur reveal" aria-hidden="true"></span>
 
-      <div class="methode__scene">
-        <div class="container">
+      <div class="container">
+        <div class="titraille reveal">
+          <h2 class="titraille__titre">Notre méthode</h2>
+          <p class="titraille__soustitre">De l'idée à la réalisation</p>
+          <span class="titraille__filet" aria-hidden="true"></span>
+        </div>
 
-          <div class="titraille">
-            <h2 class="titraille__titre">Notre méthode</h2>
-            <p class="titraille__soustitre">De l'idée à la réalisation</p>
-            <span class="titraille__filet" aria-hidden="true"></span>
-          </div>
-
-          <!-- Sélecteur : il redit ce que portent les contenus ci-dessous, il est
-           donc masqué aux lecteurs d'écran plutôt que lu deux fois. -->
-          <div class="methode__rail" aria-hidden="true">
-            <ol class="methode__etapes">
-              <li class="methode__etape" data-etape="0">
-                <span class="methode__num">01</span>
-                <svg class="methode__icone" viewBox="0 0 24 24">
-                  <use href="#ico-faisabilite" />
-                </svg>
-                <span class="methode__label">Faisabilité</span>
-              </li>
-              <li class="methode__etape" data-etape="1">
-                <span class="methode__num">02</span>
-                <svg class="methode__icone" viewBox="0 0 24 24">
-                  <use href="#ico-conception" />
-                </svg>
-                <span class="methode__label">Conception technique</span>
-              </li>
-              <li class="methode__etape" data-etape="2">
-                <span class="methode__num">03</span>
-                <svg class="methode__icone" viewBox="0 0 24 24">
-                  <use href="#ico-prototype" />
-                </svg>
-                <span class="methode__label">Prototype</span>
-              </li>
-              <li class="methode__etape" data-etape="3">
-                <span class="methode__num">04</span>
-                <svg class="methode__icone" viewBox="0 0 24 24">
-                  <use href="#ico-production" />
-                </svg>
-                <span class="methode__label">Production</span>
-              </li>
-              <li class="methode__etape" data-etape="4">
-                <span class="methode__num">05</span>
-                <svg class="methode__icone" viewBox="0 0 24 24">
-                  <use href="#ico-livraison" />
-                </svg>
-                <span class="methode__label">Contrôle &amp; livraison</span>
-              </li>
-            </ol>
-            <span class="methode__piste"><span class="methode__curseur"></span></span>
-          </div>
-
-          <div class="methode__contenus">
-            <article class="methode__contenu" data-contenu="0">
-              <svg class="methode__grande" viewBox="0 0 24 24" aria-hidden="true">
+        <div class="steps">
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
                 <use href="#ico-faisabilite" />
               </svg>
-              <span class="methode__contenuNum" aria-hidden="true">01</span>
-              <h3 class="methode__contenuTitre">Faisabilité</h3>
-              <p class="methode__contenuTexte">Chaque pièce est analysée avant tout engagement&nbsp;: matériaux,
-                sections,
-                assemblages, contraintes d'usage et budget cible. Nous disons très tôt ce qui est faisable, à quel prix
+              01
+            </span>
+            <h3 class="step__title">Faisabilité</h3>
+            <div class="step__body">
+              <p>Chaque pièce est analysée avant tout engagement. Nous disons très tôt ce qui est faisable, à quel prix
                 et dans quel délai.</p>
-            </article>
-            <article class="methode__contenu" data-contenu="1">
-              <svg class="methode__grande" viewBox="0 0 24 24" aria-hidden="true">
+            </div>
+          </div>
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
                 <use href="#ico-conception" />
               </svg>
-              <span class="methode__contenuNum" aria-hidden="true">02</span>
-              <h3 class="methode__contenuTitre">Conception technique</h3>
-              <p class="methode__contenuTexte">Notre bureau d'étude traduit le dessin en plans d'exécution. C'est là que
-                se décident les sections, les assemblages et les finitions&nbsp;— ce qui tiendra à l'usage, et pas
-                seulement sur le papier.</p>
-            </article>
-            <article class="methode__contenu" data-contenu="2">
-              <svg class="methode__grande" viewBox="0 0 24 24" aria-hidden="true">
+              02
+            </span>
+            <h3 class="step__title">Conception technique</h3>
+            <div class="step__body">
+              <p>Notre bureau d'étude traduit le dessin en plans d'exécution&nbsp;: les sections, les assemblages, ce
+                qui tiendra à l'usage et pas seulement sur le papier.</p>
+            </div>
+          </div>
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
                 <use href="#ico-prototype" />
               </svg>
-              <span class="methode__contenuNum" aria-hidden="true">03</span>
-              <h3 class="methode__contenuTitre">Prototype</h3>
-              <p class="methode__contenuTexte">Nous sommes physiquement présents à l'atelier pour arbitrer les teintes,
-                les finitions et le confort réel, puis faire corriger avant le lancement.</p>
-            </article>
-            <article class="methode__contenu" data-contenu="3">
-              <svg class="methode__grande" viewBox="0 0 24 24" aria-hidden="true">
+              03
+            </span>
+            <h3 class="step__title">Prototype</h3>
+            <div class="step__body">
+              <p>Nous sommes à l'atelier pour arbitrer les teintes, les finitions et le confort réel, et faire corriger
+                avant le lancement.</p>
+            </div>
+          </div>
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
                 <use href="#ico-production" />
               </svg>
-              <span class="methode__contenuNum" aria-hidden="true">04</span>
-              <h3 class="methode__contenuTitre">Production</h3>
-              <p class="methode__contenuTexte">Le passage du prototype à la série est un moment de dérive classique.
-                Nous
-                figeons les process pour que la centième chambre ressemble à la première.</p>
-            </article>
-            <article class="methode__contenu" data-contenu="4">
-              <svg class="methode__grande" viewBox="0 0 24 24" aria-hidden="true">
+              04
+            </span>
+            <h3 class="step__title">Production</h3>
+            <div class="step__body">
+              <p>Le passage à la série est un moment de dérive classique. Nous figeons les process pour que la centième
+                chambre ressemble à la première.</p>
+            </div>
+          </div>
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
                 <use href="#ico-livraison" />
               </svg>
-              <span class="methode__contenuNum" aria-hidden="true">05</span>
-              <h3 class="methode__contenuTitre">Contrôle &amp; livraison</h3>
-              <p class="methode__contenuTexte">Le contrôle a lieu à l'atelier, pas sur le chantier&nbsp;: une pièce non
-                conforme est reprise avant de partir. Notre pôle luxembourgeois prend ensuite en charge la douane et
-                l'acheminement jusqu'au site.</p>
-            </article>
+              05
+            </span>
+            <h3 class="step__title">Contrôle &amp; livraison</h3>
+            <div class="step__body">
+              <p>Le contrôle a lieu à l'atelier, pas sur le chantier. Puis notre pôle luxembourgeois prend en charge la
+                douane et l'acheminement jusqu'au site.</p>
+            </div>
           </div>
-
         </div>
+
+
       </div>
     </section>
 
@@ -347,9 +319,9 @@
 
       <div class="container">
         <div class="titraille reveal">
-          <h2 class="titraille__titre">Nos agences</h2>
-          <p class="titraille__soustitre">Quatre bureaux, chacun sa fonction précise. C'est ce découpage qui nous
-            permet de rester responsables du projet de bout en bout, sans jamais le passer à un tiers.</p>
+          <h2 class="titraille__titre">Notre agence</h2>
+          <p class="titraille__soustitre">Une agence, quatre bureaux, chacun sa fonction précise. C'est ce découpage qui
+            nous permet de rester responsables du projet de bout en bout, sans jamais le passer à un tiers.</p>
           <span class="titraille__filet" aria-hidden="true"></span>
         </div>
         <div class="offices reveal">
@@ -383,7 +355,7 @@
           </div>
         </div>
 
-        <p class="agence__lien reveal">
+        <p class="lien-suite reveal">
           <a class="link link--or" href="savoir-faire.html">En savoir plus sur nous <span class="arw"
               aria-hidden="true">&rarr;</span></a>
         </p>
@@ -448,7 +420,7 @@
       <a class="btn btn--or cta-final__btn" href="contact.html">Nous contacter</a>
     </div>
   </section>
-  <footer class="footer">
+  <footer class="footer footer--sombre">
     <div class="container">
       <div class="footer__top">
         <div class="footer__brand">
@@ -459,7 +431,7 @@
           <p class="footer__title">Navigation</p>
           <ul>
             <li><a href="index.html">Accueil</a></li>
-            <li><a href="savoir-faire.html">Savoir-faire</a></li>
+            <li><a href="savoir-faire.html">L'agence</a></li>
             <li><a href="realisations.html">Réalisations</a></li>
             <li><a href="sur-mesure.html">Sur-mesure</a></li>
             <li><a href="contact.html">Contact</a></li>
