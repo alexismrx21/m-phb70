@@ -108,71 +108,84 @@
       <p class="lead">Bois de placage et loupes, laiton patiné ou poli, laques, velours, cuirs sellier, pierre : la matière est choisie pour la pièce, jamais l'inverse.</p>
     </div>
 
-    <!-- Les pièces sont présentées comme les planches d'un album : six vues sur
-         la page de gauche, une grande et deux petites à droite. Le balisage des
-         vignettes est inchangé — la visionneuse continue de les ouvrir. -->
-    <div class="livre reveal">
-      <div class="livre__spread" data-gallery>
-        <div class="livre__page livre__page--gauche">
-          <figure class="gallery__item" data-category="piece">
-            <button class="gallery__btn" type="button" data-full="assets/img/full/piece-composition-laiton.jpg" data-caption="Composition — structure laiton">
-              <img src="assets/img/thumb/piece-composition-laiton.jpg" alt="Composition de mobilier à structure laiton : bibliothèque, crédence, table basse et fauteuil" loading="eager" decoding="async">
-              <span class="visually-hidden">Agrandir : Composition — structure laiton</span>
-            </button>
-          </figure>
-          <figure class="gallery__item" data-category="piece">
-            <button class="gallery__btn" type="button" data-full="assets/img/full/piece-armoire-scarab.jpg" data-caption="Armoire Scarab">
-              <img src="assets/img/thumb/piece-armoire-scarab.jpg" alt="Armoire Scarab : velours bleu capitonné, incrustations et piètement effilé en laiton" loading="eager" decoding="async">
-              <span class="visually-hidden">Agrandir : Armoire Scarab</span>
-            </button>
-          </figure>
-          <figure class="gallery__item" data-category="piece">
-            <button class="gallery__btn" type="button" data-full="assets/img/full/piece-credence-dragonfly.jpg" data-caption="Crédence Dragonfly">
-              <img src="assets/img/thumb/piece-credence-dragonfly.jpg" alt="Crédence Dragonfly : caisson en laque sombre et piètement effilé en laiton" loading="eager" decoding="async">
-              <span class="visually-hidden">Agrandir : Crédence Dragonfly</span>
-            </button>
-          </figure>
-          <figure class="gallery__item" data-category="piece">
-            <button class="gallery__btn" type="button" data-full="assets/img/full/piece-credence-washington.jpg" data-caption="Crédence Washington">
-              <img src="assets/img/thumb/piece-credence-washington.jpg" alt="Crédence Washington : caisson à façades vitrées coulissantes et piètement en laiton" loading="lazy" decoding="async">
-              <span class="visually-hidden">Agrandir : Crédence Washington</span>
-            </button>
-          </figure>
-          <figure class="gallery__item" data-category="piece">
-            <button class="gallery__btn" type="button" data-full="assets/img/full/piece-bibliotheque-cortland-01.jpg" data-caption="Bibliothèque Cortland">
-              <img src="assets/img/thumb/piece-bibliotheque-cortland-01.jpg" alt="Bibliothèque Cortland : montants en laiton et tablettes en pierre claire" loading="lazy" decoding="async">
-              <span class="visually-hidden">Agrandir : Bibliothèque Cortland</span>
-            </button>
-          </figure>
-          <figure class="gallery__item" data-category="piece">
-            <button class="gallery__btn" type="button" data-full="assets/img/full/piece-bibliotheque-cortland-02.jpg" data-caption="Bibliothèque Cortland — détail de cannage">
-              <img src="assets/img/thumb/piece-bibliotheque-cortland-02.jpg" alt="Détail de la bibliothèque Cortland : montants en laiton et panneau de cannage" loading="lazy" decoding="async">
-              <span class="visually-hidden">Agrandir : Bibliothèque Cortland — détail de cannage</span>
-            </button>
-          </figure>
+    <!-- La planche d'album, rendue en image. Elle remplace la maquette CSS qui
+         recomposait les neuf vues case par case : le rendu porte les ombres, la
+         pliure et le grain du papier, qu'aucune mise en page ne restitue.
+         Son fond noir s'efface dans la texture par un masque, sans quoi elle
+         apparaîtrait comme un rectangle posé sur le mur. -->
+    <!-- Les neuf vues sont cliquables : des zones transparentes calées en
+         pourcentages sur le rendu, donc justes à toutes les tailles puisque
+         l'image se met à l'échelle sans se recadrer. Les coordonnées ont été
+         relevées sur le fichier, pas estimées à l'œil. -->
+    <figure class="livre reveal" data-gallery>
+      <img src="assets/img/full/livre-pieces.jpg"
+        alt="Album ouvert présentant neuf pièces : composition à structure laiton, armoire Scarab en velours bleu, crédences Dragonfly et Washington, bibliothèque Cortland et son détail de cannage, et le fauteuil Mi sous trois angles."
+        width="1500" height="1066" loading="lazy" decoding="async">
+
+        <div class="livre__zone" data-category="piece"
+          style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+          <button type="button" data-full="assets/img/full/piece-composition-laiton.jpg" data-caption="Composition — structure laiton"
+            data-alt="Composition de mobilier à structure laiton : bibliothèque, crédence, table basse et fauteuil">
+            <span class="visually-hidden">Agrandir : Composition — structure laiton</span>
+          </button>
         </div>
-        <div class="livre__page livre__page--droite">
-          <figure class="gallery__item" data-category="piece">
-            <button class="gallery__btn" type="button" data-full="assets/img/full/piece-fauteuil-mi-01.jpg" data-caption="Fauteuil Mi">
-              <img src="assets/img/thumb/piece-fauteuil-mi-01.jpg" alt="Fauteuil Mi : assise enveloppante crème et structure tubulaire en laiton" loading="lazy" decoding="async">
-              <span class="visually-hidden">Agrandir : Fauteuil Mi</span>
-            </button>
-          </figure>
-          <figure class="gallery__item" data-category="piece">
-            <button class="gallery__btn" type="button" data-full="assets/img/full/piece-fauteuil-mi-02.jpg" data-caption="Fauteuil Mi — trois quarts">
-              <img src="assets/img/thumb/piece-fauteuil-mi-02.jpg" alt="Fauteuil Mi vu de trois quarts arrière : dossier arrondi et structure en laiton" loading="lazy" decoding="async">
-              <span class="visually-hidden">Agrandir : Fauteuil Mi — trois quarts</span>
-            </button>
-          </figure>
-          <figure class="gallery__item" data-category="piece">
-            <button class="gallery__btn" type="button" data-full="assets/img/full/piece-fauteuil-mi-03.jpg" data-caption="Fauteuil Mi — détail de piètement">
-              <img src="assets/img/thumb/piece-fauteuil-mi-03.jpg" alt="Détail du fauteuil Mi : accoudoir en laiton brossé et surpiqûres de l'assise" loading="lazy" decoding="async">
-              <span class="visually-hidden">Agrandir : Fauteuil Mi — détail de piètement</span>
-            </button>
-          </figure>
+        <div class="livre__zone" data-category="piece"
+          style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+          <button type="button" data-full="assets/img/full/piece-armoire-scarab.jpg" data-caption="Armoire Scarab"
+            data-alt="Armoire Scarab : velours bleu capitonné, incrustations et piètement effilé en laiton">
+            <span class="visually-hidden">Agrandir : Armoire Scarab</span>
+          </button>
         </div>
-      </div>
-    </div>
+        <div class="livre__zone" data-category="piece"
+          style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+          <button type="button" data-full="assets/img/full/piece-credence-dragonfly.jpg" data-caption="Crédence Dragonfly"
+            data-alt="Crédence Dragonfly : caisson en laque sombre et piètement effilé en laiton">
+            <span class="visually-hidden">Agrandir : Crédence Dragonfly</span>
+          </button>
+        </div>
+        <div class="livre__zone" data-category="piece"
+          style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+          <button type="button" data-full="assets/img/full/piece-credence-washington.jpg" data-caption="Crédence Washington"
+            data-alt="Crédence Washington : caisson à façades vitrées coulissantes et piètement en laiton">
+            <span class="visually-hidden">Agrandir : Crédence Washington</span>
+          </button>
+        </div>
+        <div class="livre__zone" data-category="piece"
+          style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+          <button type="button" data-full="assets/img/full/piece-bibliotheque-cortland-01.jpg" data-caption="Bibliothèque Cortland"
+            data-alt="Bibliothèque Cortland : montants en laiton et tablettes en pierre claire">
+            <span class="visually-hidden">Agrandir : Bibliothèque Cortland</span>
+          </button>
+        </div>
+        <div class="livre__zone" data-category="piece"
+          style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+          <button type="button" data-full="assets/img/full/piece-bibliotheque-cortland-02.jpg" data-caption="Bibliothèque Cortland — détail de cannage"
+            data-alt="Détail de la bibliothèque Cortland : montants en laiton et panneau de cannage">
+            <span class="visually-hidden">Agrandir : Bibliothèque Cortland — détail de cannage</span>
+          </button>
+        </div>
+        <div class="livre__zone" data-category="piece"
+          style="--x: 53.0%; --y: 10.23%; --l: 41.87%; --h: 49.16%">
+          <button type="button" data-full="assets/img/full/piece-fauteuil-mi-01.jpg" data-caption="Fauteuil Mi"
+            data-alt="Fauteuil Mi : assise enveloppante crème et structure tubulaire en laiton">
+            <span class="visually-hidden">Agrandir : Fauteuil Mi</span>
+          </button>
+        </div>
+        <div class="livre__zone" data-category="piece"
+          style="--x: 53.0%; --y: 62.85%; --l: 19.2%; --h: 27.02%">
+          <button type="button" data-full="assets/img/full/piece-fauteuil-mi-02.jpg" data-caption="Fauteuil Mi — trois quarts"
+            data-alt="Fauteuil Mi vu de trois quarts arrière : dossier arrondi et structure en laiton">
+            <span class="visually-hidden">Agrandir : Fauteuil Mi — trois quarts</span>
+          </button>
+        </div>
+        <div class="livre__zone" data-category="piece"
+          style="--x: 73.8%; --y: 62.76%; --l: 21.07%; --h: 27.11%">
+          <button type="button" data-full="assets/img/full/piece-fauteuil-mi-03.jpg" data-caption="Fauteuil Mi — détail de piètement"
+            data-alt="Détail du fauteuil Mi : accoudoir en laiton brossé et surpiqûres de l'assise">
+            <span class="visually-hidden">Agrandir : Fauteuil Mi — détail de piètement</span>
+          </button>
+        </div>
+    </figure>
   </div>
 </section>
 

@@ -90,7 +90,7 @@
      fondu doit donc s'achever avant lui. -->
     <section class="section formulaire fond-mur fond-mur--sous-photo">
       <div class="container">
-        <div class="split">
+        <div class="split split--etire">
           <div class="split__body reveal">
             <span class="eyebrow">Écrivez-nous</span>
             <h2>Décrivez votre projet.</h2>
@@ -149,9 +149,22 @@
             </form>
           </div>
 
-          <div class="split__media reveal">
-            <img src="assets/img/full/hotellerie-junior-suite-09.jpg"
-              alt="Banquette de salon sur-mesure et table basse en noyer à plateau cannelé" width="1024" height="683"
+          <!-- Colonne illustrée, à la hauteur du formulaire. Quatre projets qui
+               couvrent nos trois marchés. L'enchaînement est en CSS pur, sans
+               minuteur JavaScript : `--i` donne son rang à
+               chaque photo. Pour en ajouter ou en retirer une, renuméroter et
+               corriger `--diapo-n` dans style.css.
+               Alternatives vides : ces photos illustrent, elles n'informent
+               pas. Un lecteur d'écran annoncerait sinon quatre descriptions
+               pour une seule image visible à l'instant donné. -->
+          <div class="split__media split__media--diapo reveal">
+            <img style="--i:0" src="assets/img/full/hotellerie-detail-bureau-01.jpg" alt="" width="1175" height="844"
+              loading="lazy" decoding="async">
+            <img style="--i:1" src="assets/img/full/restauration-cave-a-vin.jpg" alt="" width="880" height="1200"
+              loading="lazy" decoding="async">
+            <img style="--i:2" src="assets/img/full/immobilier-sejour-escalier.jpg" alt="" width="1200" height="800"
+              loading="lazy" decoding="async">
+            <img style="--i:3" src="assets/img/full/hotellerie-chambre-signature.jpg" alt="" width="1024" height="683"
               loading="lazy" decoding="async">
           </div>
         </div>

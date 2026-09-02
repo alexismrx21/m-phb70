@@ -151,7 +151,11 @@
         if (!item) return;
         var trigger = item.querySelector('button');
         boxImg.src = trigger.getAttribute('data-full');
-        boxImg.alt = trigger.querySelector('img').alt;
+        // Une vignette porte son texte alternatif dans son <img> ; une zone
+        // cliquable posée sur une image d'ensemble n'en a pas, elle le porte
+        // alors en attribut.
+        var vignette = trigger.querySelector('img');
+        boxImg.alt = vignette ? vignette.alt : (trigger.getAttribute('data-alt') || '');
         boxCaption.textContent = trigger.getAttribute('data-caption') || '';
       };
 
