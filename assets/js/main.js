@@ -115,21 +115,37 @@
   var gallery = document.querySelector('[data-gallery]');
 
   if (gallery) {
-    var items = Array.prototype.slice.call(gallery.querySelectorAll('[data-category]'));
+    // Ce que le filtre montre et ce que la visionneuse enchaîne ne sont pas la
+    // même chose. Sur Réalisations, le filtre cache des projets entiers
+    // (`[data-category]`) et la visionneuse défile leurs photos (`[data-shot]`).
+    // Sur Sur-mesure, les zones cliquables du livre sont les deux à la fois, et
+    // il n'y a pas de photo marquée : on retombe alors sur les mêmes éléments.
+    var groups = Array.prototype.slice.call(gallery.querySelectorAll('[data-category]'));
     var filters = Array.prototype.slice.call(document.querySelectorAll('[data-filter]'));
-    var visible = items.slice();
+    var byShot = gallery.querySelector('[data-shot]') !== null;
+    var unit = byShot ? '[data-shot]' : '[data-category]';
+    var visible = [];
+
+    // Recomposée après chaque filtrage : la visionneuse doit enchaîner les
+    // photos réellement affichées, et dans l'ordre de la page.
+    var collect = function () {
+      visible = byShot
+        ? Array.prototype.slice.call(
+          gallery.querySelectorAll('[data-category]:not([hidden]) [data-shot]'))
+        : groups.filter(function (g) { return !g.hidden; });
+    };
 
     var applyFilter = function (value) {
-      visible = [];
-      items.forEach(function (item) {
-        var match = value === 'all' || item.getAttribute('data-category') === value;
-        item.hidden = !match;
-        if (match) visible.push(item);
+      groups.forEach(function (group) {
+        group.hidden = !(value === 'all' || group.getAttribute('data-category') === value);
       });
+      collect();
       filters.forEach(function (btn) {
         btn.setAttribute('aria-pressed', String(btn.getAttribute('data-filter') === value));
       });
     };
+
+    collect();
 
     filters.forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -187,7 +203,7 @@
 
       gallery.addEventListener('click', function (e) {
         var trigger = e.target.closest('button[data-full]');
-        if (trigger) openBox(trigger.closest('[data-category]'));
+        if (trigger) openBox(trigger.closest(unit));
       });
 
       box.addEventListener('click', function (e) {

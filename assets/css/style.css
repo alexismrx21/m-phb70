@@ -1260,15 +1260,42 @@ ul {
 
 .fondateur {
   --portrait-l: clamp(11rem, 17vw, 15rem); /* largeur du portrait */
-  --portrait-hors: 6rem; /* ce qu'il dépasse à droite du cadre */
+  --portrait-hors: 6rem; /* ce qu'il dépasse du cadre, côté photo */
+  --cadre-pad: clamp(2.25rem, 4.5vw, 4rem);
+  /* La réserve laissée au portrait : la part qu'il mord dans le cadre, plus une
+     respiration. Le texte s'arrête donc tout seul avant la photo. */
+  --cadre-reserve: calc(var(--portrait-l) - var(--portrait-hors) + 2.5rem);
 }
 
 .fondateur__cadre {
   position: relative;
   width: calc(100% - var(--portrait-hors));
   border: 1px solid rgba(198, 161, 91, 0.3);
-  padding: clamp(2.25rem, 4.5vw, 4rem);
-  padding-right: calc(var(--portrait-l) - var(--portrait-hors) + 2.5rem);
+  padding: var(--cadre-pad);
+  padding-right: var(--cadre-reserve);
+}
+
+/* Une fiche sur deux se retourne, pour que la page ne descende pas trois fois
+   le même bloc. Rien de neuf : la réserve et le débordement changent de côté,
+   et le cadre se cale à droite du conteneur au lieu de la gauche. Le bord
+   gauche de la photo tombe alors sur celui du conteneur, exactement comme le
+   bord droit dans le sens normal. */
+.fondateur__cadre--inverse {
+  margin-left: auto;
+  padding-right: var(--cadre-pad);
+  padding-left: var(--cadre-reserve);
+}
+.fondateur__cadre--inverse .fondateur__portrait {
+  right: auto;
+  left: calc(-1 * var(--portrait-hors));
+}
+
+/* Les fiches se suivent sur le même fond, sans filet entre elles. La réserve
+   est comptée large : le portrait de la fiche du dessus déborde de 2,5 rem sous
+   son cadre, et c'est de cette photo-là que la suivante doit se détacher, pas
+   du trait. */
+.fondateur__cadre + .fondateur__cadre {
+  margin-top: clamp(4.5rem, 9vw, 7rem);
 }
 
 .fondateur__texte p {
@@ -1456,6 +1483,42 @@ address {
 .gallery__btn:focus-visible img {
   transform: scale(1.05);
   filter: brightness(1);
+}
+
+/* ---------- Les projets (page Réalisations) ---------- */
+/* La page ne déroule plus un tapis de vignettes mais une suite de projets :
+   chacun porte son titre, sa notice et ses seules photos. Le filtre agit sur le
+   bloc entier — la catégorie est posée sur le projet, plus sur la vignette. */
+
+.projet[hidden] {
+  display: none;
+}
+
+/* Le filet ne sépare que deux projets tous les deux affichés. Un projet dont le
+   voisin du dessus est masqué se retrouve en tête de liste : il n'a rien à
+   séparer, et `[hidden] + .projet` ne correspondant à rien, la règle s'annule
+   d'elle-même au filtrage — sans une ligne de JavaScript pour la retirer. */
+.projet:not([hidden]) + .projet {
+  margin-top: clamp(3.5rem, 7vw, 5.5rem);
+  padding-top: clamp(3.5rem, 7vw, 5.5rem);
+  border-top: 1px solid var(--line);
+}
+
+.projet__tete {
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+/* Plus petit que le h2 courant : ce titre revient à chaque projet, il ouvre une
+   fiche et non une section. */
+.projet__titre {
+  font-size: clamp(1.6rem, 2.8vw, 2.25rem);
+  line-height: 1.15;
+}
+
+.projet__texte {
+  color: var(--text-muted);
+  max-width: var(--maxw-text);
+  margin: 1.15rem 0 0;
 }
 
 /* ---------- Le livre (page Sur-mesure) ---------- */
