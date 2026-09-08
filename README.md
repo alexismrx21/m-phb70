@@ -15,10 +15,11 @@ Puis ouvrir <http://localhost:8000>. C'est tout : il n'y a rien à installer ni 
 
 ```
 index.html              Accueil : hero, secteurs, méthode épinglée, réseau, contact
-savoir-faire.html       Philippe Boccara, les équipes, le pôle Luxembourg
-realisations.html       Galerie filtrable (hôtellerie / restauration) + lightbox
+agence.html             Philippe Boccara, l'équipe, les trois pôles
+realisations.html       Un album par projet, filtrable, + lightbox
+projet-*.html           Une page par projet : sa notice et toutes ses photos (7)
 sur-mesure.html         Pièces d'exception, ateliers, résidences
-contact.html            Formulaire + les 4 bureaux
+contact.html            Formulaire de contact (les 4 bureaux sont au pied de page)
 mentions-legales.html   Mentions légales
 
 assets/css/style.css    Tout le CSS : variables de design puis composants
@@ -29,12 +30,36 @@ assets/img/intro/       Les visuels de l'introduction — planche, logo détour�
 assets/img/hero/        Les quatre photos du diaporama d'accueil (810 Ko)
 assets/img/secteurs/    Les trois cartes « secteurs d'expertise » (305 Ko)
 assets/img/full/        Images grand format (héros, lightbox) — 1200 à 1920 px
+                        dont livre-pieces.jpg, la planche d'album de Sur-mesure,
+                        et livre-vierge.jpg, la même dépouillée de ses neuf vues
+                        (voir « L'album de la page Réalisations »)
 assets/img/thumb/       Vignettes de galerie — 760 px
 assets/img/raw/         Originaux téléchargés depuis l'ancien site (non versionnés)
 
 _redirects              Redirections des anciennes URL WordPress (Netlify)
 vercel.json             Les mêmes redirections (Vercel)
 ```
+
+## L'album de la page Réalisations
+
+Chaque projet montre ses photos sur un livre ouvert. Ce livre n'est pas dessiné
+en CSS : c'est `assets/img/full/livre-vierge.jpg`, la planche photographiée de
+Sur-mesure dont les neuf vues imprimées ont été effacées, en étendant le papier
+qui les entourait. Les photos du projet viennent s'y poser en absolu, aux
+coordonnées relevées au pixel sur le fichier (`--x`, `--y`, `--l`, `--h`, en
+pourcentages : la planche se met à l'échelle sans se recadrer).
+
+Conséquence utile : un cadre qu'un projet ne remplit pas ne montre rien du tout,
+puisqu'il n'y a plus rien dessous.
+
+Les doubles pages d'un même projet sont empilées dans la même case de grille et
+masquées en `visibility: hidden` — jamais en `display: none`, sans quoi la
+visionneuse cesserait de les enchaîner.
+
+POUR AJOUTER UN PROJET : dupliquer un `<article class="projet">` dans
+`realisations.html`, lui donner sa catégorie et un id d'album unique, répartir
+ses photos dans les cadres, puis dupliquer une page `projet-*.html` et l'ajouter
+au `sitemap.xml`.
 
 ## Modifier le site
 
@@ -298,15 +323,10 @@ Deux conséquences à connaître avant d'y toucher :
 - `index.html` porte `<body class="accueil">`. C'est le seul crochet qui aligne
   le pied de page sur le fond du contenu (`.accueil .footer`). Les cinq autres
   pages gardent un pied de page légèrement détaché.
-- La classe `section--surface` sert toujours sur `savoir-faire.html`,
-  `contact.html` et `sur-mesure.html` : elle a seulement été retirée de
-  l'accueil. Ne pas supprimer la règle.
-
-**CSS devenu inutilisé.** La suppression des sections « Notre mission », des
-chiffres et de « Ce que nous livrons » laisse sans emploi les blocs `.stats`,
-`.stat`, `.cards`, `.card*` et `.section--tight` dans `style.css`. Ils sont
-conservés tels quels : ce sont des composants réutilisables, et l'accueil est la
-seule page qui s'en servait. À supprimer si l'on est sûr de ne pas y revenir.
+- Les blocs laissés sans emploi par la refonte de l'accueil — `.stats`, `.stat*`,
+  `.cards`, `.card*`, `.cta`, `.section--surface`, `.section--tight`,
+  `.form__note`, `.office__role` — ont été retirés de `style.css` : aucune page
+  ne les posait plus. Les reprendre dans l'historique si l'on y revient.
 
 ## À compléter avant la mise en ligne
 

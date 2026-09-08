@@ -428,12 +428,6 @@ ul {
 .section {
   padding-block: var(--section);
 }
-.section--surface {
-  background: var(--surface);
-}
-.section--tight {
-  padding-block: clamp(3rem, 6vw, 5rem);
-}
 
 .measure {
   max-width: var(--maxw-text);
@@ -955,95 +949,6 @@ ul {
   font-weight: 400;
 }
 
-/* ---------- Chiffres clés ---------- */
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border-block: 1px solid var(--line);
-}
-.stat {
-  background: var(--bg);
-  padding: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 2.5vw, 2rem);
-}
-.section--surface .stat {
-  background: var(--surface);
-}
-.stat__value {
-  display: block;
-  font-family: var(--font-display);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: "lnum" 1;
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
-  line-height: 1;
-  color: var(--accent);
-}
-.stat__label {
-  display: block;
-  margin-top: 1rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-/* ---------- Cartes visuelles (aperçu réalisations) ---------- */
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(1rem, 2vw, 1.75rem);
-}
-
-.card {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  text-decoration: none;
-  background: var(--surface-2);
-}
-.card__media {
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-}
-.card__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.78);
-  transform: scale(1.001);
-  transition:
-    transform 1s var(--ease),
-    filter var(--dur) var(--ease);
-}
-.card:hover .card__media img,
-.card:focus-visible .card__media img {
-  transform: scale(1.05);
-  filter: brightness(1);
-}
-
-.card__body {
-  position: absolute;
-  inset: auto 0 0 0;
-  padding: clamp(4rem, 8vw, 5.5rem) clamp(1.5rem, 3vw, 2rem)
-    clamp(1.5rem, 3vw, 2rem);
-  background: linear-gradient(
-    to top,
-    rgba(11, 11, 13, 0.97) 0%,
-    rgba(11, 11, 13, 0.86) 40%,
-    rgba(11, 11, 13, 0.45) 72%,
-    rgba(11, 11, 13, 0) 100%
-  );
-}
-.card__body .eyebrow {
-  margin-bottom: 0.5rem;
-}
-.card__title {
-  font-size: clamp(1.5rem, 2.4vw, 2rem);
-}
-
 /* ---------- Bloc image + texte alterné ---------- */
 
 .split {
@@ -1371,9 +1276,6 @@ ul {
   background: var(--bg);
   padding: clamp(2rem, 3.5vw, 2.75rem);
 }
-.section--surface .office {
-  background: var(--surface);
-}
 .office__city {
   font-family: var(--font-display);
   font-size: 1.75rem;
@@ -1381,19 +1283,9 @@ ul {
   margin-bottom: 0.75rem;
   color: var(--accent);
 }
-.office__role {
-  display: block;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1.5rem;
-}
-/* Sans le rôle doré (accueil), la ville se retrouve collée à l'adresse : le
-   sélecteur adjacent ne s'applique que dans ce cas et rend l'écart perdu. La
-   marge du titre étant adjacente, les deux fusionnent — c'est bien 1.75rem qui
-   sépare au final, pas leur somme. */
+/* La ville serait sinon collée à l'adresse. La marge du titre étant adjacente,
+   les deux fusionnent — c'est bien 1.75rem qui sépare au final, pas leur
+   somme. */
 .office__city + address {
   margin-top: 1.75rem;
 }
@@ -1911,11 +1803,6 @@ address {
   cursor: pointer;
 }
 
-.form__note {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
 .form__status {
   padding: 1rem 1.25rem;
   border-left: 2px solid var(--accent);
@@ -1924,27 +1811,6 @@ address {
 }
 .form__status[hidden] {
   display: none;
-}
-
-/* ---------- Appel à l'action final ---------- */
-
-.cta {
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  padding-block: clamp(5rem, 10vw, 8rem);
-  border-top: 1px solid var(--line);
-}
-.cta__inner {
-  position: relative;
-  z-index: 1;
-}
-.cta p {
-  max-width: 52ch;
-  margin-inline: auto;
-}
-.cta .btn {
-  margin-top: 2.5rem;
 }
 
 /* ---------- Partenaires & références (accueil) ---------- */
