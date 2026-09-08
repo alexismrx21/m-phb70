@@ -1485,40 +1485,234 @@ address {
   filter: brightness(1);
 }
 
-/* ---------- Les projets (page Réalisations) ---------- */
-/* La page ne déroule plus un tapis de vignettes mais une suite de projets :
-   chacun porte son titre, sa notice et ses seules photos. Le filtre agit sur le
-   bloc entier — la catégorie est posée sur le projet, plus sur la vignette. */
+/* ---------- L'album (page Réalisations) ---------- */
+/* La même planche photographiée que sur Sur-mesure, réemployée telle quelle :
+   c'est un vrai livre, avec ses ombres, sa pliure et le grain de son papier —
+   aucune mise en page ne restitue cela. Ses neuf vues imprimées en ont été
+   effacées une fois pour toutes (`livre-vierge.jpg`, obtenu de l'originale en
+   étendant le papier alentour) : un cadre que le projet ne remplit pas ne
+   montre donc rien, pas un rectangle rapporté. Les photos viennent s'y poser
+   aux coordonnées relevées sur le fichier.
+
+   Ces coordonnées sont en pourcentages : la planche se met à l'échelle sans se
+   recadrer, elles restent donc justes à toutes les largeurs, sans une ligne de
+   JavaScript. */
 
 .projet[hidden] {
   display: none;
 }
 
-/* Le filet ne sépare que deux projets tous les deux affichés. Un projet dont le
-   voisin du dessus est masqué se retrouve en tête de liste : il n'a rien à
-   séparer, et `[hidden] + .projet` ne correspondant à rien, la règle s'annule
-   d'elle-même au filtrage — sans une ligne de JavaScript pour la retirer. */
+/* Un projet dont le voisin du dessus est masqué se retrouve en tête de liste :
+   il n'a rien à séparer. `[hidden] + .projet` ne correspondant à rien, l'écart
+   s'annule de lui-même au filtrage, sans une ligne de JavaScript. */
 .projet:not([hidden]) + .projet {
-  margin-top: clamp(3.5rem, 7vw, 5.5rem);
-  padding-top: clamp(3.5rem, 7vw, 5.5rem);
-  border-top: 1px solid var(--line);
+  margin-top: clamp(4rem, 8vw, 6.5rem);
 }
 
 .projet__tete {
   margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
 }
 
-/* Plus petit que le h2 courant : ce titre revient à chaque projet, il ouvre une
-   fiche et non une section. */
 .projet__titre {
   font-size: clamp(1.6rem, 2.8vw, 2.25rem);
   line-height: 1.15;
 }
+.projet__titre a {
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+.projet__titre a:hover {
+  color: var(--accent-hi);
+}
 
-.projet__texte {
+/* Plus étroit que la colonne de texte, comme le livre de Sur-mesure : il se lit
+   alors comme un objet posé sur le mur, et non comme une image de pleine
+   largeur. La planche gardant son format, cette seule mesure règle la hauteur
+   en même temps que la largeur. */
+.album {
+  --fleche: clamp(2.25rem, 4vw, 3rem);
+  width: min(100%, 68rem);
+  margin-inline: auto;
+  display: grid;
+  /* Les colonnes des flèches gardent leur largeur même sans bouton : un projet
+     qui tient sur une seule double page aurait sinon un livre plus large que
+     les autres, et la page perdrait son alignement. */
+  grid-template-columns: var(--fleche) minmax(0, 1fr) var(--fleche);
+  align-items: center;
+  gap: clamp(0.5rem, 1.5vw, 1.25rem);
+}
+
+/* Chaque élément est placé nommément. Un album d'une seule double page n'a pas
+   de flèches : sans ces coordonnées, le livre irait se ranger dans la colonne
+   de gauche, large de ce qu'elle veut. */
+.album__fleche--prec {
+  grid-area: 1 / 1;
+}
+.album__spreads {
+  grid-area: 1 / 2;
+  display: grid;
+}
+.album__fleche--suiv {
+  grid-area: 1 / 3;
+}
+
+.album__fleche {
+  display: grid;
+  place-items: center;
+  width: var(--fleche);
+  height: var(--fleche);
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: transparent;
   color: var(--text-muted);
-  max-width: var(--maxw-text);
-  margin: 1.15rem 0 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+.album__fleche:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.album__compteur {
+  grid-area: 2 / 1 / 2 / -1;
+  margin: clamp(1rem, 2vw, 1.5rem) 0 0;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  color: var(--text-muted);
+}
+
+/* Toutes les doubles pages dans la même case : superposées, pas à la suite.
+   Elles portent la même planche, donc la même hauteur — l'album ne saute pas
+   d'un feuillet à l'autre. */
+.album__spread {
+  grid-area: 1 / 1;
+  position: relative;
+  transition: opacity 0.5s var(--ease);
+}
+
+/* Repliée : invisible et hors du parcours clavier, mais toujours dans le flux.
+   `display: none` la retirerait aussi de la visionneuse, qui doit continuer
+   d'enchaîner tout le projet. */
+.album__spread--replie {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Le fond de la planche est un noir pur, celui du site un noir bleuté : sans
+   traitement, elle se verrait comme un rectangle posé dessus. Le masque efface
+   ses bords sur la marge noire du rendu — assez court pour ne jamais entamer
+   l'ombre du livre, assez large pour que la jonction ne se voie pas. */
+.album__papier {
+  display: block;
+  width: 100%;
+  height: auto;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 4%, #000 96%, transparent),
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 4%, #000 96%, transparent),
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+  mask-composite: intersect;
+}
+
+.album__vue {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--l);
+  height: var(--h);
+  margin: 0;
+}
+
+.album__btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  /* Rien derrière la vignette : le temps qu'elle charge, c'est le papier de la
+     planche qu'on voit, pas un rectangle blanc posé dessus. */
+  background: transparent;
+  cursor: zoom-in;
+  overflow: hidden;
+  /* Le filet du survol est un `outline`, pas une bordure : il ne prend pas de
+     place et la photo reste calée au pixel sur le cadre effacé de la planche.
+     Posé vers l'intérieur, il se lit comme un liseré sur la vue elle-même. */
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  transition: outline-color var(--dur) var(--ease);
+}
+.album__btn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Le voile d'or, par-dessus la photo : sur Sur-mesure, la zone est vide et son
+   fond suffit ; ici il faut passer au-dessus de l'image. */
+.album__btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(198, 161, 91, 0.12);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+  pointer-events: none;
+}
+
+/* Au survol, la vue s'entoure d'or et s'éclaire à peine : assez pour dire
+   qu'elle s'ouvre, pas au point de salir la planche. Mêmes valeurs que le
+   livre de Sur-mesure. */
+.album__btn:hover,
+.album__btn:focus-visible {
+  outline-color: rgba(198, 161, 91, 0.9);
+}
+.album__btn:hover::after,
+.album__btn:focus-visible::after {
+  opacity: 1;
+}
+
+/* En colonne étroite, les flèches passent sous le livre avec le compteur. La
+   planche, elle, reste entière : c'est une image, elle se met à l'échelle. */
+@media (max-width: 720px) {
+  .album {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .album__spreads {
+    grid-area: 1 / 1;
+  }
+  .album__fleche {
+    grid-row: 2;
+    grid-column: 1;
+    margin-top: clamp(1rem, 3vw, 1.5rem);
+  }
+  .album__fleche--prec {
+    justify-self: start;
+  }
+  .album__fleche--suiv {
+    justify-self: end;
+  }
+  .album__compteur {
+    grid-area: 2 / 1;
+    margin-top: clamp(1rem, 3vw, 1.5rem);
+    align-self: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .album__spread {
+    transition: none;
+  }
 }
 
 /* ---------- Le livre (page Sur-mesure) ---------- */

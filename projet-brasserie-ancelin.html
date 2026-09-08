@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="fr" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brasserie Ancelin — Réalisations | PHB70</title>
+  <meta name="description" content="Mobilier de salle et cave à vin intégrée, dans une brasserie dont les décors sont classés.">
+  <link rel="canonical" href="https://www.phb70.com/projet-brasserie-ancelin.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="PHB70">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Brasserie Ancelin — Réalisations | PHB70">
+  <meta property="og:description" content="Mobilier de salle et cave à vin intégrée, dans une brasserie dont les décors sont classés.">
+  <meta property="og:url" content="https://www.phb70.com/projet-brasserie-ancelin.html">
+  <meta property="og:image" content="https://www.phb70.com/assets/img/full/restauration-salle-classee.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#0B0B0D">
+
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-400-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>document.documentElement.classList.remove('no-js');
+    // Rechargement : on repart du haut. Le navigateur restaure sinon la position
+    // précédente, ce qui n'a pas de sens ici — sur l'accueil, l'intro se
+    // jouerait par-dessus une page déjà défilée. Un retour arrière garde en
+    // revanche sa restauration : c'est le seul cas où retrouver sa place sert.
+    (function () {
+      try {
+        if (!('scrollRestoration' in history)) return;
+        var nav = performance.getEntriesByType('navigation')[0];
+        if (nav && nav.type === 'back_forward') {
+          // Le réglage vit sur l'entrée d'historique : sans ce retour explicite
+          // à `auto`, le « manual » posé au chargement précédent priverait le
+          // retour arrière de sa restauration.
+          history.scrollRestoration = 'auto';
+          return;
+        }
+        history.scrollRestoration = 'manual';
+        window.scrollTo(0, 0);
+      } catch (e) { }
+    })();</script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+  <header class="header" data-header>
+    <div class="header__inner">
+      <a class="brand" href="index.html" aria-label="PHB70, retour à l'accueil">
+        <img src="assets/img/logo.png" alt="PHB70" width="300" height="253">
+      </a>
+      <button class="burger" type="button" data-burger aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+        <span class="visually-hidden">Ouvrir le menu</span>
+      </button>
+      <nav class="nav" id="site-nav" data-nav aria-label="Navigation principale">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="index.html">Accueil</a></li>
+          <li><a class="nav__link" href="savoir-faire.html">L'agence</a></li>
+          <li><a class="nav__link" href="realisations.html" aria-current="page">Réalisations</a></li>
+          <li><a class="nav__link" href="sur-mesure.html">Sur-mesure</a></li>
+          <li><a class="btn nav__cta" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+
+    <section class="pagehead">
+      <div class="pagehead__media">
+        <img src="assets/img/full/restauration-salle-classee.jpg" alt="Salle de restaurant sous décor classé : moulures et dorures, fauteuils vert anis et comptoir en bois précieux" width="1600" height="1016"
+          decoding="async" fetchpriority="high">
+      </div>
+      <div class="container pagehead__inner">
+        <span class="eyebrow">Restauration</span>
+        <h1>Brasserie Ancelin</h1>
+        <p class="lead">Mobilier de salle et cave à vin intégrée, dans une brasserie dont les décors sont classés.</p>
+      </div>
+    </section>
+
+    <!-- Les photos du projet. Le conteneur porte `data-gallery` : sans filtre ni
+         projet autour, la visionneuse y voit directement des photos et les enchaîne
+         dans l'ordre de la page. -->
+    <section class="section galerie">
+      <div class="container">
+        <p class="lien-retour">
+          <a class="link link--or" href="realisations.html"><span class="arw" aria-hidden="true">&larr;</span>
+            Toutes les réalisations</a>
+        </p>
+
+        <div class="gallery" data-gallery>
+          <figure class="gallery__item" data-shot>
+            <button class="gallery__btn" type="button" data-full="assets/img/full/restauration-salle-classee.jpg"
+              data-caption="Restaurant — salle sous décor classé">
+              <img src="assets/img/thumb/restauration-salle-classee.jpg"
+                alt="Salle de restaurant sous décor classé : moulures et dorures, fauteuils vert anis et comptoir en bois précieux"
+                loading="lazy" decoding="async">
+              <span class="visually-hidden">Agrandir : Restaurant — salle sous décor classé</span>
+            </button>
+          </figure>
+          <figure class="gallery__item" data-shot>
+            <button class="gallery__btn" type="button" data-full="assets/img/full/restauration-cave-a-vin.jpg"
+              data-caption="Cave à vin intégrée">
+              <img src="assets/img/thumb/restauration-cave-a-vin.jpg"
+                alt="Cave à vin vitrée intégrée dans un décor classé, encadrée de colonnes et de rideaux" loading="lazy"
+                decoding="async">
+              <span class="visually-hidden">Agrandir : Cave à vin intégrée</span>
+            </button>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="lightbox" data-lightbox role="dialog" aria-modal="true" aria-label="Visionneuse d'images"
+    aria-hidden="true">
+    <button class="lightbox__btn lightbox__close" type="button" data-lightbox-close
+      aria-label="Fermer la visionneuse">&times;</button>
+    <button class="lightbox__btn lightbox__prev" type="button" data-lightbox-prev
+      aria-label="Image précédente">&#8249;</button>
+    <button class="lightbox__btn lightbox__next" type="button" data-lightbox-next
+      aria-label="Image suivante">&#8250;</button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" data-lightbox-img src="" alt="">
+      <figcaption class="lightbox__caption" data-lightbox-caption></figcaption>
+    </figure>
+  </div>
+
+  <!-- CTA de fin, identique à celui des autres pages : filet doré, fond texturé,
+     bouton au contour or. -->
+  <section class="cta-final fond-mur">
+    <span class="separateur reveal" aria-hidden="true"></span>
+
+    <div class="container cta-final__inner reveal">
+      <h2 class="cta-final__titre">Un projet comparable&nbsp;?<br>Parlons‑en.</h2>
+      <p class="cta-final__texte">Dites-nous le nombre de clés, le calendrier d'ouverture et le niveau de finition
+        visé&nbsp;: nous savons dire rapidement si nous sommes le bon partenaire.</p>
+      <a class="btn btn--or cta-final__btn" href="contact.html">Nous contacter</a>
+    </div>
+  </section>
+  <footer class="footer footer--sombre">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img src="assets/img/logo.png" alt="PHB70" width="300" height="253" loading="lazy">
+        </div>
+
+        <nav class="footer__nav" aria-label="Navigation de pied de page">
+          <p class="footer__title">Navigation</p>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="savoir-faire.html">L'agence</a></li>
+            <li><a href="realisations.html">Réalisations</a></li>
+            <li><a href="sur-mesure.html">Sur-mesure</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="footer__cols">
+          <div>
+            <p class="footer__title">Paris</p>
+            <address>
+              <a href="tel:+33682840308">+33 6 82 84 03 08</a><br>
+              53 bis rue de Passy<br>75016 Paris<br>France
+            </address>
+          </div>
+          <div>
+            <p class="footer__title">New York</p>
+            <address>
+              <a href="tel:+19173014228">+1 917 301 42 28</a><br>
+              40 East 94th Street<br>New York, NY 10128<br>États-Unis
+            </address>
+          </div>
+          <div>
+            <p class="footer__title">Luxembourg</p>
+            <address>
+              <a href="tel:+3522021182203">+352 20 21 18 22 03</a><br>
+              4 place de Paris<br>L-2314 Luxembourg<br>Luxembourg
+            </address>
+          </div>
+          <div>
+            <p class="footer__title">Portugal</p>
+            <address>
+              <a href="tel:+351910302959">+351 910 302 959</a><br>
+              14 avenida 20 de Maio<br>4590-182 Paços de Ferreira<br>Portugal
+            </address>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; <span data-year>2026</span> PHB70. Tous droits réservés.</p>
+        <p><a href="mentions-legales.html">Mentions légales</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+
+</html>

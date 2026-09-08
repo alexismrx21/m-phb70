@@ -115,24 +115,34 @@
   var gallery = document.querySelector('[data-gallery]');
 
   if (gallery) {
-    // Ce que le filtre montre et ce que la visionneuse enchaîne ne sont pas la
-    // même chose. Sur Réalisations, le filtre cache des projets entiers
-    // (`[data-category]`) et la visionneuse défile leurs photos (`[data-shot]`).
-    // Sur Sur-mesure, les zones cliquables du livre sont les deux à la fois, et
-    // il n'y a pas de photo marquée : on retombe alors sur les mêmes éléments.
+    // Ce que le filtre montre et ce que la visionneuse enchaîne ne sont pas
+    // toujours la même chose. Sur une page projet, il n'y a que des photos
+    // (`[data-shot]`) et aucun filtre. Sur Réalisations, il n'y a que des
+    // cartes filtrables (`[data-category]`) et aucune photo. Sur Sur-mesure,
+    // les zones du livre sont les deux à la fois. D'où cette bascule : les
+    // photos si la page en contient, les blocs de catégorie sinon.
     var groups = Array.prototype.slice.call(gallery.querySelectorAll('[data-category]'));
     var filters = Array.prototype.slice.call(document.querySelectorAll('[data-filter]'));
     var byShot = gallery.querySelector('[data-shot]') !== null;
     var unit = byShot ? '[data-shot]' : '[data-category]';
+    var units = Array.prototype.slice.call(gallery.querySelectorAll(unit));
     var visible = [];
 
-    // Recomposée après chaque filtrage : la visionneuse doit enchaîner les
-    // photos réellement affichées, et dans l'ordre de la page.
-    var collect = function () {
-      visible = byShot
-        ? Array.prototype.slice.call(
-          gallery.querySelectorAll('[data-category]:not([hidden]) [data-shot]'))
-        : groups.filter(function (g) { return !g.hidden; });
+    // Un élément compte pour la visionneuse si rien au-dessus de lui n'est
+    // masqué. `closest` teste aussi l'élément lui-même : la règle vaut donc
+    // aussi bien pour une photo rangée dans un bloc écarté par le filtre que
+    // pour une zone du livre qui porte le `hidden` en propre.
+    // `autour` est la photo qu'on vient de cliquer : la série qui la contient —
+    // un projet, sur la page Réalisations — borne alors le défilé, et les
+    // flèches de la visionneuse ne passent pas au projet suivant. Sans elle,
+    // toute la page défile, ce qui reste le cas des pages qui n'ont qu'une
+    // série.
+    var collect = function (autour) {
+      var serie = autour && autour.closest('[data-serie]');
+      var source = serie ? serie.querySelectorAll(unit) : units;
+      visible = Array.prototype.filter.call(source, function (el) {
+        return !el.closest('[hidden]');
+      });
     };
 
     var applyFilter = function (value) {
@@ -151,6 +161,32 @@
       btn.addEventListener('click', function () {
         applyFilter(btn.getAttribute('data-filter'));
       });
+    });
+
+    // Les albums : une double page à la fois, les autres seulement rendues
+    // invisibles. Elles restent dans le flux — c'est ce qui donne à l'album la
+    // hauteur de la plus grande et l'empêche de sauter quand on tourne.
+    Array.prototype.forEach.call(gallery.querySelectorAll('[data-album]'), function (album) {
+      var spreads = Array.prototype.slice.call(album.querySelectorAll('[data-spread]'));
+      if (spreads.length < 2) return;
+
+      var compteur = album.querySelector('[data-album-compteur]');
+      var courante = 0;
+
+      var tourner = function (n) {
+        courante = (n + spreads.length) % spreads.length;
+        spreads.forEach(function (spread, i) {
+          spread.classList.toggle('album__spread--replie', i !== courante);
+        });
+        if (compteur) {
+          compteur.innerHTML = (courante + 1) + '&nbsp;/&nbsp;' + spreads.length;
+        }
+      };
+
+      var prec = album.querySelector('[data-album-prec]');
+      var suiv = album.querySelector('[data-album-suiv]');
+      if (prec) prec.addEventListener('click', function () { tourner(courante - 1); });
+      if (suiv) suiv.addEventListener('click', function () { tourner(courante + 1); });
     });
 
     // --- Lightbox ---
@@ -176,6 +212,7 @@
       };
 
       var openBox = function (item) {
+        collect(item);
         index = visible.indexOf(item);
         if (index < 0) return;
         opener = item.querySelector('button');

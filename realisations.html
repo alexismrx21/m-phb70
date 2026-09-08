@@ -88,18 +88,22 @@
     <section class="section galerie">
       <div class="container">
 
-        <!-- Les réalisations sont groupées par projet : un titre, une notice, et les seules
-         photos de ce chantier. Le filtre agit sur le projet entier — la catégorie est donc
-         portée par <article class="projet">, plus par chaque vignette.
+<!-- Un album par projet : un titre, puis les photos posées sur une double page
+         qui se tourne. Le filtre agit sur le projet entier — la catégorie est portée par
+         <article class="projet">. Le `data-serie` du même article borne la visionneuse :
+         les flèches y défilent le projet, sans passer au suivant.
 
-         TODO CONTENU : les titres et les notices ci-dessous ne décrivent que ce que montrent
-         les photos. Quand les informations seront disponibles, remplacer chaque titre par le
-         nom de l'établissement (ou « Hôtel 5 étoiles, Paris » si NDA) et ajouter à la notice
-         le nombre de chambres ou de couverts, l'atelier de fabrication et le délai tenu.
+         Les doubles pages sont toutes empilées dans la même case de grille : c'est ce qui
+         donne à l'album la hauteur de la plus grande et l'empêche de sauter quand on tourne.
+         Une seule est visible, les autres sont en `visibility: hidden` — retirées de la
+         navigation clavier, mais toujours connues de la visionneuse.
+
+         TODO CONTENU : les noms portés par les titres sont des noms d'emprunt, choisis pour
+         ne correspondre à aucun établissement existant. Ils tiennent la place des vrais, à
+         mettre dès qu'ils seront connus (ou « Hôtel 5 étoiles, Paris » si NDA).
 
          POUR AJOUTER UN PROJET : dupliquer un <article class="projet">, lui donner sa
-         catégorie et y déplacer ses figures. Rien d'autre à toucher, ni le filtre ni la
-         visionneuse.
+         catégorie et un id d'album unique, et répartir ses photos entre les doubles pages.
          POUR AJOUTER UNE CATÉGORIE : ajouter un bouton dans .filters, avec le même
          data-filter que le data-category des projets concernés. -->
 
@@ -112,437 +116,1123 @@
         </div>
 
         <div class="projets" data-gallery>
-          <article class="projet reveal" data-category="hotellerie">
+          <article class="projet reveal" data-category="hotellerie" data-serie>
             <header class="projet__tete">
               <span class="eyebrow">Hôtellerie</span>
-              <h2 class="projet__titre">Junior suites et salons</h2>
-              <p class="projet__texte">Chambres et salons livrés en menuiserie intégrée&nbsp;: boiseries laquées pleine hauteur, têtes de lit,
-                banquettes courbes et tables basses. Le mobilier libre reprend les bois et les tissus des parties
-                fixes&nbsp;— c'est ce qui fait qu'une chambre se lit d'un seul tenant.</p>
+              <h2 class="projet__titre"><a href="projet-hotel-verdaine.html">Hôtel Verdaine</a></h2>
             </header>
 
-            <div class="gallery">
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-chambre-signature.jpg"
-                  data-caption="Chambre signature — marqueterie de loupe et laiton">
-                  <img src="assets/img/thumb/hotellerie-chambre-signature.jpg"
-                    alt="Chambre d'hôtel : panneau mural en marqueterie de loupe, suspensions en verre ambré et tapis à motif"
-                    loading="eager" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre signature — marqueterie de loupe et laiton</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-01.jpg"
-                  data-caption="Chambre ouvrant sur salon — boiseries vert olive">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-01.jpg"
-                    alt="Chambre aux boiseries laquées vert olive ouvrant sur un salon adjacent, tapis graphique et banc en cuir"
-                    loading="eager" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre ouvrant sur salon — boiseries vert olive</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-02.jpg"
-                  data-caption="Chambre — chaise longue en cuir">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-02.jpg"
-                    alt="Chambre aux boiseries vert olive : chaise longue en cuir rayé, lit habillé de lin et tapis graphique"
-                    loading="eager" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre — chaise longue en cuir</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-03.jpg"
-                  data-caption="Suite — commodes à façades sculptées">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-03.jpg"
-                    alt="Suite : commodes à façades sculptées, bibliothèque suspendue et fauteuil pivotant" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Suite — commodes à façades sculptées</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-04.jpg"
-                  data-caption="Chambre — banc de pied de lit en cuir">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-04.jpg"
-                    alt="Chambre ouvrant sur un balcon parisien : banc en cuir en pied de lit et boiseries taupe"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre — banc de pied de lit en cuir</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-05.jpg"
-                  data-caption="Chambre — panneaux latéraux en bois sombre">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-05.jpg"
-                    alt="Lit vu de face : panneaux latéraux en bois sombre, appliques en laiton et cimaise de cadres"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre — panneaux latéraux en bois sombre</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-06.jpg"
-                  data-caption="Suite — salon sur balcon">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-06.jpg"
-                    alt="Salon de suite ouvrant sur balcon : banquette bleu nuit, commode en placage et table basse ronde"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Suite — salon sur balcon</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-07.jpg"
-                  data-caption="Salon — banquette sur-mesure et fauteuil moutarde">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-07.jpg"
-                    alt="Salon aux boiseries vert olive : banquette sur-mesure, coussins de velours et fauteuil moutarde"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Salon — banquette sur-mesure et fauteuil moutarde</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-08.jpg"
-                  data-caption="Coin salon — commode à façade sculptée">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-08.jpg"
-                    alt="Coin salon : commode à façade sculptée, lampe en céramique et banquette tapissée" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Coin salon — commode à façade sculptée</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-09.jpg"
-                  data-caption="Salon — banquette sur-mesure et table en noyer">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-09.jpg"
-                    alt="Banquette de salon sur-mesure devant un mur de boiseries, coussins de velours et table basse en noyer"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Salon — banquette sur-mesure et table en noyer</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-10.jpg"
-                  data-caption="Banquette longue — tissu à chevrons">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-10.jpg"
-                    alt="Banquette longue en tissu à chevrons, coussins de velours prune et table basse ronde"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Banquette longue — tissu à chevrons</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-11.jpg"
-                  data-caption="Table basse — plateau tressé">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-11.jpg"
-                    alt="Table basse en noyer à plateau tressé devant une banquette sur-mesure" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Table basse — plateau tressé</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-12.jpg"
-                  data-caption="Détail — banquette en tissu géométrique">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-12.jpg"
-                    alt="Détail de banquette en tissu géométrique bleu et table basse en noyer" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Détail — banquette en tissu géométrique</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-13.jpg"
-                  data-caption="Détail — banquette courbe tapissée">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-13.jpg"
-                    alt="Détail de banquette courbe : dossier tapissé, coussins bordeaux et table basse ronde"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Détail — banquette courbe tapissée</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-14.jpg"
-                  data-caption="Chambre — tête de lit en cuir">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-14.jpg"
-                    alt="Lit à tête de lit en cuir devant un mur de boiseries vert olive, chevet en pierre et cimaise de cadres"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre — tête de lit en cuir</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-15.jpg"
-                  data-caption="Chambre — boiseries vert olive et chevet sculpté">
-                  <img src="assets/img/thumb/hotellerie-junior-suite-15.jpg"
-                    alt="Lit à tête de lit en cuir devant des boiseries vert olive, chevet en bois sculpté et lampe en laiton"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre — boiseries vert olive et chevet sculpté</span>
-                </button>
-              </figure>
+            <div class="album" data-album id="album-01">
+              <button class="album__fleche album__fleche--prec" type="button" data-album-prec
+                aria-controls="album-01" aria-label="Page précédente">&#8249;</button>
+              <div class="album__spreads">
+                <div class="album__spread" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-03.jpg"
+                      data-caption="Suite — commodes à façades sculptées">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-03.jpg"
+                        alt="Suite : commodes à façades sculptées, bibliothèque suspendue et fauteuil pivotant"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Suite — commodes à façades sculptées</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-04.jpg"
+                      data-caption="Chambre — banc de pied de lit en cuir">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-04.jpg"
+                        alt="Chambre ouvrant sur un balcon parisien : banc en cuir en pied de lit et boiseries taupe"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — banc de pied de lit en cuir</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-06.jpg"
+                      data-caption="Suite — salon sur balcon">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-06.jpg"
+                        alt="Salon de suite ouvrant sur balcon : banquette bleu nuit, commode en placage et table basse ronde"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Suite — salon sur balcon</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-07.jpg"
+                      data-caption="Salon — banquette sur-mesure et fauteuil moutarde">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-07.jpg"
+                        alt="Salon aux boiseries vert olive : banquette sur-mesure, coussins de velours et fauteuil moutarde"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Salon — banquette sur-mesure et fauteuil moutarde</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-08.jpg"
+                      data-caption="Coin salon — commode à façade sculptée">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-08.jpg"
+                        alt="Coin salon : commode à façade sculptée, lampe en céramique et banquette tapissée"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Coin salon — commode à façade sculptée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-11.jpg"
+                      data-caption="Table basse — plateau tressé">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-11.jpg"
+                        alt="Table basse en noyer à plateau tressé devant une banquette sur-mesure"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Table basse — plateau tressé</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-01.jpg"
+                      data-caption="Chambre ouvrant sur salon — boiseries vert olive">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-01.jpg"
+                        alt="Chambre aux boiseries laquées vert olive ouvrant sur un salon adjacent, tapis graphique et banc en cuir"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre ouvrant sur salon — boiseries vert olive</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 62.85%; --l: 20.15%; --h: 27.02%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-13.jpg"
+                      data-caption="Détail — banquette courbe tapissée">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-13.jpg"
+                        alt="Détail de banquette courbe : dossier tapissé, coussins bordeaux et table basse ronde"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — banquette courbe tapissée</span>
+                    </button>
+                  </figure>
+                </div>
+                <div class="album__spread album__spread--replie" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-09.jpg"
+                      data-caption="Salon — banquette sur-mesure et table en noyer">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-09.jpg"
+                        alt="Banquette de salon sur-mesure devant un mur de boiseries, coussins de velours et table basse en noyer"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Salon — banquette sur-mesure et table en noyer</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-03.jpg"
+                      data-caption="Détail — tête de lit en cuir sellier">
+                      <img src="assets/img/thumb/hotellerie-deluxe-03.jpg"
+                        alt="Détail de tête de lit en cuir sellier et panneau latéral en loupe de bois"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — tête de lit en cuir sellier</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-04.jpg"
+                      data-caption="Banquette de fenêtre sur-mesure">
+                      <img src="assets/img/thumb/hotellerie-deluxe-04.jpg"
+                        alt="Banquette de fenêtre sur-mesure, coussins bordeaux et table basse en verre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Banquette de fenêtre sur-mesure</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-01.jpg"
+                      data-caption="Salon — banquette capitonnée">
+                      <img src="assets/img/thumb/hotellerie-superior-01.jpg"
+                        alt="Salon aux boiseries vert olive : banquette capitonnée, guéridon rond et œuvre en relief"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Salon — banquette capitonnée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-03.jpg"
+                      data-caption="Chambre superior — penderie et minibar intégrés">
+                      <img src="assets/img/thumb/hotellerie-superior-03.jpg"
+                        alt="Chambre superior : penderie ouverte et minibar intégrés dans une menuiserie vert olive"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre superior — penderie et minibar intégrés</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-02.jpg"
+                      data-caption="Chambre deluxe — chevets en loupe de bois">
+                      <img src="assets/img/thumb/hotellerie-deluxe-02.jpg"
+                        alt="Chambre deluxe vue de face : chevets en loupe de bois, tête de lit en cuir et cimaise de cadres"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre deluxe — chevets en loupe de bois</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-14.jpg"
+                      data-caption="Chambre — tête de lit en cuir">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-14.jpg"
+                        alt="Lit à tête de lit en cuir devant un mur de boiseries vert olive, chevet en pierre et cimaise de cadres"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — tête de lit en cuir</span>
+                    </button>
+                  </figure>
+                </div>
+              </div>
+              <button class="album__fleche album__fleche--suiv" type="button" data-album-suiv
+                aria-controls="album-01" aria-label="Page suivante">&#8250;</button>
+              <p class="album__compteur" data-album-compteur aria-live="polite">1&nbsp;/&nbsp;2</p>
             </div>
           </article>
 
-          <article class="projet reveal" data-category="hotellerie">
+          <article class="projet reveal" data-category="hotellerie" data-serie>
             <header class="projet__tete">
               <span class="eyebrow">Hôtellerie</span>
-              <h2 class="projet__titre">Chambres deluxe</h2>
-              <p class="projet__texte">Boiseries pleine hauteur, chevets en loupe de bois, têtes de lit en cuir sellier, banquettes de fenêtre et
-                étagères cannelées. Tout est dessiné pour la pièce, jusqu'au dernier rayonnage.</p>
+              <h2 class="projet__titre"><a href="projet-hotel-aurelle.html">Hôtel Aurelle</a></h2>
             </header>
 
-            <div class="gallery">
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-01.jpg"
-                  data-caption="Chambre deluxe — boiseries pleine hauteur">
-                  <img src="assets/img/thumb/hotellerie-deluxe-01.jpg"
-                    alt="Chambre deluxe : boiseries pleine hauteur, fauteuil ocre, tapis graphique et portes-fenêtres"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre deluxe — boiseries pleine hauteur</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-02.jpg"
-                  data-caption="Chambre deluxe — chevets en loupe de bois">
-                  <img src="assets/img/thumb/hotellerie-deluxe-02.jpg"
-                    alt="Chambre deluxe vue de face : chevets en loupe de bois, tête de lit en cuir et cimaise de cadres"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre deluxe — chevets en loupe de bois</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-03.jpg"
-                  data-caption="Détail — tête de lit en cuir sellier">
-                  <img src="assets/img/thumb/hotellerie-deluxe-03.jpg"
-                    alt="Détail de tête de lit en cuir sellier et panneau latéral en loupe de bois" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Détail — tête de lit en cuir sellier</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-04.jpg"
-                  data-caption="Banquette de fenêtre sur-mesure">
-                  <img src="assets/img/thumb/hotellerie-deluxe-04.jpg"
-                    alt="Banquette de fenêtre sur-mesure, coussins bordeaux et table basse en verre" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Banquette de fenêtre sur-mesure</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-05.jpg"
-                  data-caption="Détail — étagère cannelée">
-                  <img src="assets/img/thumb/hotellerie-deluxe-05.jpg"
-                    alt="Étagère cannelée de chambre : présentation de livres et composition florale" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Détail — étagère cannelée</span>
-                </button>
-              </figure>
+            <div class="album" data-album id="album-02">
+              <button class="album__fleche album__fleche--prec" type="button" data-album-prec
+                aria-controls="album-02" aria-label="Page précédente">&#8249;</button>
+              <div class="album__spreads">
+                <div class="album__spread" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-03.jpg"
+                      data-caption="Chambre — long bureau en bois précieux">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-03.jpg"
+                        alt="Chambre : long bureau en bois précieux face au lit et tête de lit capitonnée pleine hauteur"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — long bureau en bois précieux</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-01.jpg"
+                      data-caption="Détail — bureau en bois de rose">
+                      <img src="assets/img/thumb/hotellerie-detail-bureau-01.jpg"
+                        alt="Détail de bureau de chambre : plateau en bois de rose, fauteuil enveloppant et guéridon en verre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — bureau en bois de rose</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-02.jpg"
+                      data-caption="Coin bureau — plan en bois précieux">
+                      <img src="assets/img/thumb/hotellerie-detail-bureau-02.jpg"
+                        alt="Coin bureau de chambre : plan en bois précieux, assises enveloppantes et miroir"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Coin bureau — plan en bois précieux</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-01.jpg"
+                      data-caption="Chambre parisienne — tons crème">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-01.jpg"
+                        alt="Chambre parisienne : canapé sur-mesure, tons crème, bureau en bois précieux et parquet"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre parisienne — tons crème</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-12.jpg"
+                      data-caption="Détail — banquette en tissu géométrique">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-12.jpg"
+                        alt="Détail de banquette en tissu géométrique bleu et table basse en noyer"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — banquette en tissu géométrique</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-13.jpg"
+                      data-caption="Détail — banquette courbe tapissée">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-13.jpg"
+                        alt="Détail de banquette courbe : dossier tapissé, coussins bordeaux et table basse ronde"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — banquette courbe tapissée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-02.jpg"
+                      data-caption="Chambre — tête de lit capitonnée">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-02.jpg"
+                        alt="Chambre à tête de lit capitonnée pleine hauteur, liseuses et plateau de service en bois précieux"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — tête de lit capitonnée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 62.85%; --l: 20.15%; --h: 27.02%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-14.jpg"
+                      data-caption="Chambre — tête de lit en cuir">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-14.jpg"
+                        alt="Lit à tête de lit en cuir devant un mur de boiseries vert olive, chevet en pierre et cimaise de cadres"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — tête de lit en cuir</span>
+                    </button>
+                  </figure>
+                </div>
+                <div class="album__spread album__spread--replie" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-09.jpg"
+                      data-caption="Salon — banquette sur-mesure et table en noyer">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-09.jpg"
+                        alt="Banquette de salon sur-mesure devant un mur de boiseries, coussins de velours et table basse en noyer"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Salon — banquette sur-mesure et table en noyer</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-01.jpg"
+                      data-caption="Chambre deluxe — boiseries pleine hauteur">
+                      <img src="assets/img/thumb/hotellerie-deluxe-01.jpg"
+                        alt="Chambre deluxe : boiseries pleine hauteur, fauteuil ocre, tapis graphique et portes-fenêtres"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre deluxe — boiseries pleine hauteur</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-03.jpg"
+                      data-caption="Détail — tête de lit en cuir sellier">
+                      <img src="assets/img/thumb/hotellerie-deluxe-03.jpg"
+                        alt="Détail de tête de lit en cuir sellier et panneau latéral en loupe de bois"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — tête de lit en cuir sellier</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-04.jpg"
+                      data-caption="Banquette de fenêtre sur-mesure">
+                      <img src="assets/img/thumb/hotellerie-deluxe-04.jpg"
+                        alt="Banquette de fenêtre sur-mesure, coussins bordeaux et table basse en verre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Banquette de fenêtre sur-mesure</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-05.jpg"
+                      data-caption="Détail — étagère cannelée">
+                      <img src="assets/img/thumb/hotellerie-deluxe-05.jpg"
+                        alt="Étagère cannelée de chambre : présentation de livres et composition florale"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — étagère cannelée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-01.jpg"
+                      data-caption="Salon — banquette capitonnée">
+                      <img src="assets/img/thumb/hotellerie-superior-01.jpg"
+                        alt="Salon aux boiseries vert olive : banquette capitonnée, guéridon rond et œuvre en relief"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Salon — banquette capitonnée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-15.jpg"
+                      data-caption="Chambre — boiseries vert olive et chevet sculpté">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-15.jpg"
+                        alt="Lit à tête de lit en cuir devant des boiseries vert olive, chevet en bois sculpté et lampe en laiton"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — boiseries vert olive et chevet sculpté</span>
+                    </button>
+                  </figure>
+                </div>
+              </div>
+              <button class="album__fleche album__fleche--suiv" type="button" data-album-suiv
+                aria-controls="album-02" aria-label="Page suivante">&#8250;</button>
+              <p class="album__compteur" data-album-compteur aria-live="polite">1&nbsp;/&nbsp;2</p>
             </div>
           </article>
 
-          <article class="projet reveal" data-category="hotellerie">
-            <header class="projet__tete">
-              <span class="eyebrow">Hôtellerie</span>
-              <h2 class="projet__titre">Chambres superior</h2>
-              <p class="projet__texte">Penderie, minibar et rangements logés dans une même menuiserie, du sol au plafond. Le gain de place ne se
-                voit pas&nbsp;: c'est à cela qu'on le reconnaît.</p>
-            </header>
-
-            <div class="gallery">
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-superior-01.jpg"
-                  data-caption="Salon — banquette capitonnée">
-                  <img src="assets/img/thumb/hotellerie-superior-01.jpg"
-                    alt="Salon aux boiseries vert olive : banquette capitonnée, guéridon rond et œuvre en relief"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Salon — banquette capitonnée</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-superior-02.jpg"
-                  data-caption="Chambre superior — menuiserie intégrée">
-                  <img src="assets/img/thumb/hotellerie-superior-02.jpg"
-                    alt="Chambre superior : menuiserie vert olive intégrée, fauteuil sur-mesure et accès balcon"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre superior — menuiserie intégrée</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-superior-03.jpg"
-                  data-caption="Chambre superior — penderie et minibar intégrés">
-                  <img src="assets/img/thumb/hotellerie-superior-03.jpg"
-                    alt="Chambre superior : penderie ouverte et minibar intégrés dans une menuiserie vert olive"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre superior — penderie et minibar intégrés</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-superior-04.jpg"
-                  data-caption="Chambre superior — vue sur balcon">
-                  <img src="assets/img/thumb/hotellerie-superior-04.jpg"
-                    alt="Chambre superior ouvrant sur un balcon parisien planté" loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre superior — vue sur balcon</span>
-                </button>
-              </figure>
-            </div>
-          </article>
-
-          <article class="projet reveal" data-category="hotellerie">
-            <header class="projet__tete">
-              <span class="eyebrow">Hôtellerie</span>
-              <h2 class="projet__titre">Chambres parisiennes</h2>
-              <p class="projet__texte">Tons crème, têtes de lit capitonnées et longs bureaux en bois de rose. Le plan court d'un mur à l'autre,
-                sans reprise visible.</p>
-            </header>
-
-            <div class="gallery">
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-01.jpg"
-                  data-caption="Chambre parisienne — tons crème">
-                  <img src="assets/img/thumb/hotellerie-chambre-paris-01.jpg"
-                    alt="Chambre parisienne : canapé sur-mesure, tons crème, bureau en bois précieux et parquet"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre parisienne — tons crème</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-02.jpg"
-                  data-caption="Chambre — tête de lit capitonnée">
-                  <img src="assets/img/thumb/hotellerie-chambre-paris-02.jpg"
-                    alt="Chambre à tête de lit capitonnée pleine hauteur, liseuses et plateau de service en bois précieux"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre — tête de lit capitonnée</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-03.jpg"
-                  data-caption="Chambre — long bureau en bois précieux">
-                  <img src="assets/img/thumb/hotellerie-chambre-paris-03.jpg"
-                    alt="Chambre : long bureau en bois précieux face au lit et tête de lit capitonnée pleine hauteur"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Chambre — long bureau en bois précieux</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-01.jpg"
-                  data-caption="Détail — bureau en bois de rose">
-                  <img src="assets/img/thumb/hotellerie-detail-bureau-01.jpg"
-                    alt="Détail de bureau de chambre : plateau en bois de rose, fauteuil enveloppant et guéridon en verre"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Détail — bureau en bois de rose</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-02.jpg"
-                  data-caption="Coin bureau — plan en bois précieux">
-                  <img src="assets/img/thumb/hotellerie-detail-bureau-02.jpg"
-                    alt="Coin bureau de chambre : plan en bois précieux, assises enveloppantes et miroir" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Coin bureau — plan en bois précieux</span>
-                </button>
-              </figure>
-            </div>
-          </article>
-
-          <article class="projet reveal" data-category="restauration">
+          <article class="projet reveal" data-category="restauration" data-serie>
             <header class="projet__tete">
               <span class="eyebrow">Restauration</span>
-              <h2 class="projet__titre">Salle sous décor classé</h2>
-              <p class="projet__texte">Banquettes, tables et cave à vin intégrée, dans une salle dont les décors sont classés.</p>
+              <h2 class="projet__titre"><a href="projet-brasserie-ancelin.html">Brasserie Ancelin</a></h2>
             </header>
 
-            <div class="gallery">
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/restauration-salle-classee.jpg"
-                  data-caption="Restaurant — salle sous décor classé">
-                  <img src="assets/img/thumb/restauration-salle-classee.jpg"
-                    alt="Salle de restaurant sous décor classé : moulures et dorures, fauteuils vert anis et comptoir en bois précieux"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Restaurant — salle sous décor classé</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/restauration-cave-a-vin.jpg"
-                  data-caption="Cave à vin intégrée">
-                  <img src="assets/img/thumb/restauration-cave-a-vin.jpg"
-                    alt="Cave à vin vitrée intégrée dans un décor classé, encadrée de colonnes et de rideaux" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Cave à vin intégrée</span>
-                </button>
-              </figure>
+            <div class="album" data-album id="album-03">
+              <button class="album__fleche album__fleche--prec" type="button" data-album-prec
+                aria-controls="album-03" aria-label="Page précédente">&#8249;</button>
+              <div class="album__spreads">
+                <div class="album__spread" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-salle-classee.jpg"
+                      data-caption="Restaurant — salle sous décor classé">
+                      <img src="assets/img/thumb/restauration-salle-classee.jpg"
+                        alt="Salle de restaurant sous décor classé : moulures et dorures, fauteuils vert anis et comptoir en bois précieux"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Restaurant — salle sous décor classé</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-04.jpg"
+                      data-caption="Banquette de fenêtre sur-mesure">
+                      <img src="assets/img/thumb/hotellerie-deluxe-04.jpg"
+                        alt="Banquette de fenêtre sur-mesure, coussins bordeaux et table basse en verre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Banquette de fenêtre sur-mesure</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-05.jpg"
+                      data-caption="Détail — étagère cannelée">
+                      <img src="assets/img/thumb/hotellerie-deluxe-05.jpg"
+                        alt="Étagère cannelée de chambre : présentation de livres et composition florale"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — étagère cannelée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-01.jpg"
+                      data-caption="Salon — banquette capitonnée">
+                      <img src="assets/img/thumb/hotellerie-superior-01.jpg"
+                        alt="Salon aux boiseries vert olive : banquette capitonnée, guéridon rond et œuvre en relief"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Salon — banquette capitonnée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-02.jpg"
+                      data-caption="Chambre superior — menuiserie intégrée">
+                      <img src="assets/img/thumb/hotellerie-superior-02.jpg"
+                        alt="Chambre superior : menuiserie vert olive intégrée, fauteuil sur-mesure et accès balcon"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre superior — menuiserie intégrée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-03.jpg"
+                      data-caption="Chambre superior — penderie et minibar intégrés">
+                      <img src="assets/img/thumb/hotellerie-superior-03.jpg"
+                        alt="Chambre superior : penderie ouverte et minibar intégrés dans une menuiserie vert olive"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre superior — penderie et minibar intégrés</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-cave-a-vin.jpg"
+                      data-caption="Cave à vin intégrée">
+                      <img src="assets/img/thumb/restauration-cave-a-vin.jpg"
+                        alt="Cave à vin vitrée intégrée dans un décor classé, encadrée de colonnes et de rideaux"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Cave à vin intégrée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 62.85%; --l: 20.15%; --h: 27.02%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-02.jpg"
+                      data-caption="Chambre deluxe — chevets en loupe de bois">
+                      <img src="assets/img/thumb/hotellerie-deluxe-02.jpg"
+                        alt="Chambre deluxe vue de face : chevets en loupe de bois, tête de lit en cuir et cimaise de cadres"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre deluxe — chevets en loupe de bois</span>
+                    </button>
+                  </figure>
+                </div>
+                <div class="album__spread album__spread--replie" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-02.jpg"
+                      data-caption="Chambre — tête de lit capitonnée">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-02.jpg"
+                        alt="Chambre à tête de lit capitonnée pleine hauteur, liseuses et plateau de service en bois précieux"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — tête de lit capitonnée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-03.jpg"
+                      data-caption="Chambre — long bureau en bois précieux">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-03.jpg"
+                        alt="Chambre : long bureau en bois précieux face au lit et tête de lit capitonnée pleine hauteur"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — long bureau en bois précieux</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-01.jpg"
+                      data-caption="Détail — bureau en bois de rose">
+                      <img src="assets/img/thumb/hotellerie-detail-bureau-01.jpg"
+                        alt="Détail de bureau de chambre : plateau en bois de rose, fauteuil enveloppant et guéridon en verre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — bureau en bois de rose</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-02.jpg"
+                      data-caption="Coin bureau — plan en bois précieux">
+                      <img src="assets/img/thumb/hotellerie-detail-bureau-02.jpg"
+                        alt="Coin bureau de chambre : plan en bois précieux, assises enveloppantes et miroir"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Coin bureau — plan en bois précieux</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-01.jpg"
+                      data-caption="Chambre parisienne — tons crème">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-01.jpg"
+                        alt="Chambre parisienne : canapé sur-mesure, tons crème, bureau en bois précieux et parquet"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre parisienne — tons crème</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/immobilier-sejour-escalier.jpg"
+                      data-caption="Séjour traversant — escalier suspendu et verrière">
+                      <img src="assets/img/thumb/immobilier-sejour-escalier.jpg"
+                        alt="Séjour de maison contemporaine : table noire, escalier suspendu sur mur de béton et verrière donnant sur la terrasse"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Séjour traversant — escalier suspendu et verrière</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-04.jpg"
+                      data-caption="Chambre superior — vue sur balcon">
+                      <img src="assets/img/thumb/hotellerie-superior-04.jpg"
+                        alt="Chambre superior ouvrant sur un balcon parisien planté"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre superior — vue sur balcon</span>
+                    </button>
+                  </figure>
+                </div>
+              </div>
+              <button class="album__fleche album__fleche--suiv" type="button" data-album-suiv
+                aria-controls="album-03" aria-label="Page suivante">&#8250;</button>
+              <p class="album__compteur" data-album-compteur aria-live="polite">1&nbsp;/&nbsp;2</p>
             </div>
           </article>
 
-          <article class="projet reveal" data-category="restauration">
+          <article class="projet reveal" data-category="restauration" data-serie>
             <header class="projet__tete">
               <span class="eyebrow">Restauration</span>
-              <h2 class="projet__titre">Restaurant contemporain</h2>
-              <p class="projet__texte">Fauteuils bleu canard, comptoir et enfilade de salle, jusqu'à l'espace petit-déjeuner de l'hôtel&nbsp;: le
-                même vocabulaire de matières d'un bout à l'autre du rez-de-chaussée.</p>
+              <h2 class="projet__titre"><a href="projet-restaurant-neroli.html">Restaurant Néroli</a></h2>
             </header>
 
-            <div class="gallery">
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/restauration-contemporain-01.jpg"
-                  data-caption="Restaurant contemporain — suspensions textiles">
-                  <img src="assets/img/thumb/restauration-contemporain-01.jpg"
-                    alt="Salle de restaurant contemporaine : fauteuils bleu canard et beige, grandes suspensions textiles"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Restaurant contemporain — suspensions textiles</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/restauration-contemporain-02.jpg"
-                  data-caption="Restaurant — enfilade de salle">
-                  <img src="assets/img/thumb/restauration-contemporain-02.jpg"
-                    alt="Vue en enfilade d'une salle de restaurant : tables rondes et fauteuils sur-mesure" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Restaurant — enfilade de salle</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/restauration-comptoir-fauteuils.jpg"
-                  data-caption="Comptoir — alignement de fauteuils">
-                  <img src="assets/img/thumb/restauration-comptoir-fauteuils.jpg"
-                    alt="Alignement de fauteuils jaunes le long d'un comptoir en bois précieux dressé pour le petit-déjeuner"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Comptoir — alignement de fauteuils</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/restauration-hotel-buffet.jpg"
-                  data-caption="Hôtel — espace petit-déjeuner">
-                  <img src="assets/img/thumb/restauration-hotel-buffet.jpg"
-                    alt="Espace petit-déjeuner d'hôtel : buffet éclairé, fauteuils jaunes et sol en pierre" loading="lazy"
-                    decoding="async">
-                  <span class="visually-hidden">Agrandir : Hôtel — espace petit-déjeuner</span>
-                </button>
-              </figure>
+            <div class="album" data-album id="album-04">
+              <button class="album__fleche album__fleche--prec" type="button" data-album-prec
+                aria-controls="album-04" aria-label="Page précédente">&#8249;</button>
+              <div class="album__spreads">
+                <div class="album__spread" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-contemporain-01.jpg"
+                      data-caption="Restaurant contemporain — suspensions textiles">
+                      <img src="assets/img/thumb/restauration-contemporain-01.jpg"
+                        alt="Salle de restaurant contemporaine : fauteuils bleu canard et beige, grandes suspensions textiles"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Restaurant contemporain — suspensions textiles</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-01.jpg"
+                      data-caption="Chambre parisienne — tons crème">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-01.jpg"
+                        alt="Chambre parisienne : canapé sur-mesure, tons crème, bureau en bois précieux et parquet"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre parisienne — tons crème</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/immobilier-sejour-escalier.jpg"
+                      data-caption="Séjour traversant — escalier suspendu et verrière">
+                      <img src="assets/img/thumb/immobilier-sejour-escalier.jpg"
+                        alt="Séjour de maison contemporaine : table noire, escalier suspendu sur mur de béton et verrière donnant sur la terrasse"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Séjour traversant — escalier suspendu et verrière</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/immobilier-cuisine-marbre.jpg"
+                      data-caption="Cuisine ouverte — îlot en marbre et façades laquées">
+                      <img src="assets/img/thumb/immobilier-cuisine-marbre.jpg"
+                        alt="Cuisine d'appartement haut de gamme : îlot en marbre gris, façades laquées noires et crédence en pierre veinée"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Cuisine ouverte — îlot en marbre et façades laquées</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/immobilier-cuisine-verriere.jpg"
+                      data-caption="Cuisine de résidence — menuiseries bleu nuit">
+                      <img src="assets/img/thumb/immobilier-cuisine-verriere.jpg"
+                        alt="Cuisine de résidence sous charpente apparente : menuiseries bleu nuit, plan en marbre et tabourets de bar"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Cuisine de résidence — menuiseries bleu nuit</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-cave-a-vin.jpg"
+                      data-caption="Cave à vin intégrée">
+                      <img src="assets/img/thumb/restauration-cave-a-vin.jpg"
+                        alt="Cave à vin vitrée intégrée dans un décor classé, encadrée de colonnes et de rideaux"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Cave à vin intégrée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-contemporain-02.jpg"
+                      data-caption="Restaurant — enfilade de salle">
+                      <img src="assets/img/thumb/restauration-contemporain-02.jpg"
+                        alt="Vue en enfilade d'une salle de restaurant : tables rondes et fauteuils sur-mesure"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Restaurant — enfilade de salle</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 62.85%; --l: 20.15%; --h: 27.02%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-salle-classee.jpg"
+                      data-caption="Restaurant — salle sous décor classé">
+                      <img src="assets/img/thumb/restauration-salle-classee.jpg"
+                        alt="Salle de restaurant sous décor classé : moulures et dorures, fauteuils vert anis et comptoir en bois précieux"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Restaurant — salle sous décor classé</span>
+                    </button>
+                  </figure>
+                </div>
+                <div class="album__spread album__spread--replie" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-hotel-buffet.jpg"
+                      data-caption="Hôtel — espace petit-déjeuner">
+                      <img src="assets/img/thumb/restauration-hotel-buffet.jpg"
+                        alt="Espace petit-déjeuner d'hôtel : buffet éclairé, fauteuils jaunes et sol en pierre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Hôtel — espace petit-déjeuner</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-01.jpg"
+                      data-caption="Chambre ouvrant sur salon — boiseries vert olive">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-01.jpg"
+                        alt="Chambre aux boiseries laquées vert olive ouvrant sur un salon adjacent, tapis graphique et banc en cuir"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre ouvrant sur salon — boiseries vert olive</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-02.jpg"
+                      data-caption="Chambre — chaise longue en cuir">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-02.jpg"
+                        alt="Chambre aux boiseries vert olive : chaise longue en cuir rayé, lit habillé de lin et tapis graphique"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — chaise longue en cuir</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-03.jpg"
+                      data-caption="Suite — commodes à façades sculptées">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-03.jpg"
+                        alt="Suite : commodes à façades sculptées, bibliothèque suspendue et fauteuil pivotant"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Suite — commodes à façades sculptées</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-04.jpg"
+                      data-caption="Chambre — banc de pied de lit en cuir">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-04.jpg"
+                        alt="Chambre ouvrant sur un balcon parisien : banc en cuir en pied de lit et boiseries taupe"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — banc de pied de lit en cuir</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-05.jpg"
+                      data-caption="Chambre — panneaux latéraux en bois sombre">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-05.jpg"
+                        alt="Lit vu de face : panneaux latéraux en bois sombre, appliques en laiton et cimaise de cadres"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — panneaux latéraux en bois sombre</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-comptoir-fauteuils.jpg"
+                      data-caption="Comptoir — alignement de fauteuils">
+                      <img src="assets/img/thumb/restauration-comptoir-fauteuils.jpg"
+                        alt="Alignement de fauteuils jaunes le long d'un comptoir en bois précieux dressé pour le petit-déjeuner"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Comptoir — alignement de fauteuils</span>
+                    </button>
+                  </figure>
+                </div>
+              </div>
+              <button class="album__fleche album__fleche--suiv" type="button" data-album-suiv
+                aria-controls="album-04" aria-label="Page suivante">&#8250;</button>
+              <p class="album__compteur" data-album-compteur aria-live="polite">1&nbsp;/&nbsp;2</p>
             </div>
           </article>
 
-          <article class="projet reveal" data-category="immobilier">
+          <article class="projet reveal" data-category="restauration" data-serie>
+            <header class="projet__tete">
+              <span class="eyebrow">Restauration</span>
+              <h2 class="projet__titre"><a href="projet-hotel-solane.html">Hôtel Solane</a></h2>
+            </header>
+
+            <div class="album" data-album id="album-05">
+              <button class="album__fleche album__fleche--prec" type="button" data-album-prec
+                aria-controls="album-05" aria-label="Page précédente">&#8249;</button>
+              <div class="album__spreads">
+                <div class="album__spread" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-hotel-buffet.jpg"
+                      data-caption="Hôtel — espace petit-déjeuner">
+                      <img src="assets/img/thumb/restauration-hotel-buffet.jpg"
+                        alt="Espace petit-déjeuner d'hôtel : buffet éclairé, fauteuils jaunes et sol en pierre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Hôtel — espace petit-déjeuner</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-04.jpg"
+                      data-caption="Chambre — banc de pied de lit en cuir">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-04.jpg"
+                        alt="Chambre ouvrant sur un balcon parisien : banc en cuir en pied de lit et boiseries taupe"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — banc de pied de lit en cuir</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-05.jpg"
+                      data-caption="Chambre — panneaux latéraux en bois sombre">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-05.jpg"
+                        alt="Lit vu de face : panneaux latéraux en bois sombre, appliques en laiton et cimaise de cadres"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — panneaux latéraux en bois sombre</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-06.jpg"
+                      data-caption="Suite — salon sur balcon">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-06.jpg"
+                        alt="Salon de suite ouvrant sur balcon : banquette bleu nuit, commode en placage et table basse ronde"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Suite — salon sur balcon</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-signature.jpg"
+                      data-caption="Chambre signature — marqueterie de loupe et laiton">
+                      <img src="assets/img/thumb/hotellerie-chambre-signature.jpg"
+                        alt="Chambre d'hôtel : panneau mural en marqueterie de loupe, suspensions en verre ambré et tapis à motif"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre signature — marqueterie de loupe et laiton</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-07.jpg"
+                      data-caption="Salon — banquette sur-mesure et fauteuil moutarde">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-07.jpg"
+                        alt="Salon aux boiseries vert olive : banquette sur-mesure, coussins de velours et fauteuil moutarde"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Salon — banquette sur-mesure et fauteuil moutarde</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-comptoir-fauteuils.jpg"
+                      data-caption="Comptoir — alignement de fauteuils">
+                      <img src="assets/img/thumb/restauration-comptoir-fauteuils.jpg"
+                        alt="Alignement de fauteuils jaunes le long d'un comptoir en bois précieux dressé pour le petit-déjeuner"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Comptoir — alignement de fauteuils</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 62.85%; --l: 20.15%; --h: 27.02%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-08.jpg"
+                      data-caption="Coin salon — commode à façade sculptée">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-08.jpg"
+                        alt="Coin salon : commode à façade sculptée, lampe en céramique et banquette tapissée"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Coin salon — commode à façade sculptée</span>
+                    </button>
+                  </figure>
+                </div>
+                <div class="album__spread album__spread--replie" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-11.jpg"
+                      data-caption="Table basse — plateau tressé">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-11.jpg"
+                        alt="Table basse en noyer à plateau tressé devant une banquette sur-mesure"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Table basse — plateau tressé</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-12.jpg"
+                      data-caption="Détail — banquette en tissu géométrique">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-12.jpg"
+                        alt="Détail de banquette en tissu géométrique bleu et table basse en noyer"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — banquette en tissu géométrique</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-13.jpg"
+                      data-caption="Détail — banquette courbe tapissée">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-13.jpg"
+                        alt="Détail de banquette courbe : dossier tapissé, coussins bordeaux et table basse ronde"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — banquette courbe tapissée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-14.jpg"
+                      data-caption="Chambre — tête de lit en cuir">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-14.jpg"
+                        alt="Lit à tête de lit en cuir devant un mur de boiseries vert olive, chevet en pierre et cimaise de cadres"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — tête de lit en cuir</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-15.jpg"
+                      data-caption="Chambre — boiseries vert olive et chevet sculpté">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-15.jpg"
+                        alt="Lit à tête de lit en cuir devant des boiseries vert olive, chevet en bois sculpté et lampe en laiton"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — boiseries vert olive et chevet sculpté</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-09.jpg"
+                      data-caption="Salon — banquette sur-mesure et table en noyer">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-09.jpg"
+                        alt="Banquette de salon sur-mesure devant un mur de boiseries, coussins de velours et table basse en noyer"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Salon — banquette sur-mesure et table en noyer</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-10.jpg"
+                      data-caption="Banquette longue — tissu à chevrons">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-10.jpg"
+                        alt="Banquette longue en tissu à chevrons, coussins de velours prune et table basse ronde"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Banquette longue — tissu à chevrons</span>
+                    </button>
+                  </figure>
+                </div>
+              </div>
+              <button class="album__fleche album__fleche--suiv" type="button" data-album-suiv
+                aria-controls="album-05" aria-label="Page suivante">&#8250;</button>
+              <p class="album__compteur" data-album-compteur aria-live="polite">1&nbsp;/&nbsp;2</p>
+            </div>
+          </article>
+
+          <article class="projet reveal" data-category="immobilier" data-serie>
             <header class="projet__tete">
               <span class="eyebrow">Immobilier de prestige</span>
-              <h2 class="projet__titre">Résidences privées</h2>
-              <p class="projet__texte">Cuisines ouvertes et séjours traversants&nbsp;: îlots en marbre, façades laquées, menuiseries bleu nuit sous
-                charpente apparente.</p>
+              <h2 class="projet__titre"><a href="projet-duplex-monceau.html">Duplex Monceau</a></h2>
             </header>
 
-            <div class="gallery">
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/immobilier-cuisine-marbre.jpg"
-                  data-caption="Cuisine ouverte — îlot en marbre et façades laquées">
-                  <img src="assets/img/thumb/immobilier-cuisine-marbre.jpg"
-                    alt="Cuisine d'appartement haut de gamme : îlot en marbre gris, façades laquées noires et crédence en pierre veinée"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Cuisine ouverte — îlot en marbre et façades laquées</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/immobilier-sejour-escalier.jpg"
-                  data-caption="Séjour traversant — escalier suspendu et verrière">
-                  <img src="assets/img/thumb/immobilier-sejour-escalier.jpg"
-                    alt="Séjour de maison contemporaine : table noire, escalier suspendu sur mur de béton et verrière donnant sur la terrasse"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Séjour traversant — escalier suspendu et verrière</span>
-                </button>
-              </figure>
-              <figure class="gallery__item" data-shot>
-                <button class="gallery__btn" type="button" data-full="assets/img/full/immobilier-cuisine-verriere.jpg"
-                  data-caption="Cuisine de résidence — menuiseries bleu nuit">
-                  <img src="assets/img/thumb/immobilier-cuisine-verriere.jpg"
-                    alt="Cuisine de résidence sous charpente apparente : menuiseries bleu nuit, plan en marbre et tabourets de bar"
-                    loading="lazy" decoding="async">
-                  <span class="visually-hidden">Agrandir : Cuisine de résidence — menuiseries bleu nuit</span>
-                </button>
-              </figure>
+            <div class="album" data-album id="album-06">
+              <button class="album__fleche album__fleche--prec" type="button" data-album-prec
+                aria-controls="album-06" aria-label="Page précédente">&#8249;</button>
+              <div class="album__spreads">
+                <div class="album__spread" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/immobilier-cuisine-marbre.jpg"
+                      data-caption="Cuisine ouverte — îlot en marbre et façades laquées">
+                      <img src="assets/img/thumb/immobilier-cuisine-marbre.jpg"
+                        alt="Cuisine d'appartement haut de gamme : îlot en marbre gris, façades laquées noires et crédence en pierre veinée"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Cuisine ouverte — îlot en marbre et façades laquées</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-03.jpg"
+                      data-caption="Détail — tête de lit en cuir sellier">
+                      <img src="assets/img/thumb/hotellerie-deluxe-03.jpg"
+                        alt="Détail de tête de lit en cuir sellier et panneau latéral en loupe de bois"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — tête de lit en cuir sellier</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-04.jpg"
+                      data-caption="Banquette de fenêtre sur-mesure">
+                      <img src="assets/img/thumb/hotellerie-deluxe-04.jpg"
+                        alt="Banquette de fenêtre sur-mesure, coussins bordeaux et table basse en verre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Banquette de fenêtre sur-mesure</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-05.jpg"
+                      data-caption="Détail — étagère cannelée">
+                      <img src="assets/img/thumb/hotellerie-deluxe-05.jpg"
+                        alt="Étagère cannelée de chambre : présentation de livres et composition florale"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — étagère cannelée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-01.jpg"
+                      data-caption="Salon — banquette capitonnée">
+                      <img src="assets/img/thumb/hotellerie-superior-01.jpg"
+                        alt="Salon aux boiseries vert olive : banquette capitonnée, guéridon rond et œuvre en relief"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Salon — banquette capitonnée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-02.jpg"
+                      data-caption="Chambre superior — menuiserie intégrée">
+                      <img src="assets/img/thumb/hotellerie-superior-02.jpg"
+                        alt="Chambre superior : menuiserie vert olive intégrée, fauteuil sur-mesure et accès balcon"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre superior — menuiserie intégrée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/immobilier-sejour-escalier.jpg"
+                      data-caption="Séjour traversant — escalier suspendu et verrière">
+                      <img src="assets/img/thumb/immobilier-sejour-escalier.jpg"
+                        alt="Séjour de maison contemporaine : table noire, escalier suspendu sur mur de béton et verrière donnant sur la terrasse"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Séjour traversant — escalier suspendu et verrière</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 62.85%; --l: 20.15%; --h: 27.02%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-03.jpg"
+                      data-caption="Chambre superior — penderie et minibar intégrés">
+                      <img src="assets/img/thumb/hotellerie-superior-03.jpg"
+                        alt="Chambre superior : penderie ouverte et minibar intégrés dans une menuiserie vert olive"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre superior — penderie et minibar intégrés</span>
+                    </button>
+                  </figure>
+                </div>
+                <div class="album__spread album__spread--replie" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-superior-04.jpg"
+                      data-caption="Chambre superior — vue sur balcon">
+                      <img src="assets/img/thumb/hotellerie-superior-04.jpg"
+                        alt="Chambre superior ouvrant sur un balcon parisien planté"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre superior — vue sur balcon</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-02.jpg"
+                      data-caption="Chambre — tête de lit capitonnée">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-02.jpg"
+                        alt="Chambre à tête de lit capitonnée pleine hauteur, liseuses et plateau de service en bois précieux"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — tête de lit capitonnée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-03.jpg"
+                      data-caption="Chambre — long bureau en bois précieux">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-03.jpg"
+                        alt="Chambre : long bureau en bois précieux face au lit et tête de lit capitonnée pleine hauteur"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — long bureau en bois précieux</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-01.jpg"
+                      data-caption="Détail — bureau en bois de rose">
+                      <img src="assets/img/thumb/hotellerie-detail-bureau-01.jpg"
+                        alt="Détail de bureau de chambre : plateau en bois de rose, fauteuil enveloppant et guéridon en verre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — bureau en bois de rose</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-02.jpg"
+                      data-caption="Coin bureau — plan en bois précieux">
+                      <img src="assets/img/thumb/hotellerie-detail-bureau-02.jpg"
+                        alt="Coin bureau de chambre : plan en bois précieux, assises enveloppantes et miroir"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Coin bureau — plan en bois précieux</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-01.jpg"
+                      data-caption="Chambre parisienne — tons crème">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-01.jpg"
+                        alt="Chambre parisienne : canapé sur-mesure, tons crème, bureau en bois précieux et parquet"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre parisienne — tons crème</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-deluxe-02.jpg"
+                      data-caption="Chambre deluxe — chevets en loupe de bois">
+                      <img src="assets/img/thumb/hotellerie-deluxe-02.jpg"
+                        alt="Chambre deluxe vue de face : chevets en loupe de bois, tête de lit en cuir et cimaise de cadres"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre deluxe — chevets en loupe de bois</span>
+                    </button>
+                  </figure>
+                </div>
+              </div>
+              <button class="album__fleche album__fleche--suiv" type="button" data-album-suiv
+                aria-controls="album-06" aria-label="Page suivante">&#8250;</button>
+              <p class="album__compteur" data-album-compteur aria-live="polite">1&nbsp;/&nbsp;2</p>
+            </div>
+          </article>
+
+          <article class="projet reveal" data-category="immobilier" data-serie>
+            <header class="projet__tete">
+              <span class="eyebrow">Immobilier de prestige</span>
+              <h2 class="projet__titre"><a href="projet-maison-de-sologne.html">Maison de Sologne</a></h2>
+            </header>
+
+            <div class="album" data-album id="album-07">
+              <button class="album__fleche album__fleche--prec" type="button" data-album-prec
+                aria-controls="album-07" aria-label="Page précédente">&#8249;</button>
+              <div class="album__spreads">
+                <div class="album__spread" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-03.jpg"
+                      data-caption="Chambre — long bureau en bois précieux">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-03.jpg"
+                        alt="Chambre : long bureau en bois précieux face au lit et tête de lit capitonnée pleine hauteur"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — long bureau en bois précieux</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-01.jpg"
+                      data-caption="Détail — bureau en bois de rose">
+                      <img src="assets/img/thumb/hotellerie-detail-bureau-01.jpg"
+                        alt="Détail de bureau de chambre : plateau en bois de rose, fauteuil enveloppant et guéridon en verre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Détail — bureau en bois de rose</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-detail-bureau-02.jpg"
+                      data-caption="Coin bureau — plan en bois précieux">
+                      <img src="assets/img/thumb/hotellerie-detail-bureau-02.jpg"
+                        alt="Coin bureau de chambre : plan en bois précieux, assises enveloppantes et miroir"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Coin bureau — plan en bois précieux</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-chambre-paris-01.jpg"
+                      data-caption="Chambre parisienne — tons crème">
+                      <img src="assets/img/thumb/hotellerie-chambre-paris-01.jpg"
+                        alt="Chambre parisienne : canapé sur-mesure, tons crème, bureau en bois précieux et parquet"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre parisienne — tons crème</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-cave-a-vin.jpg"
+                      data-caption="Cave à vin intégrée">
+                      <img src="assets/img/thumb/restauration-cave-a-vin.jpg"
+                        alt="Cave à vin vitrée intégrée dans un décor classé, encadrée de colonnes et de rideaux"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Cave à vin intégrée</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-salle-classee.jpg"
+                      data-caption="Restaurant — salle sous décor classé">
+                      <img src="assets/img/thumb/restauration-salle-classee.jpg"
+                        alt="Salle de restaurant sous décor classé : moulures et dorures, fauteuils vert anis et comptoir en bois précieux"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Restaurant — salle sous décor classé</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/immobilier-cuisine-verriere.jpg"
+                      data-caption="Cuisine de résidence — menuiseries bleu nuit">
+                      <img src="assets/img/thumb/immobilier-cuisine-verriere.jpg"
+                        alt="Cuisine de résidence sous charpente apparente : menuiseries bleu nuit, plan en marbre et tabourets de bar"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Cuisine de résidence — menuiseries bleu nuit</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 62.85%; --l: 20.15%; --h: 27.02%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-contemporain-02.jpg"
+                      data-caption="Restaurant — enfilade de salle">
+                      <img src="assets/img/thumb/restauration-contemporain-02.jpg"
+                        alt="Vue en enfilade d'une salle de restaurant : tables rondes et fauteuils sur-mesure"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Restaurant — enfilade de salle</span>
+                    </button>
+                  </figure>
+                </div>
+                <div class="album__spread album__spread--replie" data-spread>
+                  <img class="album__papier" src="assets/img/full/livre-vierge.jpg" alt=""
+                    width="1500" height="1066" loading="lazy" decoding="async">
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 10.51%; --l: 21.53%; --h: 23.92%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-comptoir-fauteuils.jpg"
+                      data-caption="Comptoir — alignement de fauteuils">
+                      <img src="assets/img/thumb/restauration-comptoir-fauteuils.jpg"
+                        alt="Alignement de fauteuils jaunes le long d'un comptoir en bois précieux dressé pour le petit-déjeuner"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Comptoir — alignement de fauteuils</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 10.32%; --l: 19.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-hotel-buffet.jpg"
+                      data-caption="Hôtel — espace petit-déjeuner">
+                      <img src="assets/img/thumb/restauration-hotel-buffet.jpg"
+                        alt="Espace petit-déjeuner d'hôtel : buffet éclairé, fauteuils jaunes et sol en pierre"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Hôtel — espace petit-déjeuner</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 37.99%; --l: 21.53%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/immobilier-sejour-escalier.jpg"
+                      data-caption="Séjour traversant — escalier suspendu et verrière">
+                      <img src="assets/img/thumb/immobilier-sejour-escalier.jpg"
+                        alt="Séjour de maison contemporaine : table noire, escalier suspendu sur mur de béton et verrière donnant sur la terrasse"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Séjour traversant — escalier suspendu et verrière</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 37.99%; --l: 19.53%; --h: 24.3%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/immobilier-cuisine-marbre.jpg"
+                      data-caption="Cuisine ouverte — îlot en marbre et façades laquées">
+                      <img src="assets/img/thumb/immobilier-cuisine-marbre.jpg"
+                        alt="Cuisine d'appartement haut de gamme : îlot en marbre gris, façades laquées noires et crédence en pierre veinée"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Cuisine ouverte — îlot en marbre et façades laquées</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 5.07%; --y: 65.57%; --l: 21.47%; --h: 24.11%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-01.jpg"
+                      data-caption="Chambre ouvrant sur salon — boiseries vert olive">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-01.jpg"
+                        alt="Chambre aux boiseries laquées vert olive ouvrant sur un salon adjacent, tapis graphique et banc en cuir"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre ouvrant sur salon — boiseries vert olive</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 28.0%; --y: 65.67%; --l: 19.53%; --h: 24.2%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/hotellerie-junior-suite-02.jpg"
+                      data-caption="Chambre — chaise longue en cuir">
+                      <img src="assets/img/thumb/hotellerie-junior-suite-02.jpg"
+                        alt="Chambre aux boiseries vert olive : chaise longue en cuir rayé, lit habillé de lin et tapis graphique"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Chambre — chaise longue en cuir</span>
+                    </button>
+                  </figure>
+                  <figure class="album__vue" data-shot style="--x: 52.05%; --y: 10.23%; --l: 42.82%; --h: 49.16%">
+                    <button class="album__btn" type="button" data-full="assets/img/full/restauration-contemporain-01.jpg"
+                      data-caption="Restaurant contemporain — suspensions textiles">
+                      <img src="assets/img/thumb/restauration-contemporain-01.jpg"
+                        alt="Salle de restaurant contemporaine : fauteuils bleu canard et beige, grandes suspensions textiles"
+                        loading="lazy" decoding="async">
+                      <span class="visually-hidden">Agrandir : Restaurant contemporain — suspensions textiles</span>
+                    </button>
+                  </figure>
+                </div>
+              </div>
+              <button class="album__fleche album__fleche--suiv" type="button" data-album-suiv
+                aria-controls="album-07" aria-label="Page suivante">&#8250;</button>
+              <p class="album__compteur" data-album-compteur aria-live="polite">1&nbsp;/&nbsp;2</p>
             </div>
           </article>
         </div>
