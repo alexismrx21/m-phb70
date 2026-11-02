@@ -120,8 +120,8 @@
     // (`[data-shot]`) et aucun filtre. Sur Réalisations, les projets sont
     // filtrables (`[data-category]`) et leurs photos, rangées en listes
     // masquées, ne s'affichent que dans le livre ouvert. Sur Sur-mesure,
-    // les zones du livre sont les deux à la fois. D'où cette bascule : les
-    // photos si la page en contient, les blocs de catégorie sinon.
+    // les vues du carrousel sont des photos, sans filtre. D'où cette bascule :
+    // les photos si la page en contient, les blocs de catégorie sinon.
     var groups = Array.prototype.slice.call(gallery.querySelectorAll('[data-category]'));
     var filters = Array.prototype.slice.call(document.querySelectorAll('[data-filter]'));
     var byShot = gallery.querySelector('[data-shot]') !== null;
@@ -132,7 +132,7 @@
     // Un élément compte pour la visionneuse si rien au-dessus de lui n'est
     // masqué. `closest` teste aussi l'élément lui-même : la règle vaut donc
     // aussi bien pour une photo rangée dans un bloc écarté par le filtre que
-    // pour une zone du livre qui porte le `hidden` en propre.
+    // pour une photo qui porte le `hidden` en propre.
     // `autour` est la photo qu'on vient de cliquer : la série qui la contient —
     // un projet, sur la page Réalisations — borne alors le défilé, et les
     // flèches de la visionneuse ne passent pas au projet suivant. Sans elle,
@@ -583,6 +583,153 @@
       });
     }
   }
+
+  /* ---------------------------------------------------------------------
+     Carrousel (page Sur-mesure).
+     Le défilement est celui du navigateur, accroché au centre de chaque vue ;
+     le script suit la vue centrée, pilote les flèches et avance seul.
+
+     En boucle : la série est recopiée une fois avant et une fois après. Quand
+     le défilement s'arrête sur une copie, on saute sans animation à la vue
+     d'origine équivalente — au même endroit à l'écran, le saut ne se voit pas.
+     Les copies sont inertes et sans `data-shot` : la visionneuse n'enchaîne
+     que les vraies vues.
+     --------------------------------------------------------------------- */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-defile]'), function (defile) {
+    var piste = defile.querySelector('[data-defile-piste]');
+    var originales = Array.prototype.slice.call(piste.querySelectorAll('.defile__vue'));
+    var n = originales.length;
+    var num = defile.querySelector('[data-defile-num]');
+    var titre = defile.querySelector('[data-defile-titre]');
+    var barre = defile.querySelector('[data-defile-barre]');
+    var PAUSE = 2500;
+    var position = -1;      // rang dans la piste complète (copies comprises)
+    var minuterie = null;
+    var arret = null;
+    var enVue = true;
+    if (n < 2) return;
+
+    var copier = function (v) {
+      var c = v.cloneNode(true);
+      c.removeAttribute('data-shot');
+      c.setAttribute('aria-hidden', 'true');
+      c.inert = true;
+      c.classList.add('defile__vue--copie');
+      return c;
+    };
+    originales.slice().reverse().forEach(function (v) { piste.insertBefore(copier(v), piste.firstChild); });
+    originales.forEach(function (v) { piste.appendChild(copier(v)); });
+    var vues = Array.prototype.slice.call(piste.querySelectorAll('.defile__vue'));
+
+    var deuxChiffres = function (k) { return (k < 10 ? '0' : '') + k; };
+
+    var marquer = function (p) {
+      if (p === position) return;
+      position = p;
+      vues.forEach(function (v, k) { v.classList.toggle('is-active', k === p); });
+      var reel = p % n;
+      num.textContent = deuxChiffres(reel + 1);
+      titre.textContent = originales[reel].querySelector('button').getAttribute('data-caption');
+      barre.style.width = ((reel + 1) / n * 100) + '%';
+    };
+
+    var gauche = function (p) {
+      var v = vues[p];
+      return v.offsetLeft - (piste.clientWidth - v.offsetWidth) / 2;
+    };
+
+    var aller = function (p, instantane) {
+      p = Math.max(0, Math.min(vues.length - 1, p));
+      piste.scrollTo({ left: gauche(p), behavior: instantane || reduceMotion ? 'auto' : 'smooth' });
+      marquer(p);
+    };
+
+    // Saut invisible d'une copie vers la vue d'origine : sans transition, pour
+    // que la vue reste exactement comme elle était.
+    var recentrer = function () {
+      if (position >= n && position < 2 * n) return;
+      piste.classList.add('defile__piste--saut');
+      aller(n + position % n, true);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { piste.classList.remove('defile__piste--saut'); });
+      });
+    };
+
+    var suivre = function () {
+      var centre = piste.scrollLeft + piste.clientWidth / 2;
+      var proche = 0;
+      var ecart = Infinity;
+      vues.forEach(function (v, k) {
+        var d = Math.abs(v.offsetLeft + v.offsetWidth / 2 - centre);
+        if (d < ecart) { ecart = d; proche = k; }
+      });
+      marquer(proche);
+    };
+
+    var image = null;
+    piste.addEventListener('scroll', function () {
+      if (!image) image = requestAnimationFrame(function () { image = null; suivre(); });
+      clearTimeout(arret);
+      arret = setTimeout(recentrer, 160);
+    }, { passive: true });
+
+    // Défilement automatique, en continu. Il s'interrompt hors de l'écran,
+    // pendant que la visionneuse est ouverte, et repart de zéro après chaque
+    // geste de l'utilisateur.
+    var relancer = function () {
+      clearInterval(minuterie);
+      minuterie = null;
+      if (reduceMotion || !enVue) return;
+      minuterie = setInterval(function () {
+        var b = document.querySelector('[data-lightbox]');
+        if (b && b.classList.contains('is-open')) return;
+        aller(position + 1);
+      }, PAUSE);
+    };
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        enVue = entries[0].isIntersecting;
+        relancer();
+      }, { threshold: 0.3 }).observe(defile);
+    }
+
+    piste.addEventListener('pointerdown', relancer);
+    piste.addEventListener('wheel', relancer, { passive: true });
+
+    defile.querySelector('[data-defile-prec]').addEventListener('click', function () { aller(position - 1); relancer(); });
+    defile.querySelector('[data-defile-suiv]').addEventListener('click', function () { aller(position + 1); relancer(); });
+
+    // Un clic sur une voisine la ramène au centre au lieu de l'agrandir :
+    // écouté en capture, il passe avant la visionneuse. Une copie ne s'agrandit
+    // jamais elle-même : c'est sa vue d'origine qui s'ouvre.
+    piste.addEventListener('click', function (e) {
+      var v = e.target.closest('.defile__vue');
+      if (!v) return;
+      var p = vues.indexOf(v);
+      if (p !== position) {
+        e.preventDefault();
+        e.stopPropagation();
+        aller(p);
+        relancer();
+      } else if (v.classList.contains('defile__vue--copie')) {
+        e.preventDefault();
+        e.stopPropagation();
+        originales[p % n].querySelector('button').click();
+      }
+    }, true);
+
+    piste.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); aller(position - 1); relancer(); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); aller(position + 1); relancer(); }
+    });
+
+    // Départ sur la première vraie vue, au milieu de la piste.
+    piste.classList.add('defile__piste--saut');
+    aller(n, true);
+    requestAnimationFrame(function () { piste.classList.remove('defile__piste--saut'); });
+    relancer();
+  });
 
   /* ---------------------------------------------------------------------
      Formulaire de contact.

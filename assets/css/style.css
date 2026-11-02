@@ -1952,68 +1952,175 @@ address {
   }
 }
 
-/* ---------- Le livre (page Sur-mesure) ---------- */
-/* Une planche d'album rendue en image. Son fond est un noir pur, celui du site
-   un noir bleuté, et le mur de béton passe derrière : sans traitement, elle se
-   verrait comme un rectangle posé dessus. Le masque efface ses bords sur la
-   marge noire du rendu — assez court pour ne jamais entamer l'ombre du livre,
-   assez large pour que la jonction ne se voie pas. */
+/* ---------- Carrousel des pièces (page Sur-mesure) ----------
+   Il sort de la colonne pour occuper toute la largeur de l'écran : la vue
+   active est centrée, ses voisines dépassent sur les bords, en retrait. Le
+   défilement est celui du navigateur (accroché au centre de chaque vue) : il
+   suit le doigt et le trackpad sans rien réinventer. */
 
-.livre {
-  /* Plus étroit que la colonne de texte : le livre se lit comme un objet posé
-     sur le mur, pas comme une image de pleine largeur. */
-  width: min(100%, 56rem);
-  margin: clamp(2.75rem, 5.5vw, 4.25rem) auto 0;
+.defile {
+  --vue: min(58rem, 72vw);
+  width: 100vw;
+  margin: clamp(2.75rem, 5.5vw, 4.25rem) calc(50% - 50vw) 0;
 }
 
-.livre {
+.defile__piste {
   position: relative;
+  display: flex;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Marges latérales : chaque vue, même en bout de piste, peut se centrer. */
+  padding-inline: calc((100vw - var(--vue)) / 2);
+  scrollbar-width: none;
+  outline: none;
+}
+.defile__piste::-webkit-scrollbar {
+  display: none;
+}
+.defile__piste:focus-visible .defile__vue.is-active {
+  outline: 1px solid var(--accent);
+  outline-offset: 6px;
 }
 
-.livre img {
+.defile__vue {
+  flex: 0 0 var(--vue);
+  margin: 0;
+  scroll-snap-align: center;
+  opacity: 0.3;
+  transform: scale(0.9);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.9s var(--ease);
+}
+.defile__vue.is-active {
+  opacity: 1;
+  transform: none;
+}
+/* Pendant le saut invisible de la boucle, aucune transition ne doit jouer. */
+.defile__piste--saut .defile__vue,
+.defile__piste--saut + .defile__pied .defile__progression span {
+  transition: none;
+}
+
+.defile__btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.defile__vue.is-active .defile__btn {
+  cursor: zoom-in;
+}
+.defile__btn img {
   display: block;
   width: 100%;
   height: auto;
-  -webkit-mask-image:
-    linear-gradient(to right, transparent, #000 4%, #000 96%, transparent),
-    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
-  mask-image:
-    linear-gradient(to right, transparent, #000 4%, #000 96%, transparent),
-    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
 }
 
-/* Les zones cliquables, posées sur le rendu. Leurs coordonnées sont en
-   pourcentages : l'image se met à l'échelle sans se recadrer, elles restent donc
-   justes à toutes les largeurs, sans une ligne de JavaScript. */
-.livre__zone {
+/* Le pied : numéro et légende, fine barre de progression, flèches. Il a la
+   largeur de la vue active et s'aligne sur elle. */
+.defile__pied {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(4rem, 14rem) auto;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  width: var(--vue);
+  margin: clamp(1.5rem, 3vw, 2.25rem) auto 0;
+}
+
+.defile__legende {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 0.2rem;
+}
+.defile__num {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: lining-nums;
+}
+.defile__total {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-variant-numeric: lining-nums;
+}
+.defile__titre {
+  flex-basis: 100%;
+  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  color: var(--text);
+}
+
+.defile__progression {
+  position: relative;
+  height: 1px;
+  background: var(--line-strong);
+}
+.defile__progression span {
   position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: var(--l);
-  height: var(--h);
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.8s var(--ease);
 }
 
-.livre__zone button {
-  display: block;
-  width: 100%;
-  height: 100%;
+.defile__fleches {
+  display: flex;
+  gap: 0.6rem;
+}
+.defile__fleche {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
   padding: 0;
-  border: 1px solid transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
   background: transparent;
-  cursor: zoom-in;
+  color: var(--text);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
   transition:
     border-color var(--dur) var(--ease),
-    background var(--dur) var(--ease);
+    color var(--dur) var(--ease);
+}
+.defile__fleche:hover,
+.defile__fleche:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-/* Au survol, la vue s'entoure d'or et s'éclaire à peine : assez pour dire
-   qu'elle s'ouvre, pas au point de salir la planche. */
-.livre__zone button:hover,
-.livre__zone button:focus-visible {
-  border-color: rgba(198, 161, 91, 0.9);
-  background: rgba(198, 161, 91, 0.12);
+@media (max-width: 720px) {
+  .defile {
+    --vue: 84vw;
+  }
+  .defile__pied {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .defile__progression {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .defile__vue,
+  .defile__progression span {
+    transition: none;
+  }
 }
 
 /* ---------- Lightbox ---------- */
@@ -2830,9 +2937,14 @@ address {
   opacity: 0.8;
 }
 
+/* Titres d'étape en capitales, un cran au-dessus du texte : ils doivent se
+   détacher du paragraphe qui suit. */
 .methode .step__title {
   padding-top: 0;
-  font-size: clamp(1.15rem, 1.5vw, 1.3rem);
+  font-size: clamp(1.3rem, 1.85vw, 1.55rem);
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .methode .step__body {

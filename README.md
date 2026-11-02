@@ -32,9 +32,7 @@ assets/img/intro/       Les visuels de l'introduction — planche, logo détour�
 assets/img/hero/        Les quatre photos du diaporama d'accueil (810 Ko)
 assets/img/secteurs/    Les trois cartes « secteurs d'expertise » (305 Ko)
 assets/img/full/        Images grand format (héros, lightbox) — 1200 à 1920 px
-                        dont livre-pieces.jpg, la planche d'album de Sur-mesure,
-                        et livre-vierge.jpg, la même dépouillée de ses neuf vues
-                        (voir « L'album de la page Réalisations »)
+                        (livre-pieces.jpg et livre-vierge.jpg ne servent plus)
 assets/img/thumb/       Vignettes de galerie — 760 px
 assets/img/raw/         Originaux téléchargés depuis l'ancien site (non versionnés)
 
