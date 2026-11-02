@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PHB70 — Bespoke furniture for hotels and restaurants</title>
+  <meta name="description"
+    content="PHB70 designs, prototypes and manufactures bespoke furniture for hotels and restaurants. In-house design office, partner workshops, quality control, customs and logistics. Paris, New York, Luxembourg, Portugal.">
+  <link rel="canonical" href="https://www.phb70.com/en/">
+  <link rel="alternate" hreflang="fr" href="https://www.phb70.com/">
+  <link rel="alternate" hreflang="en" href="https://www.phb70.com/en/">
+  <link rel="alternate" hreflang="x-default" href="https://www.phb70.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PHB70">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:title" content="PHB70 — Bespoke furniture for hotels and restaurants">
+  <meta property="og:description"
+    content="PHB70 designs, prototypes and manufactures bespoke furniture for hotels and restaurants. In-house design office, partner workshops, quality control, customs and logistics. Paris, New York, Luxembourg, Portugal.">
+  <meta property="og:url" content="https://www.phb70.com/en/">
+  <meta property="og:image" content="https://www.phb70.com/assets/img/full/hero-accueil.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#0B0B0D">
+
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-400-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="preload" as="image" href="../assets/img/texture/beton.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="../assets/img/hero/hero-1.jpg">
+  <script>document.documentElement.classList.remove('no-js');
+    // Rechargement : on repart du haut. Le navigateur restaure sinon la position
+    // précédente, ce qui n'a pas de sens ici — l'intro se jouerait par-dessus
+    // une page déjà défilée. Un retour arrière garde en revanche sa
+    // restauration : c'est le seul cas où retrouver sa place sert.
+    (function () {
+      try {
+        if (!('scrollRestoration' in history)) return;
+        var nav = performance.getEntriesByType('navigation')[0];
+        if (nav && nav.type === 'back_forward') {
+          // Le réglage vit sur l'entrée d'historique : sans ce retour explicite
+          // à `auto`, le « manual » posé au chargement précédent priverait le
+          // retour arrière de sa restauration.
+          history.scrollRestoration = 'auto';
+          return;
+        }
+        history.scrollRestoration = 'manual';
+        window.scrollTo(0, 0);
+      } catch (e) { }
+    })();
+    (function () {
+      try {
+        var r = document.documentElement;
+        // Intro déjà vue dans cette session : ni voile, ni préchargement de son
+        // logo. Cette clé est la même que dans assets/js/intro.js — les deux
+        // doivent rester d'accord.
+        var vue = false;
+        try { vue = window.sessionStorage.getItem('phb70:intro-vue') === '1'; } catch (e) { }
+        if (vue) return;
+
+        var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        r.classList.add('intro-en-cours');
+
+        // Le logo de l'intro pèse 188 Ko et ne sert qu'à elle : on ne le
+        // demande que lorsqu'elle va jouer, d'où ce préchargement posé ici
+        // plutôt qu'en dur dans le <head>.
+        var l = document.createElement('link');
+        l.rel = 'preload';
+        l.as = 'image';
+        l.href = '../assets/img/intro/logo.png';
+        document.head.appendChild(l);
+
+        // Filet de sécurité : si l'animation ne démarre jamais (script absent,
+        // fichier introuvable), le contenu réapparaît quand même.
+        setTimeout(function () { r.classList.remove('intro-en-cours'); }, reduit ? 1500 : 6000);
+      } catch (e) { }
+    })();</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "PHB70",
+  "url": "https://www.phb70.com/en/",
+  "logo": "https://www.phb70.com/assets/img/logo.png",
+  "description": "Bespoke furniture for hotels and restaurants: consulting, design office, prototyping, production, logistics and customs.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "53 bis rue de Passy",
+    "postalCode": "75016",
+    "addressLocality": "Paris",
+    "addressCountry": "FR"
+  },
+  "location": [
+    { "@type": "Place", "name": "PHB70 Paris", "telephone": "+33682840308",
+      "address": { "@type": "PostalAddress", "streetAddress": "53 bis rue de Passy", "postalCode": "75016", "addressLocality": "Paris", "addressCountry": "FR" } },
+    { "@type": "Place", "name": "PHB70 New York", "telephone": "+19173014228",
+      "address": { "@type": "PostalAddress", "streetAddress": "40 East 94th Street", "postalCode": "10128", "addressLocality": "New York", "addressRegion": "NY", "addressCountry": "US" } },
+    { "@type": "Place", "name": "PHB70 Luxembourg", "telephone": "+3522021182203",
+      "address": { "@type": "PostalAddress", "streetAddress": "4 place de Paris", "postalCode": "L-2314", "addressLocality": "Luxembourg", "addressCountry": "LU" } },
+    { "@type": "Place", "name": "PHB70 Portugal", "telephone": "+351910302959",
+      "address": { "@type": "PostalAddress", "streetAddress": "14 avenida 20 de Maio", "postalCode": "4590-182", "addressLocality": "Paços de Ferreira", "addressCountry": "PT" } }
+  ],
+  "areaServed": ["FR", "US", "LU", "PT"]
+}
+</script>
+</head>
+
+<body class="accueil">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="intro" data-intro></div>
+  <header class="header" data-header>
+    <div class="header__inner">
+      <a class="brand" href="index.html" aria-label="PHB70, back to home">
+        <img src="../assets/img/logo.png" alt="PHB70" width="300" height="253">
+      </a>
+      <button class="burger" type="button" data-burger aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+        <span class="visually-hidden">Open menu</span>
+      </button>
+      <nav class="nav" id="site-nav" data-nav aria-label="Main navigation">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="index.html" aria-current="page">Home</a></li>
+          <li><a class="nav__link" href="agence.html">The agency</a></li>
+          <li><a class="nav__link" href="realisations.html">Projects</a></li>
+          <li><a class="nav__link" href="sur-mesure.html">Bespoke</a></li>
+          <li><a class="nav__lang" href="../index.html" hreflang="fr" lang="fr"><span aria-hidden="true">FR</span><span class="visually-hidden">Version française</span></a></li>
+          <li><a class="btn nav__cta" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+
+    <section class="hero">
+      <!-- Diaporama de tête. Décoratif : le sens est porté par le texte, les images
+       sont donc en alt vide et le bloc masqué aux lecteurs d'écran.
+
+       POUR CHANGER LES PHOTOS : remplacer les quatre fichiers de
+       assets/img/hero/. Rien d'autre à toucher — l'enchaînement est piloté par
+       `--diapo-n` en CSS. Pour en mettre un nombre différent, ajouter ou retirer
+       une balise, renuméroter `--i` et corriger `--diapo-n` dans style.css.
+
+       1. grande salle classée          4. comptoir, velours ocre
+       2. chambre, marqueterie & ambre  3. restaurant contemporain -->
+      <div class="hero__media" aria-hidden="true">
+        <img class="hero__slide" style="--i:0" src="../assets/img/hero/hero-1.jpg" alt="" width="1600" height="1016"
+          decoding="async" fetchpriority="high">
+        <img class="hero__slide" style="--i:1" src="../assets/img/hero/hero-2.jpg" alt="" width="1024" height="683"
+          decoding="async" fetchpriority="low" loading="lazy">
+        <img class="hero__slide" style="--i:2" src="../assets/img/hero/hero-3.jpg" alt="" width="1600" height="1067"
+          decoding="async" fetchpriority="low" loading="lazy">
+        <img class="hero__slide" style="--i:3" src="../assets/img/hero/hero-4.jpg" alt="" width="941" height="656"
+          decoding="async" fetchpriority="low" loading="lazy">
+      </div>
+      <div class="container hero__inner">
+        <span class="eyebrow">PHB70 — Bespoke furniture</span>
+        <h1 class="hero__title">Bespoke furniture for exceptional places.</h1>
+        <p class="lead hero__text">PHB70 works with hotels, restaurants and prestige residences, from design through to
+          manufacture.</p>
+        <div class="hero__actions">
+          <a class="btn btn--solid" href="realisations.html">Discover our projects <span class="arw"
+              aria-hidden="true">&rarr;</span></a>
+          <a class="btn" href="contact.html">Contact us <span class="arw" aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="hero__jauges" aria-hidden="true">
+          <span class="hero__jauge" style="--i:0"></span>
+          <span class="hero__jauge" style="--i:1"></span>
+          <span class="hero__jauge" style="--i:2"></span>
+          <span class="hero__jauge" style="--i:3"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nos secteurs d'expertise.
+     TODO LIEN : les trois cartes pointent pour l'instant vers les pages
+     existantes. Quand les sous-pages dédiées seront écrites, remplacer
+     simplement les href — rien d'autre à toucher. -->
+    <section class="section secteurs fond-mur fond-mur--sous-photo">
+      <div class="container">
+        <div class="titraille reveal">
+          <h2 class="titraille__titre">Our areas of expertise</h2>
+          <p class="titraille__soustitre">Three fields, one uncompromising eye for detail.</p>
+          <span class="titraille__filet" aria-hidden="true"></span>
+        </div>
+
+        <div class="secteurs__grille">
+          <a class="secteur reveal" href="realisations.html">
+            <img src="../assets/img/secteurs/hotellerie.jpg"
+              alt="Hotel room with olive-green panelling, leather headboard and adjoining lounge" width="636"
+              height="848" loading="lazy" decoding="async">
+            <span class="secteur__corps">
+              <span class="secteur__titre">Hospitality</span>
+              <span class="secteur__filet" aria-hidden="true"></span>
+              <span class="secteur__texte">Furniture and fit-out for guest rooms and public areas</span>
+              <span class="secteur__lien" aria-hidden="true">Discover <span class="arw">&rarr;</span></span>
+            </span>
+          </a>
+
+          <a class="secteur reveal" href="realisations.html">
+            <img src="../assets/img/secteurs/restauration.jpg"
+              alt="Contemporary restaurant, laid tables and drum pendant lights" width="631"
+              height="842" loading="lazy" decoding="async">
+            <span class="secteur__corps">
+              <span class="secteur__titre">Restaurants</span>
+              <span class="secteur__filet" aria-hidden="true"></span>
+              <span class="secteur__texte">Bespoke fit-out for dining rooms and food &amp; beverage spaces</span>
+              <span class="secteur__lien" aria-hidden="true">Discover <span class="arw">&rarr;</span></span>
+            </span>
+          </a>
+
+          <a class="secteur reveal" href="sur-mesure.html">
+            <img src="../assets/img/secteurs/immobilier.jpg"
+              alt="High-end apartment kitchen, marble island and black lacquered fronts" width="648"
+              height="864" loading="lazy" decoding="async">
+            <span class="secteur__corps">
+              <span class="secteur__titre">Prestige real estate</span>
+              <span class="secteur__filet" aria-hidden="true"></span>
+              <span class="secteur__texte">High-end interior fit-out for exceptional residences</span>
+              <span class="secteur__lien" aria-hidden="true">Discover <span class="arw">&rarr;</span></span>
+            </span>
+          </a>
+        </div>
+
+        <p class="lien-suite reveal">
+          <a class="link link--or" href="realisations.html">See all our projects <span class="arw"
+              aria-hidden="true">&rarr;</span></a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Notre méthode — les cinq étapes d'un projet, en frise compacte
+         (balisage du composant `.steps` de la page L'agence). Aucun JavaScript.
+         POUR AJOUTER UNE ÉTAPE : dupliquer une rangée et renuméroter. -->
+    <section class="section methode">
+      <span class="separateur methode__separateur reveal" aria-hidden="true"></span>
+
+      <div class="container">
+        <div class="titraille reveal">
+          <h2 class="titraille__titre">Our method</h2>
+          <p class="titraille__soustitre">From idea to installation</p>
+          <span class="titraille__filet" aria-hidden="true"></span>
+        </div>
+
+        <div class="steps">
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
+                <use href="#ico-faisabilite" />
+              </svg>
+              01
+            </span>
+            <h3 class="step__title">Feasibility</h3>
+            <div class="step__body">
+              <p>Every piece is assessed before any commitment. We tell you early on what is feasible, at what cost
+                and within what timeframe.</p>
+            </div>
+          </div>
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
+                <use href="#ico-conception" />
+              </svg>
+              02
+            </span>
+            <h3 class="step__title">Technical design</h3>
+            <div class="step__body">
+              <p>Our design office turns the drawing into shop drawings: sections, joints, what will hold up in daily
+                use and not just on paper.</p>
+            </div>
+          </div>
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
+                <use href="#ico-prototype" />
+              </svg>
+              03
+            </span>
+            <h3 class="step__title">Prototype</h3>
+            <div class="step__body">
+              <p>We are in the workshop to sign off colours, finishes and real-world comfort, and to have corrections
+                made before launch.</p>
+            </div>
+          </div>
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
+                <use href="#ico-production" />
+              </svg>
+              04
+            </span>
+            <h3 class="step__title">Production</h3>
+            <div class="step__body">
+              <p>Scaling up to series production is where things typically drift. We lock down the process so the
+                hundredth room matches the first.</p>
+            </div>
+          </div>
+          <div class="step reveal">
+            <span class="step__num" aria-hidden="true">
+              <svg class="step__icone" viewBox="0 0 24 24">
+                <use href="#ico-livraison" />
+              </svg>
+              05
+            </span>
+            <h3 class="step__title">Inspection &amp; delivery</h3>
+            <div class="step__body">
+              <p>Inspection happens in the workshop, not on site. Our Luxembourg team then handles customs and
+                transport all the way to the site.</p>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </section>
+
+    <!-- L'agence — les quatre implantations. Le filet doré reprend le motif des
+     autres ouvertures de section. -->
+    <section class="section agence fond-mur">
+      <span class="separateur reveal" aria-hidden="true"></span>
+
+      <div class="container">
+        <div class="titraille titraille--large reveal">
+          <h2 class="titraille__titre">Our agency</h2>
+          <p class="titraille__soustitre">One agency, four offices, each with a specific role. This structure is what lets
+            us stay accountable for the project from start to finish, without ever handing it to a third&nbsp;party.</p>
+          <span class="titraille__filet" aria-hidden="true"></span>
+        </div>
+        <div class="offices reveal">
+          <div class="office">
+            <h3 class="office__city">Paris</h3>
+            <address>
+              <a href="tel:+33682840308">+33 6 82 84 03 08</a><br>
+              53 bis rue de Passy<br>75016 Paris<br>France
+            </address>
+          </div>
+          <div class="office">
+            <h3 class="office__city">New York</h3>
+            <address>
+              <a href="tel:+19173014228">+1 917 301 42 28</a><br>
+              40 East 94th Street<br>New York, NY 10128<br>United States
+            </address>
+          </div>
+          <div class="office">
+            <h3 class="office__city">Luxembourg</h3>
+            <address>
+              <a href="tel:+3522021182203">+352 20 21 18 22 03</a><br>
+              4 place de Paris<br>L-2314 Luxembourg<br>Luxembourg
+            </address>
+          </div>
+          <div class="office">
+            <h3 class="office__city">Portugal</h3>
+            <address>
+              <a href="tel:+351910302959">+351 910 302 959</a><br>
+              14 avenida 20 de Maio<br>4590-182 Paços de Ferreira<br>Portugal
+            </address>
+          </div>
+        </div>
+
+        <p class="lien-suite reveal">
+          <a class="link link--or" href="agence.html">Learn more about us <span class="arw"
+              aria-hidden="true">&rarr;</span></a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Partenaires & références. Le bandeau défile en boucle : la piste
+         contient deux fois la même liste et se décale de la moitié de sa
+         largeur, si bien que la reprise est invisible. Le second exemplaire
+         n'est là que pour l'œil, il est masqué aux lecteurs d'écran.
+         POUR MODIFIER LA LISTE : éditer les deux <ul>, ils doivent rester
+         strictement identiques. -->
+    <section class="section partenaires">
+      <span class="separateur reveal" aria-hidden="true"></span>
+
+      <div class="container">
+        <div class="titraille reveal">
+          <h2 class="titraille__titre">They trust us</h2>
+          <p class="titraille__soustitre">Partners &amp; clients</p>
+          <span class="titraille__filet" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="bandeau reveal">
+        <div class="bandeau__piste">
+          <ul class="bandeau__lot">
+            <li class="bandeau__nom">Empreinte Design</li>
+            <li class="bandeau__nom">Hôtel Norman</li>
+            <li class="bandeau__nom">Atelier d'Amis</li>
+            <li class="bandeau__nom">Philippe Starck</li>
+            <li class="bandeau__nom">Hilton</li>
+            <li class="bandeau__nom">Marriott</li>
+            <li class="bandeau__nom">Small Luxury Hotels</li>
+            <li class="bandeau__nom">Luteca</li>
+            <li class="bandeau__nom">V&amp;F Architecture</li>
+          </ul>
+          <ul class="bandeau__lot" aria-hidden="true">
+            <li class="bandeau__nom">Empreinte Design</li>
+            <li class="bandeau__nom">Hôtel Norman</li>
+            <li class="bandeau__nom">Atelier d'Amis</li>
+            <li class="bandeau__nom">Philippe Starck</li>
+            <li class="bandeau__nom">Hilton</li>
+            <li class="bandeau__nom">Marriott</li>
+            <li class="bandeau__nom">Small Luxury Hotels</li>
+            <li class="bandeau__nom">Luteca</li>
+            <li class="bandeau__nom">V&amp;F Architecture</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CTA final — dernier point de conversion de l'accueil. Rien d'autre que le
+     filet, la phrase et le bouton : les coordonnées restent au pied de page. -->
+  <section class="cta-final fond-mur">
+    <span class="separateur reveal" aria-hidden="true"></span>
+
+    <div class="container cta-final__inner reveal">
+      <h2 class="cta-final__titre">A bespoke project?<br>Let's talk.</h2>
+      <a class="btn btn--or cta-final__btn" href="contact.html">Contact us</a>
+    </div>
+  </section>
+  <footer class="footer footer--sombre">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img src="../assets/img/logo.png" alt="PHB70" width="300" height="253" loading="lazy">
+        </div>
+
+        <nav class="footer__nav" aria-label="Footer navigation">
+          <p class="footer__title">Navigation</p>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="agence.html">The agency</a></li>
+            <li><a href="realisations.html">Projects</a></li>
+            <li><a href="sur-mesure.html">Bespoke</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="footer__cols">
+          <div>
+            <p class="footer__title">Paris</p>
+            <address>
+              <a href="tel:+33682840308">+33 6 82 84 03 08</a><br>
+              53 bis rue de Passy<br>75016 Paris<br>France
+            </address>
+          </div>
+          <div>
+            <p class="footer__title">New York</p>
+            <address>
+              <a href="tel:+19173014228">+1 917 301 42 28</a><br>
+              40 East 94th Street<br>New York, NY 10128<br>United States
+            </address>
+          </div>
+          <div>
+            <p class="footer__title">Luxembourg</p>
+            <address>
+              <a href="tel:+3522021182203">+352 20 21 18 22 03</a><br>
+              4 place de Paris<br>L-2314 Luxembourg<br>Luxembourg
+            </address>
+          </div>
+          <div>
+            <p class="footer__title">Portugal</p>
+            <address>
+              <a href="tel:+351910302959">+351 910 302 959</a><br>
+              14 avenida 20 de Maio<br>4590-182 Paços de Ferreira<br>Portugal
+            </address>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; <span data-year>2026</span> PHB70. All rights reserved.</p>
+        <p><a href="mentions-legales.html">Legal notice</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Icônes au trait de la section « Notre méthode ». Définies une fois, posées
+     deux fois chacune (sélecteur et contenu) via <use>. -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <defs>
+      <g id="ico-faisabilite" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+        stroke-linejoin="round">
+        <circle cx="10.4" cy="10.4" r="6.7" />
+        <path d="M15.5 15.5 20.9 20.9" />
+      </g>
+      <g id="ico-conception" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M4.2 3.4V20.4H21.2Z" />
+        <path d="M7.6 8.6v8.4h8.4" />
+      </g>
+      <g id="ico-prototype" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M12 2.7 20.7 7.6 12 12.5 3.3 7.6Z" />
+        <path d="M3.3 7.6v8.9L12 21.4v-8.9" />
+        <path d="M20.7 7.6v8.9L12 21.4" />
+      </g>
+      <g id="ico-production" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M3.2 6.3h17.6v13.5H3.2Z" />
+        <path d="M3.2 10.5h17.6" />
+        <path d="M8.7 10.5v9.3M15.3 10.5v9.3" />
+      </g>
+      <!-- Caisse d'expédition : planche de couvercle qui dépasse, puis la
+         traverse en diagonale. Volontairement éloignée de l'icône « production »
+         (une grille) pour qu'on ne confonde pas les deux dans la frise. -->
+      <g id="ico-livraison" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M2.6 7.1h18.8" />
+        <path d="M4.4 7.1h15.2v12.8H4.4Z" />
+        <path d="M4.4 16.5 19.6 10.5" />
+      </g>
+    </defs>
+  </svg>
+
+  <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/intro.js" defer></script>
+</body>
+
+</html>

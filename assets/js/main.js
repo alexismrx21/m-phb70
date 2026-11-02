@@ -117,8 +117,9 @@
   if (gallery) {
     // Ce que le filtre montre et ce que la visionneuse enchaîne ne sont pas
     // toujours la même chose. Sur une page projet, il n'y a que des photos
-    // (`[data-shot]`) et aucun filtre. Sur Réalisations, il n'y a que des
-    // cartes filtrables (`[data-category]`) et aucune photo. Sur Sur-mesure,
+    // (`[data-shot]`) et aucun filtre. Sur Réalisations, les projets sont
+    // filtrables (`[data-category]`) et leurs photos, rangées en listes
+    // masquées, ne s'affichent que dans le livre ouvert. Sur Sur-mesure,
     // les zones du livre sont les deux à la fois. D'où cette bascule : les
     // photos si la page en contient, les blocs de catégorie sinon.
     var groups = Array.prototype.slice.call(gallery.querySelectorAll('[data-category]'));
@@ -163,31 +164,336 @@
       });
     });
 
-    // Les albums : une double page à la fois, les autres seulement rendues
-    // invisibles. Elles restent dans le flux — c'est ce qui donne à l'album la
-    // hauteur de la plus grande et l'empêche de sauter quand on tourne.
-    Array.prototype.forEach.call(gallery.querySelectorAll('[data-album]'), function (album) {
-      var spreads = Array.prototype.slice.call(album.querySelectorAll('[data-spread]'));
-      if (spreads.length < 2) return;
+    // --- Les carnets (page Réalisations) ---
+    // Un livre par projet. La couverture est un lien vers la page du projet :
+    // sans JavaScript, c'est là qu'elle mène. Ici, elle ouvre le livre en plein
+    // écran. Le livre est construit à chaque ouverture à partir de la liste de
+    // photos du projet : une feuille = deux faces dos à dos, qui pivotent
+    // autour du dos. `tournees` compte les feuilles passées à gauche.
+    var carnet = document.querySelector('[data-carnet]');
+    var ouvrirVisionneuse = null;   // branchée plus bas, avec la lightbox
+    var visionneuseOuverte = function () {
+      var b = document.querySelector('[data-lightbox]');
+      return !!b && b.classList.contains('is-open');
+    };
 
-      var compteur = album.querySelector('[data-album-compteur]');
-      var courante = 0;
+    if (carnet) {
+      var livre = carnet.querySelector('[data-carnet-livre]');
+      var titreCarnet = carnet.querySelector('[data-carnet-titre]');
+      var lienCarnet = carnet.querySelector('[data-carnet-lien]');
+      var compteurCarnet = carnet.querySelector('[data-carnet-compteur]');
+      var btnPrec = carnet.querySelector('[data-carnet-prec]');
+      var btnSuiv = carnet.querySelector('[data-carnet-suiv]');
+      var btnFermer = carnet.querySelector('[data-carnet-fermer]');
+      var DUREE = reduceMotion ? 0 : 900;
+      var feuilles = [];
+      var tournees = 0;
+      var zHaut = 0;
+      var declencheur = null;
+      var minuteur = null;
 
-      var tourner = function (n) {
-        courante = (n + spreads.length) % spreads.length;
-        spreads.forEach(function (spread, i) {
-          spread.classList.toggle('album__spread--replie', i !== courante);
-        });
-        if (compteur) {
-          compteur.innerHTML = (courante + 1) + '&nbsp;/&nbsp;' + spreads.length;
-        }
+      var el = function (tag, cls, texte) {
+        var n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (texte) n.textContent = texte;
+        return n;
       };
 
-      var prec = album.querySelector('[data-album-prec]');
-      var suiv = album.querySelector('[data-album-suiv]');
-      if (prec) prec.addEventListener('click', function () { tourner(courante - 1); });
-      if (suiv) suiv.addEventListener('click', function () { tourner(courante + 1); });
-    });
+      // Deux photos horizontales par page, l'une sous l'autre ; une photo
+      // verticale a sa page pour elle seule.
+      var paginer = function (items) {
+        var pages = [];
+        var ouverte = null;
+        items.forEach(function (li) {
+          if (li.getAttribute('data-format') === 'portrait') {
+            pages.push([li]);
+            ouverte = null;
+          } else if (ouverte) {
+            ouverte.push(li);
+            ouverte = null;
+          } else {
+            ouverte = [li];
+            pages.push(ouverte);
+          }
+        });
+        return pages;
+      };
+
+      var pagePhotos = function (lis) {
+        var page = el('div', 'page page--photos');
+        if (lis.length === 1 && lis[0].getAttribute('data-format') === 'portrait') {
+          page.classList.add('page--portrait');
+        }
+        var liste = el('ul', 'page__contenu');
+        lis.forEach(function (li) {
+          var copie = li.cloneNode(true);
+          var img = copie.querySelector('img');
+          if (img) img.loading = 'eager';
+          var legende = el('span', 'carnet__legende', copie.querySelector('button').getAttribute('data-caption'));
+          legende.setAttribute('aria-hidden', 'true');
+          copie.appendChild(legende);
+          liste.appendChild(copie);
+        });
+        page.appendChild(liste);
+        return page;
+      };
+
+      var pageTitre = function (titre, categorie, nb) {
+        var page = el('div', 'page page--titre');
+        page.appendChild(el('p', 'page__cat', categorie));
+        page.appendChild(el('h3', 'page__titre', titre));
+        page.appendChild(el('span', 'page__filet'));
+        page.appendChild(el('p', 'page__nb', nb + ' ' + carnet.getAttribute('data-txt-photos')));
+        return page;
+      };
+
+      var pageFin = function () {
+        var page = el('div', 'page page--fin');
+        page.appendChild(el('p', 'page__nb', carnet.getAttribute('data-txt-fin')));
+        page.appendChild(el('span', 'page__filet'));
+        page.appendChild(el('p', 'page__marque', 'PHB70'));
+        return page;
+      };
+
+      var platAvant = function (titre, vignette) {
+        var plat = el('div', 'plat plat--avant');
+        if (vignette) {
+          var cadre = el('div', 'plat__vignette');
+          var img = el('img');
+          img.src = vignette.getAttribute('src');
+          img.alt = '';
+          cadre.appendChild(img);
+          plat.appendChild(cadre);
+        }
+        plat.appendChild(el('p', 'plat__titre', titre));
+        plat.appendChild(el('p', 'plat__marque', 'PHB70'));
+        return plat;
+      };
+
+      var platArriere = function () {
+        var plat = el('div', 'plat plat--arriere');
+        plat.appendChild(el('p', 'plat__marque', 'PHB70'));
+        return plat;
+      };
+
+      var compter = function () {
+        var doubles = feuilles.length - 1;
+        compteurCarnet.innerHTML = tournees > 0 && tournees < feuilles.length
+          ? tournees + '&nbsp;/&nbsp;' + doubles
+          : '';
+      };
+
+      // Remet chaque feuille à sa place. Seules les deux pages visibles restent
+      // atteignables au clavier et par les lecteurs d'écran.
+      var rendre = function () {
+        feuilles.forEach(function (f, i) {
+          var tournee = i < tournees;
+          f.classList.toggle('is-tournee', tournee);
+          if (!f.classList.contains('is-anim')) {
+            f.style.zIndex = tournee ? i + 1 : feuilles.length - i;
+          }
+          f.firstChild.inert = i !== tournees;
+          f.lastChild.inert = i !== tournees - 1;
+        });
+        livre.classList.toggle('is-ouvert', tournees > 0 && tournees < feuilles.length);
+        livre.classList.toggle('is-fini', tournees === feuilles.length);
+        btnPrec.disabled = tournees === 0;
+        btnSuiv.disabled = tournees === feuilles.length;
+        compter();
+      };
+
+      // Pendant qu'elle tourne, une feuille passe au-dessus de toutes les
+      // autres ; elle reprend sa place dans la pile une fois posée.
+      var animer = function (f) {
+        zHaut += 1;
+        f.style.zIndex = zHaut;
+        f.classList.add('is-anim');
+        clearTimeout(f.finAnim);
+        f.finAnim = setTimeout(function () {
+          f.classList.remove('is-anim');
+          rendre();
+        }, DUREE + 50);
+      };
+
+      var tourner = function (sens) {
+        var i = sens > 0 ? tournees : tournees - 1;
+        if (i < 0 || i >= feuilles.length) return;
+        animer(feuilles[i]);
+        tournees += sens;
+        rendre();
+      };
+
+      var construire = function (article, lien) {
+        var titre = lien.getAttribute('data-titre');
+        var items = Array.prototype.slice.call(article.querySelectorAll('[data-carnet-photos] [data-shot]'));
+        var pages = [pageTitre(titre, lien.getAttribute('data-categorie'), items.length)]
+          .concat(paginer(items).map(pagePhotos))
+          .concat([pageFin()]);
+        if (pages.length % 2) pages.push(el('div', 'page page--blanche'));
+
+        // Plat avant | revers (garde) — les pages — garde | plat arrière.
+        var faces = [platAvant(titre, lien.querySelector('.couv__vignette img')), el('div', 'plat plat--garde')]
+          .concat(pages)
+          .concat([el('div', 'plat plat--garde'), platArriere()]);
+
+        livre.innerHTML = '';
+        livre.setAttribute('data-category', article.getAttribute('data-category'));
+        feuilles = [];
+        for (var i = 0; i < faces.length; i += 2) {
+          var f = el('div', 'feuille');
+          faces[i].classList.add('face', 'face--recto');
+          faces[i + 1].classList.add('face', 'face--verso');
+          f.appendChild(faces[i]);
+          f.appendChild(faces[i + 1]);
+          livre.appendChild(f);
+          feuilles.push(f);
+        }
+        tournees = 0;
+        zHaut = feuilles.length + 1;
+
+        // Mise en place sans transition : le livre doit apparaître fermé, pas
+        // se refermer depuis l'état du livre précédent.
+        livre.style.transition = 'none';
+        rendre();
+        void livre.offsetWidth;
+        livre.style.transition = '';
+      };
+
+      var ouvrirCarnet = function (lien) {
+        var article = lien.closest('.projet');
+        if (!article) return;
+        declencheur = lien;
+        titreCarnet.textContent = lien.getAttribute('data-titre');
+        lienCarnet.href = lien.getAttribute('href');
+        construire(article, lien);
+        carnet.classList.add('is-open');
+        carnet.removeAttribute('aria-hidden');
+        document.body.classList.add('is-locked');
+        btnFermer.focus();
+        // Le livre apparaît fermé, puis sa couverture s'ouvre d'elle-même.
+        clearTimeout(minuteur);
+        minuteur = setTimeout(function () { tourner(1); }, reduceMotion ? 0 : 500);
+      };
+
+      var fermerCarnet = function () {
+        clearTimeout(minuteur);
+        carnet.classList.remove('is-open');
+        carnet.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('is-locked');
+        if (declencheur) declencheur.focus();
+      };
+
+      document.addEventListener('click', function (e) {
+        var lien = e.target.closest('[data-carnet-ouvrir]');
+        if (!lien || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        ouvrirCarnet(lien);
+      });
+
+      btnFermer.addEventListener('click', fermerCarnet);
+      btnPrec.addEventListener('click', function () { tourner(-1); });
+      btnSuiv.addEventListener('click', function () { tourner(1); });
+
+      // Tourner à la main : on saisit la page de droite pour avancer, celle de
+      // gauche pour revenir. Un simple clic tourne aussi la page — sauf sur une
+      // photo, qu'il agrandit.
+      var prise = null;
+
+      livre.addEventListener('pointerdown', function (e) {
+        if (e.button !== 0 || e.target.closest('a')) return;
+        var r = livre.getBoundingClientRect();
+        var sens = e.clientX >= r.left + r.width / 2 ? 1 : -1;
+        var i = sens > 0 ? tournees : tournees - 1;
+        prise = {
+          x: e.clientX,
+          sens: sens,
+          i: i >= 0 && i < feuilles.length ? i : -1,
+          largeur: r.width / 2,
+          cible: e.target,
+          id: e.pointerId,
+          active: false,
+          part: 0
+        };
+      });
+
+      livre.addEventListener('pointermove', function (e) {
+        if (!prise || prise.i < 0) return;
+        var dx = e.clientX - prise.x;
+        var f = feuilles[prise.i];
+        if (!prise.active) {
+          if (Math.abs(dx) < 8) return;
+          prise.active = true;
+          try { livre.setPointerCapture(prise.id); } catch (err) { }
+          zHaut += 1;
+          f.style.zIndex = zHaut;
+          f.style.transition = 'none';
+          f.classList.add('is-glisse');
+        }
+        var part = Math.max(0, Math.min(1, (prise.sens > 0 ? -dx : dx) / (prise.largeur * 1.2)));
+        prise.part = part;
+        var angle = prise.sens > 0 ? -180 * part : -180 + 180 * part;
+        f.style.transform = 'rotateY(' + angle + 'deg)';
+      });
+
+      var lacher = function (e) {
+        if (!prise) return;
+        var p = prise;
+        prise = null;
+
+        if (!p.active) {
+          if (e.type !== 'pointerup') return;
+          var photo = p.cible.closest('.carnet__photo');
+          if (photo && ouvrirVisionneuse) ouvrirVisionneuse(photo.closest('[data-shot]'));
+          else tourner(p.sens);
+          return;
+        }
+
+        // On repart de l'angle atteint : la page finit de tourner si on l'a
+        // menée au-delà d'un tiers, sinon elle retombe.
+        var f = feuilles[p.i];
+        f.classList.remove('is-glisse');
+        f.style.transition = '';
+        f.style.transform = '';
+        animer(f);
+        if (p.part > 0.3) tournees += p.sens;
+        rendre();
+      };
+
+      livre.addEventListener('pointerup', lacher);
+      livre.addEventListener('pointercancel', lacher);
+
+      // Au clavier, la photo s'agrandit avec Entrée (le pointeur, lui, est géré
+      // au relâcher ci-dessus).
+      livre.addEventListener('click', function (e) {
+        var photo = e.target.closest('.carnet__photo');
+        if (photo && e.detail === 0 && ouvrirVisionneuse) ouvrirVisionneuse(photo.closest('[data-shot]'));
+      });
+
+      // Écouté avant celui de la visionneuse : quand elle est ouverte par-dessus
+      // le livre, c'est elle seule qui répond au clavier.
+      document.addEventListener('keydown', function (e) {
+        if (!carnet.classList.contains('is-open') || visionneuseOuverte()) return;
+
+        if (e.key === 'Escape') { fermerCarnet(); return; }
+        if (e.key === 'ArrowLeft') { tourner(-1); return; }
+        if (e.key === 'ArrowRight') { tourner(1); return; }
+
+        if (e.key === 'Tab') {
+          var items = Array.prototype.filter.call(
+            carnet.querySelectorAll('button:not([disabled]), a[href]'),
+            function (n) { return !n.closest('[inert]'); }
+          );
+          if (!items.length) return;
+          var first = items[0];
+          var last = items[items.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault(); last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault(); first.focus();
+          }
+        }
+      });
+    }
 
     // --- Lightbox ---
     var box = document.querySelector('[data-lightbox]');
@@ -228,7 +534,11 @@
       var closeBox = function () {
         box.classList.remove('is-open');
         box.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('is-locked');
+        // Ouverte depuis un livre, la visionneuse rend la main au livre, qui
+        // garde la page verrouillée.
+        if (!(carnet && carnet.classList.contains('is-open'))) {
+          document.body.classList.remove('is-locked');
+        }
         if (opener) opener.focus();
       };
 
@@ -237,6 +547,8 @@
         index = (index + delta + visible.length) % visible.length;
         render();
       };
+
+      ouvrirVisionneuse = openBox;
 
       gallery.addEventListener('click', function (e) {
         var trigger = e.target.closest('button[data-full]');
@@ -284,6 +596,22 @@
     var action = form.getAttribute('action') || '';
     var configured = action.indexOf('TODO_FORMSPREE_ID') === -1;
 
+    // Messages dans la langue de la page (version anglaise : /en/).
+    var en = document.documentElement.lang === 'en';
+    var messages = en ? {
+      nonRelie: "The form is not yet connected to its inbox. " +
+        "In the meantime, please call the relevant office directly: all four numbers are listed further down this page.",
+      envoi: 'Sending…',
+      merci: 'Thank you. Your message has been sent — we will get back to you within 48 business hours.',
+      echec: "Sending failed. Please call your nearest office — the numbers are listed further down this page — and we will handle your request just the same."
+    } : {
+      nonRelie: "Le formulaire n'est pas encore relié à sa boîte de réception. " +
+        "En attendant, appelez directement le bureau concerné : les quatre numéros figurent plus bas sur cette page.",
+      envoi: 'Envoi en cours…',
+      merci: 'Merci. Votre message est parti — nous revenons vers vous sous 48 heures ouvrées.',
+      echec: "L'envoi a échoué. Appelez le bureau le plus proche — les numéros figurent plus bas sur cette page — nous traiterons votre demande de la même façon."
+    };
+
     var say = function (message) {
       if (!status) return;
       status.textContent = message;
@@ -293,17 +621,14 @@
     form.addEventListener('submit', function (e) {
       if (!configured) {
         e.preventDefault();
-        say(
-          "Le formulaire n'est pas encore relié à sa boîte de réception. " +
-          "En attendant, appelez directement le bureau concerné : les quatre numéros figurent plus bas sur cette page."
-        );
+        say(messages.nonRelie);
         return;
       }
 
       e.preventDefault();
       var submit = form.querySelector('button[type="submit"]');
       if (submit) submit.disabled = true;
-      say('Envoi en cours…');
+      say(messages.envoi);
 
       fetch(action, {
         method: 'POST',
@@ -313,10 +638,10 @@
         .then(function (res) {
           if (!res.ok) throw new Error(res.status);
           form.reset();
-          say('Merci. Votre message est parti — nous revenons vers vous sous 48 heures ouvrées.');
+          say(messages.merci);
         })
         .catch(function () {
-          say("L'envoi a échoué. Appelez le bureau le plus proche — les numéros figurent plus bas sur cette page — nous traiterons votre demande de la même façon.");
+          say(messages.echec);
         })
         .finally(function () {
           if (submit) submit.disabled = false;

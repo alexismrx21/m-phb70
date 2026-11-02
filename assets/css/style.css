@@ -336,6 +336,15 @@ ul {
   margin: 1.15rem 0 0;
 }
 
+/* Sous-titre long (« Notre agence ») : colonne élargie pour tenir sur deux
+   lignes, réparties à parts égales plutôt qu'un mot isolé en fin de bloc. */
+.titraille--large {
+  max-width: 52rem;
+}
+.titraille--large .titraille__soustitre {
+  text-wrap: balance;
+}
+
 .titraille__filet {
   display: block;
   width: 64px;
@@ -508,20 +517,21 @@ ul {
   color: var(--bg);
 }
 
-/* Contour seul, texte en or : le bouton se lit comme un tracé doré tant qu'on
-   ne le touche pas, puis se remplit. Transition plus courte que le `--dur` du
-   site : sur un aplat qui bascule entièrement, .6s traîne. */
+/* Aplat doré d'emblée, texte sombre : le bouton du CTA de fin doit se voir sans
+   qu'on le survole. Au survol, l'or s'éclaircit. Transition plus courte que le
+   `--dur` du site : sur un aplat qui change entièrement, .6s traîne. */
 .btn--or {
-  color: var(--accent);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
   transition:
     background 0.34s var(--ease),
-    color 0.34s var(--ease),
     border-color 0.34s var(--ease);
 }
 .btn--or:hover,
 .btn--or:focus-visible {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--accent-hi);
+  border-color: var(--accent-hi);
   color: var(--bg);
 }
 .btn--solid:hover,
@@ -664,6 +674,24 @@ ul {
   padding: 0.8rem 1.5rem;
 }
 
+/* Bouton de langue : renvoie à la même page dans l'autre langue (/en/). Discret,
+   séparé des rubriques par un filet, pour ne pas se lire comme une entrée de
+   menu de plus. */
+.nav__lang {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.17em;
+  text-decoration: none;
+  color: var(--text-muted);
+  padding: 0.5rem 0 0.5rem clamp(1rem, 1.6vw, 1.5rem);
+  border-left: 1px solid var(--line-strong);
+  transition: color var(--dur) var(--ease);
+}
+.nav__lang:hover,
+.nav__lang:focus-visible {
+  color: var(--accent-hi);
+}
+
 /* Bouton burger — masqué au-dessus de 900px */
 .burger {
   display: none;
@@ -714,11 +742,8 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Les photos d'hôtellerie sont volontairement très lumineuses ; on les
-     ramène dans la gamme sombre du site avant même d'appliquer le voile.
-     Assez pour asseoir le texte, pas au point d'effacer le travail montré :
-     c'est la photo qui vend le savoir-faire, elle doit rester lisible. */
-  filter: brightness(0.88) saturate(0.95);
+  /* Aucun filtre : la photo est montrée telle quelle, c'est elle qui vend le
+     savoir-faire. La lisibilité du texte est confiée au seul voile ci-dessous. */
 }
 
 /* ---------- Diaporama de tête ----------
@@ -826,19 +851,20 @@ ul {
        droit, la zone où l'on veut voir l'intérieur photographié. */
     linear-gradient(
       to right,
-      rgba(11, 11, 13, 0.72) 0%,
-      rgba(11, 11, 13, 0.46) 38%,
-      rgba(11, 11, 13, 0.05) 68%,
-      rgba(11, 11, 13, 0.18) 100%
+      rgba(11, 11, 13, 0.6) 0%,
+      rgba(11, 11, 13, 0.32) 38%,
+      rgba(11, 11, 13, 0) 62%,
+      rgba(11, 11, 13, 0) 100%
     ),
     linear-gradient(
       to top,
-      rgba(11, 11, 13, 0.82) 0%,
-      rgba(11, 11, 13, 0.44) 30%,
-      rgba(11, 11, 13, 0.14) 62%,
+      rgba(11, 11, 13, 0.7) 0%,
+      rgba(11, 11, 13, 0.3) 28%,
+      rgba(11, 11, 13, 0) 55%,
+      rgba(11, 11, 13, 0) 80%,
       /* Le haut reste voilé : l'en-tête n'a pas de fond tant qu'on n'a pas
          défilé, sa navigation se lit sur cette bande. */
-      rgba(11, 11, 13, 0.48) 100%
+      rgba(11, 11, 13, 0.38) 100%
     );
 }
 .hero__inner {
@@ -886,9 +912,8 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Traitement plus léger que le hero : ces photos sont déjà sombres et la
-     hauteur réduite laisse moins de place au dégradé. */
-  filter: brightness(0.72) saturate(0.92);
+  /* Aucun filtre, comme sur le hero : la lisibilité du titre est confiée au
+     seul dégradé ci-dessous. */
 }
 .pagehead__media::after {
   content: "";
@@ -896,9 +921,10 @@ ul {
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(11, 11, 13, 0.95) 0%,
-    rgba(11, 11, 13, 0.68) 45%,
-    rgba(11, 11, 13, 0.42) 100%
+    rgba(11, 11, 13, 0.82) 0%,
+    rgba(11, 11, 13, 0.4) 40%,
+    rgba(11, 11, 13, 0.12) 75%,
+    rgba(11, 11, 13, 0.3) 100%
   );
 }
 .pagehead__inner {
@@ -1142,12 +1168,7 @@ ul {
   padding-block: var(--avant-filet) clamp(3rem, 6vw, 4.5rem);
 }
 
-.residences {
-  padding-top: var(--avant-filet);
-}
-
-.matieres .separateur,
-.residences .separateur {
+.matieres .separateur {
   margin-bottom: var(--ouverture);
 }
 
@@ -1366,244 +1387,568 @@ address {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.88);
-  transition:
-    transform 1s var(--ease),
-    filter var(--dur) var(--ease);
+  transition: transform 1s var(--ease);
 }
 .gallery__btn:hover img,
 .gallery__btn:focus-visible img {
   transform: scale(1.05);
-  filter: brightness(1);
 }
 
-/* ---------- L'album (page Réalisations) ---------- */
-/* La même planche photographiée que sur Sur-mesure, réemployée telle quelle :
-   c'est un vrai livre, avec ses ombres, sa pliure et le grain de son papier —
-   aucune mise en page ne restitue cela. Ses neuf vues imprimées en ont été
-   effacées une fois pour toutes (`livre-vierge.jpg`, obtenu de l'originale en
-   étendant le papier alentour) : un cadre que le projet ne remplit pas ne
-   montre donc rien, pas un rectangle rapporté. Les photos viennent s'y poser
-   aux coordonnées relevées sur le fichier.
+/* ---------- Les carnets (page Réalisations) ----------
+   Un livre par projet. Fermés, ils sont rangés côte à côte comme sur une
+   étagère ; un clic ouvre le livre du projet en plein écran (`.carnet`) et ses
+   pages se tournent en 3D. Le livre est construit par main.js à partir de la
+   liste de photos du projet. */
 
-   Ces coordonnées sont en pourcentages : la planche se met à l'échelle sans se
-   recadrer, elles restent donc justes à toutes les largeurs, sans une ligne de
-   JavaScript. */
+.projets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: clamp(3rem, 6vw, 4.5rem) clamp(1.75rem, 4vw, 3.5rem);
+}
 
+.projet {
+  text-align: center;
+}
 .projet[hidden] {
   display: none;
 }
 
-/* Un projet dont le voisin du dessus est masqué se retrouve en tête de liste :
-   il n'a rien à séparer. `[hidden] + .projet` ne correspondant à rien, l'écart
-   s'annule de lui-même au filtrage, sans une ligne de JavaScript. */
-.projet:not([hidden]) + .projet {
-  margin-top: clamp(4rem, 8vw, 6.5rem);
-}
-
-.projet__tete {
-  margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
-}
-
 .projet__titre {
-  font-size: clamp(1.6rem, 2.8vw, 2.25rem);
-  line-height: 1.15;
+  margin-top: 1.75rem;
+  font-size: clamp(1.35rem, 2vw, 1.6rem);
+  line-height: 1.2;
 }
-.projet__titre a {
-  text-decoration: none;
-  transition: color var(--dur) var(--ease);
-}
-.projet__titre a:hover {
-  color: var(--accent-hi);
+.projet__meta {
+  margin: 0.5rem 0 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-/* Plus étroit que la colonne de texte, comme le livre de Sur-mesure : il se lit
-   alors comme un objet posé sur le mur, et non comme une image de pleine
-   largeur. La planche gardant son format, cette seule mesure règle la hauteur
-   en même temps que la largeur. */
-.album {
-  --fleche: clamp(2.25rem, 4vw, 3rem);
-  width: min(100%, 68rem);
+/* La toile de chaque couverture suit la catégorie du projet. Les mêmes
+   variables habillent la couverture du livre ouvert. */
+[data-category="hotellerie"] {
+  --toile: #27302a;
+}
+[data-category="restauration"] {
+  --toile: #3a2326;
+}
+[data-category="immobilier"] {
+  --toile: #1f2634;
+}
+
+/* Toile de reliure : le grain croisé du tissu, puis la charnière du dos, plus
+   sombre, avec son léger relief. */
+.couv__plat,
+.carnet .plat {
+  background:
+    linear-gradient(to right, rgba(0, 0, 0, 0.5) 0, rgba(255, 255, 255, 0.07) 3%, rgba(0, 0, 0, 0.28) 5.5%, transparent 9%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 3px),
+    var(--toile, #24262b);
+}
+
+/* --- Le livre fermé --- */
+
+.couv {
+  display: block;
+  width: min(100%, 17rem);
   margin-inline: auto;
-  display: grid;
-  /* Les colonnes des flèches gardent leur largeur même sans bouton : un projet
-     qui tient sur une seule double page aurait sinon un livre plus large que
-     les autres, et la page perdrait son alignement. */
-  grid-template-columns: var(--fleche) minmax(0, 1fr) var(--fleche);
-  align-items: center;
-  gap: clamp(0.5rem, 1.5vw, 1.25rem);
+  perspective: 1400px;
+  text-decoration: none;
+  color: inherit;
 }
 
-/* Chaque élément est placé nommément. Un album d'une seule double page n'a pas
-   de flèches : sans ces coordonnées, le livre irait se ranger dans la colonne
-   de gauche, large de ce qu'elle veut. */
-.album__fleche--prec {
-  grid-area: 1 / 1;
-}
-.album__spreads {
-  grid-area: 1 / 2;
-  display: grid;
-}
-.album__fleche--suiv {
-  grid-area: 1 / 3;
-}
-
-.album__fleche {
-  display: grid;
-  place-items: center;
-  width: var(--fleche);
-  height: var(--fleche);
-  padding: 0;
-  border: 1px solid var(--line-strong);
-  border-radius: 50%;
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 1.5rem;
-  line-height: 1;
-  cursor: pointer;
-  transition:
-    border-color var(--dur) var(--ease),
-    color var(--dur) var(--ease);
-}
-.album__fleche:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.album__compteur {
-  grid-area: 2 / 1 / 2 / -1;
-  margin: clamp(1rem, 2vw, 1.5rem) 0 0;
-  text-align: center;
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.24em;
-  color: var(--text-muted);
-}
-
-/* Toutes les doubles pages dans la même case : superposées, pas à la suite.
-   Elles portent la même planche, donc la même hauteur — l'album ne saute pas
-   d'un feuillet à l'autre. */
-.album__spread {
-  grid-area: 1 / 1;
+.couv__livre {
   position: relative;
-  transition: opacity 0.5s var(--ease);
-}
-
-/* Repliée : invisible et hors du parcours clavier, mais toujours dans le flux.
-   `display: none` la retirerait aussi de la visionneuse, qui doit continuer
-   d'enchaîner tout le projet. */
-.album__spread--replie {
-  opacity: 0;
-  visibility: hidden;
-}
-
-/* Le fond de la planche est un noir pur, celui du site un noir bleuté : sans
-   traitement, elle se verrait comme un rectangle posé dessus. Le masque efface
-   ses bords sur la marge noire du rendu — assez court pour ne jamais entamer
-   l'ombre du livre, assez large pour que la jonction ne se voie pas. */
-.album__papier {
   display: block;
-  width: 100%;
-  height: auto;
-  -webkit-mask-image:
-    linear-gradient(to right, transparent, #000 4%, #000 96%, transparent),
-    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent, #000 4%, #000 96%, transparent),
-    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
-  mask-composite: intersect;
+  aspect-ratio: 0.71;
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--ease);
 }
 
-.album__vue {
+/* Le bloc des pages : il dépasse un peu à droite de la couverture, et c'est
+   lui qu'on découvre quand elle s'entrouvre au survol. */
+.couv__pages {
   position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: var(--l);
-  height: var(--h);
-  margin: 0;
+  inset: 1.5% -5px 1.5% 4%;
+  border-radius: 0 3px 3px 0;
+  background:
+    linear-gradient(to right, rgba(0, 0, 0, 0.18), transparent 12%),
+    repeating-linear-gradient(to right, #f1ebdf 0 2px, #d8d0bf 2px 3px);
+  box-shadow: 0 28px 38px -22px rgba(0, 0, 0, 0.9);
 }
 
-.album__btn {
-  position: relative;
+.couv__plat {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15% 13% 11% 17%;
+  border-radius: 2px 5px 5px 2px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 2px 3px rgba(0, 0, 0, 0.45),
+    0 26px 40px -22px rgba(0, 0, 0, 0.95);
+  transform-origin: left center;
+  transition: transform 0.7s var(--ease);
+}
+
+/* Filet doré en retrait du bord, comme un fer à dorer. */
+.couv__plat::before,
+.carnet .plat--avant::before,
+.carnet .plat--arriere::before {
+  content: "";
+  position: absolute;
+  inset: 5.5% 7% 5.5% 12%;
+  border: 1px solid rgba(198, 161, 91, 0.5);
+  pointer-events: none;
+}
+
+.couv__vignette {
   display: block;
   width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 0;
-  /* Rien derrière la vignette : le temps qu'elle charge, c'est le papier de la
-     planche qu'on voit, pas un rectangle blanc posé dessus. */
-  background: transparent;
-  cursor: zoom-in;
-  overflow: hidden;
-  /* Le filet du survol est un `outline`, pas une bordure : il ne prend pas de
-     place et la photo reste calée au pixel sur le cadre effacé de la planche.
-     Posé vers l'intérieur, il se lit comme un liseré sur la vue elle-même. */
-  outline: 1px solid transparent;
-  outline-offset: -1px;
-  transition: outline-color var(--dur) var(--ease);
+  aspect-ratio: 4 / 3;
+  padding: 3px;
+  border: 1px solid rgba(198, 161, 91, 0.75);
 }
-.album__btn img {
-  display: block;
+.couv__vignette img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Le voile d'or, par-dessus la photo : sur Sur-mesure, la zone est vide et son
-   fond suffit ; ici il faut passer au-dessus de l'image. */
-.album__btn::after {
+.couv__titre {
+  margin-top: 14%;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.35vw, 1.15rem);
+  line-height: 1.25;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.couv__marque {
+  margin-top: auto;
+  font-size: 0.55rem;
+  letter-spacing: 0.4em;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+/* Au survol, le livre se soulève et sa couverture s'entrouvre. */
+@media (hover: hover) {
+  .couv:hover .couv__livre,
+  .couv:focus-visible .couv__livre {
+    transform: translateY(-8px);
+  }
+  .couv:hover .couv__plat,
+  .couv:focus-visible .couv__plat {
+    transform: rotateY(-24deg);
+  }
+}
+.couv:focus-visible {
+  outline: none;
+}
+.couv:focus-visible .couv__plat {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* --- Le livre ouvert, en plein écran --- */
+
+.carnet {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: flex;
+  flex-direction: column;
+  background: rgba(8, 8, 10, 0.985);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.45s var(--ease),
+    visibility 0s 0.45s;
+}
+.carnet.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.45s var(--ease);
+}
+
+.carnet__barre {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem var(--gutter);
+}
+
+.carnet__titre {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.carnet__fermer,
+.carnet__fleche {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+.carnet__fermer:hover,
+.carnet__fleche:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.carnet__fleche:disabled {
+  opacity: 0.25;
+  cursor: default;
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.carnet__scene {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  padding-inline: var(--gutter);
+}
+
+/* Deux pages au format 0,71 côte à côte. La largeur est bornée par l'écran,
+   en largeur comme en hauteur (barre et pied déduits). */
+.carnet__livre {
+  position: relative;
+  flex: none;
+  width: min(calc(100vw - 2 * var(--gutter) - 8rem), 76rem, calc((100dvh - 12rem) * 1.42));
+  aspect-ratio: 1.42;
+  container-type: inline-size;
+  perspective: 2800px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Fermé, seule la moitié droite (la couverture) est occupée : on la recentre.
+     Refermé sur sa dernière page, c'est la moitié gauche. */
+  transform: translateX(-25%);
+  transition: transform 0.9s var(--ease);
+}
+.carnet__livre.is-ouvert {
+  transform: none;
+}
+.carnet__livre.is-fini {
+  transform: translateX(25%);
+}
+
+/* Une feuille : deux faces dos à dos, qui pivotent autour du dos du livre. */
+.feuille {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.45, 0.05, 0.25, 1);
+  cursor: pointer;
+}
+.feuille.is-tournee {
+  transform: rotateY(-180deg);
+}
+.feuille.is-glisse {
+  cursor: grabbing;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 0 4px 4px 0;
+}
+.face--verso {
+  transform: rotateY(180deg);
+  border-radius: 4px 0 0 4px;
+}
+
+/* Le papier : crème, avec l'ombre de la pliure côté dos. */
+.page {
+  background-color: #f3eee3;
+  color: #2b2722;
+}
+.face--recto.page {
+  background-image: linear-gradient(to right, rgba(60, 45, 20, 0.22), rgba(60, 45, 20, 0.05) 5%, transparent 13%);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.08);
+}
+.face--verso.page {
+  background-image: linear-gradient(to left, rgba(60, 45, 20, 0.22), rgba(60, 45, 20, 0.05) 5%, transparent 13%);
+  box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.08);
+}
+
+/* Ombre portée qui balaie la page pendant qu'elle tourne. */
+.feuille.is-anim .face::after,
+.feuille.is-glisse .face::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(198, 161, 91, 0.12);
-  opacity: 0;
-  transition: opacity var(--dur) var(--ease);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.06) 70%);
   pointer-events: none;
+  animation: carnet-ombre 0.9s ease-in-out;
+}
+.feuille.is-glisse .face::after {
+  animation: none;
+  opacity: 0.7;
+}
+@keyframes carnet-ombre {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
-/* Au survol, la vue s'entoure d'or et s'éclaire à peine : assez pour dire
-   qu'elle s'ouvre, pas au point de salir la planche. Mêmes valeurs que le
-   livre de Sur-mesure. */
-.album__btn:hover,
-.album__btn:focus-visible {
-  outline-color: rgba(198, 161, 91, 0.9);
+/* Les photos d'une page : deux horizontales l'une sous l'autre, ou une seule. */
+.page__contenu {
+  position: absolute;
+  inset: 8% 10% 8% 11%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.album__btn:hover::after,
-.album__btn:focus-visible::after {
-  opacity: 1;
+.face--verso .page__contenu {
+  inset: 8% 11% 8% 10%;
+}
+.page__contenu li {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
-/* En colonne étroite, les flèches passent sous le livre avec le compteur. La
-   planche, elle, reste entière : c'est une image, elle se met à l'échelle. */
+.carnet__photo {
+  display: block;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.carnet__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 6px 14px -8px rgba(0, 0, 0, 0.35);
+  transition: filter var(--dur) var(--ease);
+}
+.carnet__photo:hover img {
+  filter: brightness(1.06);
+}
+.carnet__photo:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Une photo verticale occupe la hauteur de la page. */
+.page--portrait .page__contenu li,
+.page--portrait .carnet__photo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.page--portrait .carnet__photo img {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.carnet__legende {
+  margin-top: 0.7cqw;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: max(10px, 1.05cqw);
+  line-height: 1.3;
+  color: #6d655a;
+  text-align: center;
+}
+
+/* Page de titre et page de fin. */
+.page--titre,
+.page--fin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12%;
+  text-align: center;
+}
+.page__cat {
+  font-size: max(9px, 0.85cqw);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #9a7838;
+}
+.page__titre {
+  margin: 1.6cqw 0 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: max(20px, 3.6cqw);
+  line-height: 1.1;
+  color: #2b2722;
+}
+.page__filet {
+  width: 3.5cqw;
+  height: 1px;
+  margin: 2cqw 0;
+  background: #b8954f;
+}
+.page__nb {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: max(11px, 1.3cqw);
+  color: #6d655a;
+}
+.page__marque {
+  margin-top: 1.5cqw;
+  font-size: max(9px, 0.8cqw);
+  letter-spacing: 0.4em;
+  color: #9a7838;
+}
+
+/* Couvertures : le plat avant, son revers, le contreplat final et le dos. */
+.carnet .plat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12% 12% 12% 16%;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.carnet .face--verso.plat {
+  /* Sur un verso, le dos du livre est à droite : la charnière aussi. */
+  background:
+    linear-gradient(to left, rgba(0, 0, 0, 0.5) 0, rgba(255, 255, 255, 0.07) 3%, rgba(0, 0, 0, 0.28) 5.5%, transparent 9%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 3px),
+    var(--toile, #24262b);
+  padding: 12% 16% 12% 12%;
+}
+.carnet .plat--arriere::before {
+  inset: 5.5% 12% 5.5% 7%;
+}
+.carnet .plat.plat--garde {
+  background: var(--toile, #24262b);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 6cqw rgba(0, 0, 0, 0.35);
+}
+.plat__vignette {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 0.35cqw;
+  border: 1px solid rgba(198, 161, 91, 0.75);
+}
+.plat__vignette img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.plat__titre {
+  margin-top: 3cqw;
+  font-family: var(--font-display);
+  font-size: max(14px, 2.1cqw);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.plat__marque {
+  margin-top: 3cqw;
+  font-size: max(8px, 0.7cqw);
+  letter-spacing: 0.4em;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+.carnet__pied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 2.5rem;
+  padding: 1rem var(--gutter) 1.4rem;
+  text-align: center;
+}
+.carnet__aide {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.carnet__compteur {
+  margin: 0;
+  min-width: 4rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-variant-numeric: lining-nums;
+}
+
+/* Écran étroit : le livre prend toute la largeur, les flèches passent dessous. */
 @media (max-width: 720px) {
-  .album {
-    grid-template-columns: minmax(0, 1fr);
+  .carnet__scene {
+    flex-wrap: wrap;
+    align-content: center;
+    padding-inline: 0.75rem;
   }
-  .album__spreads {
-    grid-area: 1 / 1;
+  .carnet__livre {
+    order: -1;
+    width: min(calc(100vw - 1.5rem), calc((100dvh - 15rem) * 1.42));
   }
-  .album__fleche {
-    grid-row: 2;
-    grid-column: 1;
-    margin-top: clamp(1rem, 3vw, 1.5rem);
+  .carnet__scene::after {
+    content: "";
+    flex-basis: 100%;
+    order: -1;
   }
-  .album__fleche--prec {
-    justify-self: start;
-  }
-  .album__fleche--suiv {
-    justify-self: end;
-  }
-  .album__compteur {
-    grid-area: 2 / 1;
-    margin-top: clamp(1rem, 3vw, 1.5rem);
-    align-self: center;
+  .carnet__aide {
+    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .album__spread {
+  .couv__livre,
+  .couv__plat,
+  .carnet__livre,
+  .feuille {
     transition: none;
+  }
+  .feuille.is-anim .face::after {
+    animation: none;
   }
 }
 
@@ -2141,6 +2486,11 @@ address {
   .nav__cta {
     margin-left: 0;
   }
+  .nav__lang {
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    border-left: 0;
+  }
 
   /* Sans JavaScript, le burger ne peut rien ouvrir : la navigation redevient
      une liste statique et l'en-tête cesse d'être fixe. */
@@ -2251,8 +2601,8 @@ address {
 }
 
 /* =========================================================================
-   Nos secteurs d'expertise — trois cartes portrait, photo en noir et blanc
-   qui reprend ses couleurs au survol.
+   Nos secteurs d'expertise — trois cartes portrait, photo en pleine lumière,
+   voilée seulement en bas sous le texte.
    ========================================================================= */
 
 /* Le bas de la section est resserré : le filet de séparation et l'espace de la
@@ -2295,11 +2645,8 @@ address {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.82);
   transform: scale(1);
-  transition:
-    filter 0.6s var(--ease),
-    transform 0.6s var(--ease);
+  transition: transform 0.6s var(--ease);
 }
 
 /* Dégradé de lisibilité : noir en bas, transparent en haut. */
@@ -2310,10 +2657,10 @@ address {
   z-index: 1;
   background: linear-gradient(
     to top,
-    rgba(11, 11, 13, 0.95) 0%,
-    rgba(11, 11, 13, 0.74) 30%,
-    rgba(11, 11, 13, 0.26) 62%,
-    rgba(11, 11, 13, 0.1) 100%
+    rgba(11, 11, 13, 0.9) 0%,
+    rgba(11, 11, 13, 0.6) 28%,
+    rgba(11, 11, 13, 0) 55%,
+    rgba(11, 11, 13, 0) 100%
   );
   pointer-events: none;
 }
@@ -2369,8 +2716,8 @@ address {
     transform 0.6s var(--ease);
 }
 
-/* Survol — réservé aux pointeurs. Au doigt, il n'y a pas d'état intermédiaire :
-   la photo est en couleur d'emblée (voir plus bas). */
+/* Survol — réservé aux pointeurs. Au doigt, il n'y a pas d'état intermédiaire
+   (voir plus bas). */
 @media (hover: hover) {
   .secteur:hover img,
   .secteur:focus-visible img {
@@ -2399,9 +2746,6 @@ address {
 
 /* Tactile : le survol n'a pas de sens, tout est donné d'emblée. */
 @media (hover: none) {
-  .secteur img {
-    filter: none;
-  }
   .secteur__lien {
     opacity: 1;
     transform: none;
@@ -2421,8 +2765,7 @@ address {
   }
 }
 
-/* Mouvement réduit : le passage en couleur reste (c'est une information, pas
-   un mouvement), le zoom disparaît. */
+/* Mouvement réduit : le zoom au survol disparaît. */
 @media (prefers-reduced-motion: reduce) {
   .secteur:hover img,
   .secteur:focus-visible img {
@@ -2433,15 +2776,10 @@ address {
 /* =========================================================================
    Notre méthode — les cinq étapes d'un projet.
 
-   Elles réutilisent le composant `.steps` de la page L'agence : mêmes
-   rangées numérotées, mêmes filets, même rythme. Les deux pages racontent la
-   même chaîne, elles doivent se ressembler. Ici les rangées portent en plus
-   l'icône de l'étape, d'où la seule variante ajoutée.
-
-   Cette section a longtemps été un diaporama épinglé au scroll : cinq écrans
-   de défilement pour cinq paragraphes, et le visiteur privé du contrôle de sa
-   propre page. Une liste dit la même chose en un écran et demi, se parcourt en
-   diagonale, et ne demande aucun JavaScript.
+   Réutilise le balisage du composant `.steps` de la page L'agence, mais en
+   frise : les cinq étapes côte à côte sur une seule bande, chacune ouverte par
+   un filet. La section tient ainsi en une hauteur d'écran au lieu de cinq
+   rangées pleine largeur. Aucun JavaScript.
    ========================================================================= */
 
 .methode {
@@ -2455,49 +2793,87 @@ address {
 }
 
 .methode .steps {
-  margin-top: clamp(2.25rem, 4.5vw, 3.25rem);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2.25rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  border-top: 0;
 }
 
-/* Rangées plus serrées que sur la page L'agence : là-bas quatre rangées portent
-   le contenu de la page, ici cinq ne sont qu'une étape du parcours. */
+/* Chaque étape devient une colonne : numéro + icône, titre, texte. Le filet
+   passe au-dessus de la colonne, la frise se lit comme une ligne de temps. */
 .methode .step {
-  padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.25rem 0 0;
+  border-bottom: 0;
+  border-top: 1px solid var(--line);
+  transition: border-color var(--dur) var(--ease);
+}
+.methode .step:hover {
+  background: none;
+  border-top-color: var(--accent);
 }
 
-/* Texte justifié. La césure est indispensable ici : sur une colonne de trois
-   lignes, une justification sans coupure étire les espaces jusqu'à ouvrir des
-   rivières blanches dans le paragraphe. Le navigateur coupe selon les règles
-   du français grâce au `lang="fr"` posé sur la page. */
-.methode .step__body {
-  text-align: justify;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-
-/* L'icône rejoint le numéro sur une même ligne : les deux disent la même étape,
-   ils doivent se lire d'un bloc. La première colonne s'élargit d'autant — le
-   réglage reste local à cette section, la page L'agence garde ses rangées
-   à numéro seul. */
-/* Bornée au-delà du point de bascule : en dessous, les rangées repassent à deux
-   colonnes et cette largeur n'aurait plus de sens. La borne est explicite plutôt
-   que laissée à l'ordre des règles — la version étroite est écrite plus haut
-   dans le fichier, elle perdrait sinon l'arbitrage. */
-@media (min-width: 901px) {
-  .methode .step {
-    grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr) minmax(0, 1.15fr);
-  }
-}
 .methode .step__num {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.7rem;
+  font-size: clamp(1.35rem, 2vw, 1.6rem);
 }
 .step__icone {
   flex: none;
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   color: var(--accent);
   opacity: 0.8;
+}
+
+.methode .step__title {
+  padding-top: 0;
+  font-size: clamp(1.15rem, 1.5vw, 1.3rem);
+}
+
+.methode .step__body {
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+.methode .step__body p {
+  margin: 0;
+}
+
+/* Tablette : trois colonnes, les deux dernières étapes passent dessous. */
+@media (max-width: 1024px) {
+  .methode .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 2rem;
+  }
+}
+
+/* Mobile : liste serrée, le numéro en marge et le contenu à côté. */
+@media (max-width: 640px) {
+  .methode .steps {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0;
+  }
+  .methode .step {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    column-gap: 0.75rem;
+    row-gap: 0.35rem;
+    padding-block: 1.1rem;
+  }
+  .methode .step__num {
+    grid-row: span 2;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    font-size: 1.2rem;
+  }
+  .methode .step__body {
+    grid-column: 2;
+  }
 }
 
 /* ---------- Impression ---------- */

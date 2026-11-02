@@ -30,11 +30,16 @@
 
   var SVG_NS = 'http://www.w3.org/2000/svg';
 
-  var TRACES = 'assets/img/intro/monogramme.svg';
+  // Chemins résolus depuis ce script et non depuis la page : l'accueil anglais
+  // vit dans /en/, un chemin relatif à la page y pointerait dans le vide.
+  var ICI = document.currentScript ? document.currentScript.src : location.href;
+  var chemin = function (p) { return new URL('../../' + p, ICI).href; };
+
+  var TRACES = chemin('assets/img/intro/monogramme.svg');
   /* Même fichier que le fond des sections texturées : une seule image à charger
      pour les deux usages, et le préchargement de l'intro sert aussi la page. */
-  var FOND   = 'assets/img/texture/beton.jpg';
-  var LOGO   = 'assets/img/intro/logo.png';
+  var FOND   = chemin('assets/img/texture/beton.jpg');
+  var LOGO   = chemin('assets/img/intro/logo.png');
 
   // Cadrage commun aux tracés et au logo (voir monogramme.svg).
   var VUE = { x: 424, y: 77, w: 884, h: 745 };
