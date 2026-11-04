@@ -40,8 +40,13 @@
       );
     };
 
+    var burgerLabel = burger.querySelector('.visually-hidden');
+    var labelOuvrir = burgerLabel.textContent;
+    var labelFermer = document.documentElement.lang === 'en' ? 'Close menu' : 'Fermer le menu';
+
     var setNav = function (open) {
       burger.setAttribute('aria-expanded', String(open));
+      burgerLabel.textContent = open ? labelFermer : labelOuvrir;
       nav.classList.toggle('is-open', open);
       document.body.classList.toggle('is-locked', open);
       if (open) {
@@ -229,9 +234,6 @@
           var copie = li.cloneNode(true);
           var img = copie.querySelector('img');
           if (img) img.loading = 'eager';
-          var legende = el('span', 'carnet__legende', copie.querySelector('button').getAttribute('data-caption'));
-          legende.setAttribute('aria-hidden', 'true');
-          copie.appendChild(legende);
           liste.appendChild(copie);
         });
         page.appendChild(liste);
@@ -600,7 +602,6 @@
     var originales = Array.prototype.slice.call(piste.querySelectorAll('.defile__vue'));
     var n = originales.length;
     var num = defile.querySelector('[data-defile-num]');
-    var titre = defile.querySelector('[data-defile-titre]');
     var barre = defile.querySelector('[data-defile-barre]');
     var PAUSE = 2500;
     var position = -1;      // rang dans la piste complète (copies comprises)
@@ -629,7 +630,6 @@
       vues.forEach(function (v, k) { v.classList.toggle('is-active', k === p); });
       var reel = p % n;
       num.textContent = deuxChiffres(reel + 1);
-      titre.textContent = originales[reel].querySelector('button').getAttribute('data-caption');
       barre.style.width = ((reel + 1) / n * 100) + '%';
     };
 
