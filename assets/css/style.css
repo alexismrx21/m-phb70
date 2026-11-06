@@ -774,8 +774,8 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Aucun filtre : la photo est montrée telle quelle, c'est elle qui vend le
-     savoir-faire. La lisibilité du texte est confiée au seul voile ci-dessous. */
+  /* Aucun filtre ni voile : la photo est montrée telle quelle, c'est elle qui
+     vend le savoir-faire. */
 }
 
 /* ---------- Diaporama de tête ----------
@@ -870,22 +870,6 @@ ul {
 .intro-en-cours .hero__slide,
 .intro-en-cours .hero__jauge::after {
   animation-play-state: paused;
-}
-/* Le voile : léger en haut, où l'on voit le plafond des photos, il s'assombrit
-   dès le haut du texte pour que celui-ci reste lisible sur n'importe quelle
-   photo. Le voile du haut porte l'en-tête, qui n'a pas de fond tant qu'on n'a
-   pas défilé. */
-.hero__media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(11, 11, 13, 0.45) 0%,
-    rgba(11, 11, 13, 0.2) 22%,
-    rgba(11, 11, 13, 0.72) 48%,
-    rgba(11, 11, 13, 0.86) 100%
-  );
 }
 .hero__inner {
   position: relative;
@@ -1445,26 +1429,12 @@ address {
   color: var(--text-muted);
 }
 
-/* Les couvertures : photo pleine largeur et aplat de couleur, pris dans la palette
-   du site et choisi selon la catégorie du projet. `--encre` porte le texte posé
-   sur l'aplat. Les mêmes variables habillent la couverture du livre ouvert. */
-[data-category="hotellerie"] {
-  --toile: var(--text);
-  --encre: var(--bg);
-}
-[data-category="restauration"] {
-  --toile: var(--accent);
-  --encre: var(--bg);
-}
-[data-category="immobilier"] {
-  --toile: var(--surface-2);
-  --encre: var(--text);
-}
-
+/* Les couvertures : photo pleine largeur et aplat ivoire, identiques pour tous les
+   projets. Les mêmes couleurs habillent la couverture du livre ouvert. */
 .couv__plat,
 .carnet .plat {
-  background: var(--toile, var(--surface-2));
-  color: var(--encre, var(--text));
+  background: var(--text);
+  color: var(--bg);
 }
 
 /* --- Le livre fermé --- */
@@ -1558,165 +1528,6 @@ address {
   padding: 0 9cqw 7cqw 11cqw;
   font-size: max(8px, 2.5cqw);
   font-weight: 500;
-  letter-spacing: 0.32em;
-  text-align: left;
-}
-
-/* --- Les sept propositions de couverture ---
-   `data-couv` sur l'<article class="projet"> choisit le modèle : pour attribuer un
-   modèle à un autre livre, il suffit de changer ce numéro. Le script le recopie sur
-   le livre ouvert. Une fois le choix fait, supprimer les modèles non retenus. */
-
-/* 1 — Pleine page : la photo couvre tout, le titre se pose dessus. */
-[data-couv="1"] {
-  --toile: var(--surface-2);
-  --encre: var(--text);
-}
-[data-couv="1"] :is(.couv__vignette, .plat__vignette) {
-  position: absolute;
-  inset: 0;
-}
-[data-couv="1"] :is(.couv__plat, .plat--avant)::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(11, 11, 13, 0.9), rgba(11, 11, 13, 0.55) 30%, transparent 58%);
-}
-[data-couv="1"] :is(.couv__titre, .plat__titre) {
-  position: absolute;
-  z-index: 2;
-  inset: auto 9cqw 15cqw 11cqw;
-  padding: 0;
-  font-size: 13cqw;
-}
-[data-couv="1"] :is(.couv__marque, .plat__marque) {
-  position: absolute;
-  z-index: 2;
-  inset: auto 9cqw 7cqw 11cqw;
-  padding: 0;
-}
-
-/* 2 — Bandeau ivoire : photo en haut, aplat clair en bas. */
-[data-couv="2"] {
-  --toile: var(--text);
-  --encre: var(--bg);
-}
-
-/* 3 — Fenêtre sur laiton : titre en haut, photo en retrait en bas. */
-[data-couv="3"] {
-  --toile: var(--accent);
-  --encre: var(--bg);
-}
-[data-couv="3"] :is(.couv__titre, .plat__titre) {
-  order: 1;
-  padding-top: 11cqw;
-  font-size: 12cqw;
-}
-[data-couv="3"] :is(.couv__marque, .plat__marque) {
-  order: 2;
-  margin: 0;
-  padding: 3cqw 9cqw 6cqw 11cqw;
-}
-[data-couv="3"] :is(.couv__vignette, .plat__vignette) {
-  order: 3;
-  flex: 1 1 0;
-  margin: 0 9cqw 9cqw 11cqw;
-}
-
-/* 4 — Noir et laiton : grand titre, petite photo carrée en bas à droite. */
-[data-couv="4"] {
-  --toile: var(--surface);
-  --encre: var(--text);
-}
-[data-couv="4"] :is(.couv__titre, .plat__titre) {
-  padding-top: 11cqw;
-  font-size: 15cqw;
-  line-height: 1;
-  color: var(--accent);
-}
-[data-couv="4"] :is(.couv__vignette, .plat__vignette) {
-  position: absolute;
-  right: 9cqw;
-  bottom: 9cqw;
-  width: 48cqw;
-  height: 48cqw;
-}
-
-/* 5 — Colonne : photo sur toute la hauteur, titre vertical à sa gauche. */
-[data-couv="5"] {
-  --toile: var(--surface-2);
-  --encre: var(--text);
-}
-[data-couv="5"] :is(.couv__vignette, .plat__vignette) {
-  position: absolute;
-  inset: 0 0 0 34cqw;
-}
-[data-couv="5"] :is(.couv__titre, .plat__titre) {
-  position: absolute;
-  bottom: 18cqw;
-  left: 11cqw;
-  padding: 0;
-  font-size: 13cqw;
-  line-height: 1;
-  white-space: nowrap;
-  color: var(--accent-hi);
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-}
-[data-couv="5"] :is(.couv__marque, .plat__marque) {
-  position: absolute;
-  bottom: 7cqw;
-  left: 11cqw;
-  padding: 0;
-  font-size: max(7px, 2.1cqw);
-  letter-spacing: 0.2em;
-}
-
-/* 6 — Arche : photo en arche et texte centré, sur ivoire. */
-[data-couv="6"] {
-  --toile: var(--text);
-  --encre: var(--bg);
-}
-[data-couv="6"] :is(.couv__vignette, .plat__vignette) {
-  flex: 0 0 96cqw;
-  margin: 10cqw 16cqw 0 18cqw;
-  border-radius: 50cqw 50cqw 0 0;
-}
-[data-couv="6"] :is(.couv__titre, .plat__titre) {
-  padding: 7cqw 7cqw 0 9cqw;
-  text-align: center;
-}
-[data-couv="6"] :is(.couv__marque, .plat__marque) {
-  padding: 0 7cqw 7cqw 9cqw;
-  text-align: center;
-}
-
-/* 7 — Typographique : pas de photo, le nom du projet remplit le laiton. */
-[data-couv="7"] {
-  --toile: var(--accent);
-  --encre: var(--bg);
-}
-[data-couv="7"] :is(.couv__vignette, .plat__vignette) {
-  display: none;
-}
-[data-couv="7"] :is(.couv__titre, .plat__titre) {
-  padding-top: 11cqw;
-  font-size: 22cqw;
-  line-height: 0.95;
-}
-[data-couv="7"] :is(.couv__marque, .plat__marque) {
-  margin: auto 9cqw 8cqw 11cqw;
-  padding: 3cqw 0 0;
-  border-top: 1px solid currentColor;
-}
-
-/* Le dos du livre ouvert garde sa marque simple, quel que soit le modèle. */
-.carnet .plat--arriere .plat__marque {
-  position: static;
-  margin: auto 0 0;
-  padding: 0 9cqw 7cqw 11cqw;
-  border: 0;
-  font-size: max(8px, 2.5cqw);
   letter-spacing: 0.32em;
   text-align: left;
 }

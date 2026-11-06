@@ -340,7 +340,6 @@
 
         livre.innerHTML = '';
         livre.setAttribute('data-category', article.getAttribute('data-category'));
-        livre.setAttribute('data-couv', article.getAttribute('data-couv'));
         feuilles = [];
         for (var i = 0; i < faces.length; i += 2) {
           var f = el('div', 'feuille');
