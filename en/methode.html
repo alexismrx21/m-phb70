@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our method — From feasibility to delivery, step by step | PHB70</title>
+<meta name="description" content="Feasibility, technical design, prototype, production, inspection and delivery: the five stages of a PHB70 bespoke piece, told through a single armchair.">
+<link rel="canonical" href="https://www.phb70.com/en/methode.html">
+<link rel="alternate" hreflang="fr" href="https://www.phb70.com/methode.html">
+<link rel="alternate" hreflang="en" href="https://www.phb70.com/en/methode.html">
+<link rel="alternate" hreflang="x-default" href="https://www.phb70.com/methode.html">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PHB70">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Our method — From feasibility to delivery, step by step | PHB70">
+<meta property="og:description" content="Feasibility, technical design, prototype, production, inspection and delivery: the five stages of a PHB70 bespoke piece, told through a single armchair.">
+<meta property="og:url" content="https://www.phb70.com/en/methode.html">
+<meta property="og:image" content="https://www.phb70.com/assets/img/full/piece-fauteuil-mi-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0B0B0D">
+
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-400-latin.woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>document.documentElement.classList.remove('no-js');
+    // Rechargement : on repart du haut. Le navigateur restaure sinon la position
+    // précédente, ce qui n'a pas de sens ici — sur l'accueil, l'intro se
+    // jouerait par-dessus une page déjà défilée. Un retour arrière garde en
+    // revanche sa restauration : c'est le seul cas où retrouver sa place sert.
+    (function () {
+      try {
+        if (!('scrollRestoration' in history)) return;
+        var nav = performance.getEntriesByType('navigation')[0];
+        if (nav && nav.type === 'back_forward') {
+          // Le réglage vit sur l'entrée d'historique : sans ce retour explicite
+          // à `auto`, le « manual » posé au chargement précédent priverait le
+          // retour arrière de sa restauration.
+          history.scrollRestoration = 'auto';
+          return;
+        }
+        history.scrollRestoration = 'manual';
+        window.scrollTo(0, 0);
+      } catch (e) { }
+    })();</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="header" data-header>
+  <div class="header__inner">
+    <a class="brand" href="index.html" aria-label="PHB70, back to home">
+      <img src="../assets/img/logo.png" alt="PHB70" width="300" height="253">
+    </a>
+    <button class="burger" type="button" data-burger aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+      <span class="visually-hidden">Open menu</span>
+    </button>
+    <nav class="nav" id="site-nav" data-nav aria-label="Main navigation">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="index.html">Home</a></li>
+        <li><a class="nav__link" href="agence.html">Our agencies</a></li>
+        <li><a class="nav__link" href="methode.html" aria-current="page">Our method</a></li>
+        <li><a class="nav__link" href="realisations.html">Projects</a></li>
+        <li><a class="nav__link" href="sur-mesure.html">Bespoke</a></li>
+        <li><a class="nav__lang" href="../methode.html" hreflang="fr" lang="fr"><span aria-hidden="true">FR</span><span class="visually-hidden">Version française</span></a></li>
+        <li><a class="btn nav__cta" href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<section class="pagehead pagehead--texte fond-mur">
+  <div class="container pagehead__inner">
+    <div class="pagehead__titre">
+      <span class="eyebrow">Our method</span>
+      <h1>From first sketch to delivered armchair.</h1>
+    </div>
+    <p class="lead">Five stages, with no link in the chain handed to a third party. To show them, let's follow a single piece: a brass-framed armchair for the rooms of a hotel.</p>
+    <nav class="pagehead__sommaire reveal" aria-label="The five stages">
+      <ol class="sommaire-etapes">
+        <li><a href="#feasibility"><span class="sommaire-etapes__num" aria-hidden="true">01</span>Feasibility</a></li>
+        <li><a href="#technical-design"><span class="sommaire-etapes__num" aria-hidden="true">02</span>Technical design</a></li>
+        <li><a href="#prototype"><span class="sommaire-etapes__num" aria-hidden="true">03</span>Prototype</a></li>
+        <li><a href="#production"><span class="sommaire-etapes__num" aria-hidden="true">04</span>Production</a></li>
+        <li><a href="#delivery"><span class="sommaire-etapes__num" aria-hidden="true">05</span>Inspection &amp; delivery</a></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- Le parcours d'une pièce : les cinq étapes de l'accueil, racontées sur un
+     fauteuil. Le filet doré vertical relie les étapes, photo et texte alternent
+     de part et d'autre (style.css, « Page Notre méthode »).
+     POUR MODIFIER UN TEXTE : le changer aussi dans ../methode.html. -->
+<section class="section parcours">
+  <div class="container">
+
+    <div class="parcours__fil">
+      <article class="etape reveal" id="feasibility">
+        <figure class="etape__media">
+          <img src="../assets/img/full/methode-01-esquisse.jpg" alt="Pencil sketch of an armchair in side view on a sheet of paper, next to a pencil and a brass tube" width="1200" height="800" loading="lazy" decoding="async">
+          <figcaption>The starting point can be a simple sketch.</figcaption>
+        </figure>
+        <div class="etape__texte">
+          <span class="step__num" aria-hidden="true">
+            <svg class="step__icone" viewBox="0 0 24 24"><use href="#ico-faisabilite" /></svg>
+            01
+          </span>
+          <h2 class="etape__titre"><span class="visually-hidden">Stage 1&nbsp;: </span>Feasibility</h2>
+          <p>The armchair reaches us as a sketch, an inspiration photo or a plan. Before any commitment, our design office assesses it: can this brass frame be made as drawn, and what will it demand of the workshop?</p>
+          <p>You know early on what is feasible, at what cost and within what timeframe.</p>
+          <dl class="etape__faits">
+            <div>
+              <dt>Who handles it</dt>
+              <dd>The design office for the assessment, the administrative team for the estimate and quote.</dd>
+            </div>
+            <div>
+              <dt>What comes out of it</dt>
+              <dd>A clear answer and a quote.</dd>
+            </div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="etape reveal" id="technical-design">
+        <figure class="etape__media">
+          <img src="../assets/img/full/methode-02-plan.jpg" alt="The same armchair as a technical drawing with its dimensions: 800 mm high, 720 mm wide, 420 mm seat height" width="1200" height="800" loading="lazy" decoding="async">
+          <figcaption>Sections, joints, dimensions: everything is set on the drawing.</figcaption>
+        </figure>
+        <div class="etape__texte">
+          <span class="step__num" aria-hidden="true">
+            <svg class="step__icone" viewBox="0 0 24 24"><use href="#ico-conception" /></svg>
+            02
+          </span>
+          <h2 class="etape__titre"><span class="visually-hidden">Stage 2&nbsp;: </span>Technical design</h2>
+          <p>The drawing becomes shop drawings: the tube section, how it joins, what will hold up in daily use and not just on paper. Laure guides the choice of materials and finishes, with you and your architect.</p>
+          <p>Bruno then directs the armchair to the workshop that truly masters this metalwork and this upholstery, not the one with room in its schedule.</p>
+          <dl class="etape__faits">
+            <div>
+              <dt>Who handles it</dt>
+              <dd>The design office, Laure and Bruno.</dd>
+            </div>
+            <div>
+              <dt>What comes out of it</dt>
+              <dd>The shop drawings, the chosen materials and the selected workshop.</dd>
+            </div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="etape reveal" id="prototype">
+        <figure class="etape__media">
+          <img src="../assets/img/full/methode-03-prototype.jpg" alt="Two hands lifting the seat fabric of a cream armchair with a brass frame to check the padding, in the workshop" width="1200" height="800" loading="lazy" decoding="async">
+          <figcaption>This is where the shade of the brass and the detail of a seam are settled.</figcaption>
+        </figure>
+        <div class="etape__texte">
+          <span class="step__num" aria-hidden="true">
+            <svg class="step__icone" viewBox="0 0 24 24"><use href="#ico-prototype" /></svg>
+            03
+          </span>
+          <h2 class="etape__titre"><span class="visually-hidden">Stage 3&nbsp;: </span>Prototype</h2>
+          <p>A first armchair is made, and we sit in it. We are in the workshop to sign off the shade of the brass, the finishes and real-world comfort.</p>
+          <p>Whatever needs correcting is corrected now, before the series is launched.</p>
+          <dl class="etape__faits">
+            <div>
+              <dt>Who handles it</dt>
+              <dd>Bruno and our local teams, on site in the workshop.</dd>
+            </div>
+            <div>
+              <dt>What comes out of it</dt>
+              <dd>A corrected, approved prototype.</dd>
+            </div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="etape reveal" id="production">
+        <figure class="etape__media">
+          <img src="../assets/img/full/methode-04-serie.jpg" alt="Row of identical cream armchairs with brass frames in the workshop" width="1200" height="800" loading="lazy" decoding="async">
+          <figcaption>In series production, each armchair must match the next.</figcaption>
+        </figure>
+        <div class="etape__texte">
+          <span class="step__num" aria-hidden="true">
+            <svg class="step__icone" viewBox="0 0 24 24"><use href="#ico-production" /></svg>
+            04
+          </span>
+          <h2 class="etape__titre"><span class="visually-hidden">Stage 4&nbsp;: </span>Production</h2>
+          <p>Scaling up to series production is where things typically drift. We lock down the process so the armchair in the hundredth room matches the one in the first.</p>
+          <p>Our French-speaking teams, based near the production sites, stay present in the workshop. Goreti follows every stage and tells you where the project stands without waiting to be asked.</p>
+          <dl class="etape__faits">
+            <div>
+              <dt>Who handles it</dt>
+              <dd>The design office for the process, our local teams in the workshop, Goreti for follow-up.</dd>
+            </div>
+            <div>
+              <dt>What comes out of it</dt>
+              <dd>A series true to the prototype.</dd>
+            </div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="etape reveal" id="delivery">
+        <figure class="etape__media">
+          <img src="../assets/img/full/methode-05-livraison.jpg" alt="Cream armchair with a brass frame standing in its wooden shipping crate, in the workshop" width="1200" height="800" loading="lazy" decoding="async">
+          <figcaption>Inspected at the workshop, the armchair leaves in its crate.</figcaption>
+        </figure>
+        <div class="etape__texte">
+          <span class="step__num" aria-hidden="true">
+            <svg class="step__icone" viewBox="0 0 24 24"><use href="#ico-livraison" /></svg>
+            05
+          </span>
+          <h2 class="etape__titre"><span class="visually-hidden">Stage 5&nbsp;: </span>Inspection &amp; delivery</h2>
+          <p>Inspection happens in the workshop, not on site: a defect is corrected before shipping, never in front of the client. Bruno inspects every batch.</p>
+          <p>Our Luxembourg team then handles customs formalities and transport all the way to the site.</p>
+          <dl class="etape__faits">
+            <div>
+              <dt>Who handles it</dt>
+              <dd>Bruno for inspection, the administrative team for customs and logistics.</dd>
+            </div>
+            <div>
+              <dt>What comes out of it</dt>
+              <dd>Armchairs inspected, cleared through customs and delivered to site.</dd>
+            </div>
+          </dl>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- CTA de fin, identique à celui des autres pages : filet doré, fond texturé,
+     bouton au contour or. -->
+<section class="cta-final fond-mur">
+  <span class="separateur reveal" aria-hidden="true"></span>
+
+  <div class="container cta-final__inner reveal">
+    <h2 class="cta-final__titre">A piece to assess?<br>Let's start with stage&nbsp;01.</h2>
+    <p class="cta-final__texte">Plans, mood boards or just an intuition: we can tell you early on what is feasible.</p>
+    <a class="btn btn--or cta-final__btn" href="contact.html">Contact us</a>
+  </div>
+</section>
+<footer class="footer footer--sombre">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="../assets/img/logo.png" alt="PHB70" width="300" height="253" loading="lazy">
+      </div>
+
+      <nav class="footer__nav" aria-label="Footer navigation">
+        <p class="footer__title">Navigation</p>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="agence.html">Our agencies</a></li>
+            <li><a href="methode.html">Our method</a></li>
+            <li><a href="realisations.html">Projects</a></li>
+            <li><a href="sur-mesure.html">Bespoke</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer__cols">
+        <div>
+          <p class="footer__title">Paris</p>
+          <address>
+            <a href="tel:+33682840308">+33 6 82 84 03 08</a><br>
+            53 bis rue de Passy<br>75016 Paris<br>France
+          </address>
+        </div>
+        <div>
+          <p class="footer__title">New York</p>
+          <address>
+            <a href="tel:+19173014228">+1 917 301 42 28</a><br>
+            40 East 94th Street<br>New York, NY 10128<br>United States
+          </address>
+        </div>
+        <div>
+          <p class="footer__title">Luxembourg</p>
+          <address>
+            <a href="tel:+3522021182203">+352 20 21 18 22 03</a><br>
+            4 place de Paris<br>L-2314 Luxembourg<br>Luxembourg
+          </address>
+        </div>
+        <div>
+          <p class="footer__title">Portugal</p>
+          <address>
+            <a href="tel:+351910302959">+351 910 302 959</a><br>
+            14 avenida 20 de Maio<br>4590-182 Paços de Ferreira<br>Portugal
+          </address>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; <span data-year>2026</span> PHB70. All rights reserved.</p>
+      <p><a href="mentions-legales.html">Legal notice</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Icônes des cinq étapes (mêmes tracés que « Notre méthode » sur l'accueil),
+     puis le fauteuil dessiné des étapes 01 et 02 : une seule silhouette, reprise
+     à la main levée pour le croquis et au trait net pour le plan. -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <g id="ico-faisabilite" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="10.4" cy="10.4" r="6.7" />
+      <path d="M15.5 15.5 20.9 20.9" />
+    </g>
+    <g id="ico-conception" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4.2 3.4V20.4H21.2Z" />
+      <path d="M7.6 8.6v8.4h8.4" />
+    </g>
+    <g id="ico-prototype" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2.7 20.7 7.6 12 12.5 3.3 7.6Z" />
+      <path d="M3.3 7.6v8.9L12 21.4v-8.9" />
+      <path d="M20.7 7.6v8.9L12 21.4" />
+    </g>
+    <g id="ico-production" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.2 6.3h17.6v13.5H3.2Z" />
+      <path d="M3.2 10.5h17.6" />
+      <path d="M8.7 10.5v9.3M15.3 10.5v9.3" />
+    </g>
+    <g id="ico-livraison" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2.6 7.1h18.8" />
+      <path d="M4.4 7.1h15.2v12.8H4.4Z" />
+      <path d="M4.4 16.5 19.6 10.5" />
+    </g>
+  </defs>
+</svg>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

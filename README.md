@@ -16,6 +16,7 @@ Puis ouvrir <http://localhost:8000>. C'est tout : il n'y a rien à installer ni 
 ```
 index.html              Accueil : hero, secteurs, méthode épinglée, réseau, contact
 agence.html             Philippe Boccara, l'équipe, les trois pôles
+methode.html            Les cinq étapes, racontées à travers un fauteuil
 realisations.html       Un livre par projet, filtrable, pages qui tournent + lightbox
 projet-*.html           Une page par projet : sa notice et toutes ses photos (7)
 sur-mesure.html         Pièces d'exception, ateliers, résidences

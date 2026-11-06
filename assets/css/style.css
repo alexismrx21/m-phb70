@@ -687,6 +687,25 @@ ul {
   padding: 0.8rem 1.5rem;
 }
 
+/* Six rubriques : juste au-dessus du menu mobile, on resserre plutôt que de
+   laisser les libellés passer sur deux lignes. */
+.nav__link {
+  white-space: nowrap;
+}
+@media (min-width: 901px) and (max-width: 1120px) {
+  .nav__list {
+    gap: 1rem;
+  }
+  .nav__link {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+  .nav__cta {
+    margin-left: 0;
+    padding-inline: 1.1rem;
+  }
+}
+
 /* Bouton de langue : renvoie à la même page dans l'autre langue (/en/). Discret,
    séparé des rubriques par un filet, pour ne pas se lire comme une entrée de
    menu de plus. */
@@ -852,33 +871,21 @@ ul {
 .intro-en-cours .hero__jauge::after {
   animation-play-state: paused;
 }
-/* Deux couches : un voile général + un dégradé bas pour asseoir le texte */
+/* Le voile : léger en haut, où l'on voit le plafond des photos, il s'assombrit
+   dès le haut du texte pour que celui-ci reste lisible sur n'importe quelle
+   photo. Le voile du haut porte l'en-tête, qui n'a pas de fond tant qu'on n'a
+   pas défilé. */
 .hero__media::after {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    /* Colonne sombre à gauche : c'est elle qui porte le texte, elle laisse
-       donc la photo respirer sur la droite. Le voile est concentré là où il
-       sert — sous le texte et sous l'en-tête — et s'efface presque au centre
-       droit, la zone où l'on veut voir l'intérieur photographié. */
-    linear-gradient(
-      to right,
-      rgba(11, 11, 13, 0.6) 0%,
-      rgba(11, 11, 13, 0.32) 38%,
-      rgba(11, 11, 13, 0) 62%,
-      rgba(11, 11, 13, 0) 100%
-    ),
-    linear-gradient(
-      to top,
-      rgba(11, 11, 13, 0.7) 0%,
-      rgba(11, 11, 13, 0.3) 28%,
-      rgba(11, 11, 13, 0) 55%,
-      rgba(11, 11, 13, 0) 80%,
-      /* Le haut reste voilé : l'en-tête n'a pas de fond tant qu'on n'a pas
-         défilé, sa navigation se lit sur cette bande. */
-      rgba(11, 11, 13, 0.38) 100%
-    );
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 11, 13, 0.45) 0%,
+    rgba(11, 11, 13, 0.2) 22%,
+    rgba(11, 11, 13, 0.72) 48%,
+    rgba(11, 11, 13, 0.86) 100%
+  );
 }
 .hero__inner {
   position: relative;
@@ -898,6 +905,7 @@ ul {
 }
 .hero__text {
   max-width: 46ch;
+  color: var(--text);
   margin-top: 2rem;
 }
 .hero__actions {
@@ -933,11 +941,10 @@ ul {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to top,
-    rgba(11, 11, 13, 0.82) 0%,
-    rgba(11, 11, 13, 0.4) 40%,
-    rgba(11, 11, 13, 0.12) 75%,
-    rgba(11, 11, 13, 0.3) 100%
+    to bottom,
+    rgba(11, 11, 13, 0.5) 0%,
+    rgba(11, 11, 13, 0.72) 35%,
+    rgba(11, 11, 13, 0.86) 100%
   );
 }
 .pagehead__inner {
@@ -948,6 +955,7 @@ ul {
 .pagehead__inner p {
   max-width: 52ch;
   margin-top: 1.75rem;
+  color: var(--text);
 }
 
 /* ---------- Process : les 4 étapes ---------- */
@@ -1437,27 +1445,26 @@ address {
   color: var(--text-muted);
 }
 
-/* La toile de chaque couverture suit la catégorie du projet. Les mêmes
-   variables habillent la couverture du livre ouvert. */
+/* Les couvertures : photo pleine largeur et aplat de couleur, pris dans la palette
+   du site et choisi selon la catégorie du projet. `--encre` porte le texte posé
+   sur l'aplat. Les mêmes variables habillent la couverture du livre ouvert. */
 [data-category="hotellerie"] {
-  --toile: #27302a;
+  --toile: var(--text);
+  --encre: var(--bg);
 }
 [data-category="restauration"] {
-  --toile: #3a2326;
+  --toile: var(--accent);
+  --encre: var(--bg);
 }
 [data-category="immobilier"] {
-  --toile: #1f2634;
+  --toile: var(--surface-2);
+  --encre: var(--text);
 }
 
-/* Toile de reliure : le grain croisé du tissu, puis la charnière du dos, plus
-   sombre, avec son léger relief. */
 .couv__plat,
 .carnet .plat {
-  background:
-    linear-gradient(to right, rgba(0, 0, 0, 0.5) 0, rgba(255, 255, 255, 0.07) 3%, rgba(0, 0, 0, 0.28) 5.5%, transparent 9%),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 3px),
-    var(--toile, #24262b);
+  background: var(--toile, var(--surface-2));
+  color: var(--encre, var(--text));
 }
 
 /* --- Le livre fermé --- */
@@ -1496,57 +1503,222 @@ address {
   inset: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 15% 13% 11% 17%;
-  border-radius: 2px 5px 5px 2px;
+  overflow: hidden;
+  border-radius: 2px 4px 4px 2px;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 0 0 1px rgba(242, 239, 233, 0.08),
     0 2px 3px rgba(0, 0, 0, 0.45),
     0 26px 40px -22px rgba(0, 0, 0, 0.95);
   transform-origin: left center;
   transition: transform 0.7s var(--ease);
+  container-type: inline-size;
 }
 
-/* Filet doré en retrait du bord, comme un fer à dorer. */
+/* La charnière : une simple ombre le long du dos, par-dessus la photo. */
 .couv__plat::before,
-.carnet .plat--avant::before,
-.carnet .plat--arriere::before {
+.carnet .plat--avant::before {
   content: "";
   position: absolute;
-  inset: 5.5% 7% 5.5% 12%;
-  border: 1px solid rgba(198, 161, 91, 0.5);
+  inset: 0 auto 0 0;
+  z-index: 1;
+  width: 6%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.06) 45%, transparent);
   pointer-events: none;
 }
 
-.couv__vignette {
+/* --- Le contenu des couvertures ---
+   Mêmes règles pour le livre fermé (`.couv__*`) et le livre ouvert (`.plat__*`) :
+   chaque plat est un conteneur, 1cqw y vaut 1 % de la largeur de la couverture. */
+:is(.couv__vignette, .plat__vignette) {
+  position: relative;
   display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  padding: 3px;
-  border: 1px solid rgba(198, 161, 91, 0.75);
+  flex: 0 0 60%;
+  min-height: 0;
+  overflow: hidden;
 }
-.couv__vignette img {
+:is(.couv__vignette, .plat__vignette) img {
+  position: absolute;
+  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
-.couv__titre {
-  margin-top: 14%;
+:is(.couv__titre, .plat__titre) {
+  margin: 0;
+  padding: 8cqw 9cqw 0 11cqw;
   font-family: var(--font-display);
-  font-size: clamp(0.95rem, 1.35vw, 1.15rem);
-  line-height: 1.25;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
+  font-size: 10.5cqw;
+  font-weight: 400;
+  line-height: 1.08;
+  text-align: left;
+}
+:is(.couv__marque, .plat__marque) {
+  margin: auto 0 0;
+  padding: 0 9cqw 7cqw 11cqw;
+  font-size: max(8px, 2.5cqw);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-align: left;
 }
 
-.couv__marque {
-  margin-top: auto;
-  font-size: 0.55rem;
-  letter-spacing: 0.4em;
+/* --- Les sept propositions de couverture ---
+   `data-couv` sur l'<article class="projet"> choisit le modèle : pour attribuer un
+   modèle à un autre livre, il suffit de changer ce numéro. Le script le recopie sur
+   le livre ouvert. Une fois le choix fait, supprimer les modèles non retenus. */
+
+/* 1 — Pleine page : la photo couvre tout, le titre se pose dessus. */
+[data-couv="1"] {
+  --toile: var(--surface-2);
+  --encre: var(--text);
+}
+[data-couv="1"] :is(.couv__vignette, .plat__vignette) {
+  position: absolute;
+  inset: 0;
+}
+[data-couv="1"] :is(.couv__plat, .plat--avant)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11, 11, 13, 0.9), rgba(11, 11, 13, 0.55) 30%, transparent 58%);
+}
+[data-couv="1"] :is(.couv__titre, .plat__titre) {
+  position: absolute;
+  z-index: 2;
+  inset: auto 9cqw 15cqw 11cqw;
+  padding: 0;
+  font-size: 13cqw;
+}
+[data-couv="1"] :is(.couv__marque, .plat__marque) {
+  position: absolute;
+  z-index: 2;
+  inset: auto 9cqw 7cqw 11cqw;
+  padding: 0;
+}
+
+/* 2 — Bandeau ivoire : photo en haut, aplat clair en bas. */
+[data-couv="2"] {
+  --toile: var(--text);
+  --encre: var(--bg);
+}
+
+/* 3 — Fenêtre sur laiton : titre en haut, photo en retrait en bas. */
+[data-couv="3"] {
+  --toile: var(--accent);
+  --encre: var(--bg);
+}
+[data-couv="3"] :is(.couv__titre, .plat__titre) {
+  order: 1;
+  padding-top: 11cqw;
+  font-size: 12cqw;
+}
+[data-couv="3"] :is(.couv__marque, .plat__marque) {
+  order: 2;
+  margin: 0;
+  padding: 3cqw 9cqw 6cqw 11cqw;
+}
+[data-couv="3"] :is(.couv__vignette, .plat__vignette) {
+  order: 3;
+  flex: 1 1 0;
+  margin: 0 9cqw 9cqw 11cqw;
+}
+
+/* 4 — Noir et laiton : grand titre, petite photo carrée en bas à droite. */
+[data-couv="4"] {
+  --toile: var(--surface);
+  --encre: var(--text);
+}
+[data-couv="4"] :is(.couv__titre, .plat__titre) {
+  padding-top: 11cqw;
+  font-size: 15cqw;
+  line-height: 1;
   color: var(--accent);
-  opacity: 0.7;
+}
+[data-couv="4"] :is(.couv__vignette, .plat__vignette) {
+  position: absolute;
+  right: 9cqw;
+  bottom: 9cqw;
+  width: 48cqw;
+  height: 48cqw;
+}
+
+/* 5 — Colonne : photo sur toute la hauteur, titre vertical à sa gauche. */
+[data-couv="5"] {
+  --toile: var(--surface-2);
+  --encre: var(--text);
+}
+[data-couv="5"] :is(.couv__vignette, .plat__vignette) {
+  position: absolute;
+  inset: 0 0 0 34cqw;
+}
+[data-couv="5"] :is(.couv__titre, .plat__titre) {
+  position: absolute;
+  bottom: 18cqw;
+  left: 11cqw;
+  padding: 0;
+  font-size: 13cqw;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--accent-hi);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+[data-couv="5"] :is(.couv__marque, .plat__marque) {
+  position: absolute;
+  bottom: 7cqw;
+  left: 11cqw;
+  padding: 0;
+  font-size: max(7px, 2.1cqw);
+  letter-spacing: 0.2em;
+}
+
+/* 6 — Arche : photo en arche et texte centré, sur ivoire. */
+[data-couv="6"] {
+  --toile: var(--text);
+  --encre: var(--bg);
+}
+[data-couv="6"] :is(.couv__vignette, .plat__vignette) {
+  flex: 0 0 96cqw;
+  margin: 10cqw 16cqw 0 18cqw;
+  border-radius: 50cqw 50cqw 0 0;
+}
+[data-couv="6"] :is(.couv__titre, .plat__titre) {
+  padding: 7cqw 7cqw 0 9cqw;
+  text-align: center;
+}
+[data-couv="6"] :is(.couv__marque, .plat__marque) {
+  padding: 0 7cqw 7cqw 9cqw;
+  text-align: center;
+}
+
+/* 7 — Typographique : pas de photo, le nom du projet remplit le laiton. */
+[data-couv="7"] {
+  --toile: var(--accent);
+  --encre: var(--bg);
+}
+[data-couv="7"] :is(.couv__vignette, .plat__vignette) {
+  display: none;
+}
+[data-couv="7"] :is(.couv__titre, .plat__titre) {
+  padding-top: 11cqw;
+  font-size: 22cqw;
+  line-height: 0.95;
+}
+[data-couv="7"] :is(.couv__marque, .plat__marque) {
+  margin: auto 9cqw 8cqw 11cqw;
+  padding: 3cqw 0 0;
+  border-top: 1px solid currentColor;
+}
+
+/* Le dos du livre ouvert garde sa marque simple, quel que soit le modèle. */
+.carnet .plat--arriere .plat__marque {
+  position: static;
+  margin: auto 0 0;
+  padding: 0 9cqw 7cqw 11cqw;
+  border: 0;
+  font-size: max(8px, 2.5cqw);
+  letter-spacing: 0.32em;
+  text-align: left;
 }
 
 /* Au survol, le livre se soulève et sa couverture s'entrouvre. */
@@ -1848,55 +2020,20 @@ address {
 .carnet .plat {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12% 12% 12% 16%;
-  text-align: center;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(242, 239, 233, 0.08);
 }
-.carnet .face--verso.plat {
-  /* Sur un verso, le dos du livre est à droite : la charnière aussi. */
-  background:
-    linear-gradient(to left, rgba(0, 0, 0, 0.5) 0, rgba(255, 255, 255, 0.07) 3%, rgba(0, 0, 0, 0.28) 5.5%, transparent 9%),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 3px),
-    var(--toile, #24262b);
-  padding: 12% 16% 12% 12%;
+.carnet .plat--avant,
+.carnet .plat--arriere {
+  container-type: inline-size;
 }
-.carnet .plat--arriere::before {
-  inset: 5.5% 12% 5.5% 7%;
+.carnet .plat--arriere {
+  justify-content: flex-end;
 }
 .carnet .plat.plat--garde {
-  background: var(--toile, #24262b);
+  background: var(--surface);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 6cqw rgba(0, 0, 0, 0.35);
 }
-.plat__vignette {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  padding: 0.35cqw;
-  border: 1px solid rgba(198, 161, 91, 0.75);
-}
-.plat__vignette img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.plat__titre {
-  margin-top: 3cqw;
-  font-family: var(--font-display);
-  font-size: max(14px, 2.1cqw);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.plat__marque {
-  margin-top: 3cqw;
-  font-size: max(8px, 0.7cqw);
-  letter-spacing: 0.4em;
-  color: var(--accent);
-  opacity: 0.7;
-}
-
 .carnet__pied {
   display: flex;
   flex-wrap: wrap;
@@ -2774,8 +2911,9 @@ address {
   background: linear-gradient(
     to top,
     rgba(11, 11, 13, 0.9) 0%,
-    rgba(11, 11, 13, 0.6) 28%,
-    rgba(11, 11, 13, 0) 55%,
+    rgba(11, 11, 13, 0.8) 35%,
+    rgba(11, 11, 13, 0.62) 52%,
+    rgba(11, 11, 13, 0) 80%,
     rgba(11, 11, 13, 0) 100%
   );
   pointer-events: none;
@@ -2813,7 +2951,6 @@ address {
   color: var(--text);
   font-size: 0.92rem;
   line-height: 1.6;
-  opacity: 0.85;
 }
 
 /* La place du « Découvrir » est réservée en permanence : il apparaît en fondu,
@@ -2994,6 +3131,217 @@ address {
   }
   .methode .step__body {
     grid-column: 2;
+  }
+}
+
+/* =========================================================================
+   Page Notre méthode — le parcours d'une pièce, étape par étape.
+
+   Un filet doré vertical descend entre les deux colonnes et relie les étapes ;
+   visuel et texte alternent de part et d'autre. En dessous de 900 px, tout
+   s'empile et le filet disparaît : l'ordre des numéros suffit à guider.
+   ========================================================================= */
+
+.parcours {
+  padding-block: var(--ouverture) clamp(3rem, 6vw, 4.5rem);
+}
+
+/* La tête de page, sans photo : fond texturé, titre à gauche, introduction à
+   droite, et le sommaire en frise pour fermer le bloc. */
+.pagehead--texte {
+  --mur-fin: calc(var(--mur-fondu) / 2);
+  min-height: 0;
+  padding-block: calc(var(--header-h) + clamp(3rem, 8vh, 5.5rem)) clamp(2.5rem, 5vh, 3.5rem);
+}
+.pagehead--texte .pagehead__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  column-gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: end;
+}
+.pagehead--texte h1 {
+  font-size: clamp(2.75rem, 5.6vw, 5rem);
+}
+.pagehead--texte .lead {
+  margin-top: 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--accent);
+}
+.pagehead__sommaire {
+  grid-column: 1 / -1;
+  margin-top: clamp(3.5rem, 8vh, 5.5rem);
+}
+
+/* Le sommaire : les cinq étapes en frise, chacune mène à sa rangée. La ligne et
+   ses points reprennent le filet et les jalons du parcours. */
+.sommaire-etapes {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sommaire-etapes li {
+  position: relative;
+}
+.sommaire-etapes li::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.sommaire-etapes a {
+  display: block;
+  height: 100%;
+  padding: 1.25rem 1rem 0 0;
+  border-top: 1px solid var(--accent-soft);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text);
+  transition:
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+.sommaire-etapes a:hover,
+.sommaire-etapes a:focus-visible {
+  color: var(--accent-hi);
+  border-top-color: var(--accent);
+}
+.sommaire-etapes__num {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-feature-settings: "lnum" 1;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--accent);
+}
+
+.parcours__fil {
+  position: relative;
+}
+.parcours__fil::before {
+  content: "";
+  position: absolute;
+  /* Part du haut de la section, juste sous la frise de la tête de page. */
+  inset-block: calc(-1 * var(--ouverture)) 0;
+  left: 50%;
+  width: 1px;
+  background: var(--accent-soft);
+}
+
+.etape {
+  --etape-ecart: clamp(3rem, 7vw, 7rem);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--etape-ecart);
+  align-items: center;
+  /* Les ancres du sommaire s'arrêtent sous l'en-tête fixe, avec un peu d'air. */
+  scroll-margin-top: calc(var(--header-h) + 1.5rem);
+}
+.etape + .etape {
+  margin-top: clamp(4.5rem, 9vw, 8rem);
+}
+/* Le jalon : un point laiton posé sur le filet, à la hauteur de chaque étape. */
+.etape::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 7px var(--bg);
+  transform: translate(-50%, -50%);
+}
+
+/* Une étape sur deux, le visuel passe à droite. */
+.etape:nth-child(even) .etape__media {
+  order: 2;
+}
+
+.etape__media {
+  margin: 0;
+}
+.etape__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.etape__media figcaption {
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.etape__texte .step__num {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.etape__titre {
+  margin: 1rem 0 1.5rem;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.15;
+}
+.etape__texte p {
+  color: var(--text-muted);
+  text-align: justify;
+}
+
+.etape__faits {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.etape__faits dt {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.etape__faits dd {
+  margin: 0.2rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .pagehead--texte .pagehead__inner {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2rem;
+  }
+  .pagehead__sommaire {
+    display: none;
+  }
+  .parcours__fil::before,
+  .etape::before {
+    display: none;
+  }
+  .etape {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2rem;
+  }
+  .etape:nth-child(even) .etape__media {
+    order: 0;
   }
 }
 
